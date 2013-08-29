@@ -1,0 +1,25 @@
+Name:  Matt Gritters
+Phone: 616-788-8042
+Email: gritterm@mail.gvsu.edu (forwards to gmail) 
+	  mattgritters@gmail.com
+Skype: mattgritts
+
+Technical Strengths  
+1.  Java
+2.  C
+3.  Web Development
+4.  Databases/SQL
+5.  Android Development (bit of learning to do here)
+
+Technical Weaknesses
+1.  UI - Design
+2.  .Net 
+3.  Objective C
+
+Personal Interests
+1.  Building Websites
+2.  Video Games
+3.  Work
+4.  Fishing
+
+
