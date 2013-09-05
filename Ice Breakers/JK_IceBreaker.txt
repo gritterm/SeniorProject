@@ -1,0 +1,22 @@
+Name:  Jonny Klemmer
+Phone: 616-745-4717 (text / call)
+Email: klemmerj@mail.gvsu.edu
+       jonnyklemmer@gmail.com
+Skype: jonnyklemmer
+
+Technical Strengths / Areas I'd Like
+1. Java
+2. Mobile / Android Development
+3. Web Development - CSS/HTML/JQuery/PHP
+4. UI Design - Making it all look pretty
+
+Technical Weaknesses / Areas I'd Dislike
+1. Databases / MySQL - Prefer to avoid
+2. Objective-C / iOS Development
+3. C/C++ - Not as strong of a programmer in either of these
+
+Personal Interests
+1. Video Games (for pleasure and design)
+2. Web Design / Development
+3. Reading
+4. Craft Beer
