@@ -27,51 +27,60 @@ public final class R {
         public static final int shoppier=0x7f020003;
     }
     public static final class id {
-        public static final int action_forgot_password=0x7f080008;
-        public static final int action_settings=0x7f080007;
-        public static final int button1=0x7f080003;
-        public static final int button2=0x7f080006;
-        public static final int editText1=0x7f080002;
-        public static final int editText2=0x7f080004;
-        public static final int imageView1=0x7f080000;
-        public static final int relativeLayout1=0x7f080001;
-        public static final int textView1=0x7f080005;
+        public static final int RelativeLayout1=0x7f080009;
+        public static final int action_forgot_password=0x7f08000b;
+        public static final int action_settings=0x7f08000a;
+        public static final int but_add=0x7f080000;
+        public static final int button1=0x7f080004;
+        public static final int button2=0x7f080007;
+        public static final int editText2=0x7f080005;
+        public static final int editText3=0x7f080008;
+        public static final int imageView1=0x7f080001;
+        public static final int item_name=0x7f080003;
+        public static final int relativeLayout1=0x7f080002;
+        public static final int textView1=0x7f080006;
     }
     public static final class layout {
-        public static final int activity_list_select=0x7f030000;
-        public static final int activity_main=0x7f030001;
-        public static final int activity_splash=0x7f030002;
+        public static final int activity_groc_list=0x7f030000;
+        public static final int activity_list_select=0x7f030001;
+        public static final int activity_main=0x7f030002;
+        public static final int activity_splash=0x7f030003;
+        public static final int add_item=0x7f030004;
+        public static final int item=0x7f030005;
     }
     public static final class menu {
-        public static final int list_select=0x7f070000;
-        public static final int login=0x7f070001;
-        public static final int main=0x7f070002;
-        public static final int splash=0x7f070003;
+        public static final int groc_list=0x7f070000;
+        public static final int list_select=0x7f070001;
+        public static final int login=0x7f070002;
+        public static final int main=0x7f070003;
+        public static final int splash=0x7f070004;
     }
     public static final class string {
-        public static final int action_forgot_password=0x7f050011;
+        public static final int action_forgot_password=0x7f050013;
         public static final int action_settings=0x7f050001;
-        public static final int action_sign_in_register=0x7f05000f;
-        public static final int action_sign_in_short=0x7f050010;
+        public static final int action_sign_in_register=0x7f050011;
+        public static final int action_sign_in_short=0x7f050012;
         public static final int app_name=0x7f050000;
-        public static final int error_field_required=0x7f050016;
-        public static final int error_incorrect_password=0x7f050015;
-        public static final int error_invalid_email=0x7f050013;
-        public static final int error_invalid_password=0x7f050014;
+        public static final int error_field_required=0x7f050018;
+        public static final int error_incorrect_password=0x7f050017;
+        public static final int error_invalid_email=0x7f050015;
+        public static final int error_invalid_password=0x7f050016;
         public static final int hello_world=0x7f050002;
         public static final int icon=0x7f050006;
+        public static final int item_name=0x7f05000d;
         public static final int login=0x7f050008;
-        public static final int login_progress_signing_in=0x7f050012;
+        public static final int login_progress_signing_in=0x7f050014;
         public static final int logo=0x7f050005;
         public static final int password=0x7f050004;
         /**  Strings related to login 
          */
-        public static final int prompt_email=0x7f05000d;
-        public static final int prompt_password=0x7f05000e;
+        public static final int prompt_email=0x7f05000f;
+        public static final int prompt_password=0x7f050010;
         public static final int shoppier=0x7f050007;
         public static final int skip=0x7f050009;
+        public static final int title_activity_groc_list=0x7f05000c;
         public static final int title_activity_list_select=0x7f05000b;
-        public static final int title_activity_login=0x7f05000c;
+        public static final int title_activity_login=0x7f05000e;
         public static final int title_activity_splash=0x7f05000a;
         public static final int username=0x7f050003;
     }

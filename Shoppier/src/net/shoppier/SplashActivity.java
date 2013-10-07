@@ -9,7 +9,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 public class SplashActivity extends Activity {
-	Button login;
+	Button login, skip;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -17,12 +17,16 @@ public class SplashActivity extends Activity {
 		setContentView(R.layout.activity_splash);
 		login = (Button) findViewById(R.id.button1);
 		login.setOnClickListener(handler);
+		skip = (Button) findViewById(R.id.button2);
+		skip.setOnClickListener(handler);
 	}
 	private OnClickListener handler = new OnClickListener() {
 				
 		public void onClick(View v) {
 			if (v == login){
 				startActivity(new Intent(SplashActivity.this, MainActivity.class));
+			}else if (v== skip){
+				startActivity(new Intent(SplashActivity.this, ListSelect.class));
 			}
 		}
 	};
