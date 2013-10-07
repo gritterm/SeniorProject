@@ -1,0 +1,13 @@
+[04-Oct-2013 15:05:43 America/Denver] PHP Fatal error:  Class 'Database' not found in /home1/jonnykle/public_html/shoppier/libs/Model.php on line 13
+[04-Oct-2013 17:40:52 America/Denver] PHP Fatal error:  Class 'login_model' not found in /home1/jonnykle/public_html/shoppier/Android_DB_API/index.php on line 28
+[04-Oct-2013 17:42:14 America/Denver] PHP Fatal error:  Class 'Model' not found in /home1/jonnykle/public_html/shoppier/models/login_model.php on line 10
+[04-Oct-2013 17:44:05 America/Denver] PHP Notice:  Use of undefined constant DB_TYPE - assumed 'DB_TYPE' in /home1/jonnykle/public_html/shoppier/libs/Database.php on line 15
+[04-Oct-2013 17:44:05 America/Denver] PHP Notice:  Use of undefined constant DB_HOST - assumed 'DB_HOST' in /home1/jonnykle/public_html/shoppier/libs/Database.php on line 15
+[04-Oct-2013 17:44:05 America/Denver] PHP Notice:  Use of undefined constant DB_NAME - assumed 'DB_NAME' in /home1/jonnykle/public_html/shoppier/libs/Database.php on line 15
+[04-Oct-2013 17:44:05 America/Denver] PHP Notice:  Use of undefined constant DB_USER - assumed 'DB_USER' in /home1/jonnykle/public_html/shoppier/libs/Database.php on line 15
+[04-Oct-2013 17:44:05 America/Denver] PHP Notice:  Use of undefined constant DB_PASS - assumed 'DB_PASS' in /home1/jonnykle/public_html/shoppier/libs/Database.php on line 15
+[04-Oct-2013 17:45:41 America/Denver] PHP Notice:  Use of undefined constant DB_TYPE - assumed 'DB_TYPE' in /home1/jonnykle/public_html/shoppier/libs/Database.php on line 15
+[04-Oct-2013 17:45:41 America/Denver] PHP Notice:  Use of undefined constant DB_HOST - assumed 'DB_HOST' in /home1/jonnykle/public_html/shoppier/libs/Database.php on line 15
+[04-Oct-2013 17:45:41 America/Denver] PHP Notice:  Use of undefined constant DB_NAME - assumed 'DB_NAME' in /home1/jonnykle/public_html/shoppier/libs/Database.php on line 15
+[04-Oct-2013 17:45:41 America/Denver] PHP Notice:  Use of undefined constant DB_USER - assumed 'DB_USER' in /home1/jonnykle/public_html/shoppier/libs/Database.php on line 15
+[04-Oct-2013 17:45:41 America/Denver] PHP Notice:  Use of undefined constant DB_PASS - assumed 'DB_PASS' in /home1/jonnykle/public_html/shoppier/libs/Database.php on line 15
