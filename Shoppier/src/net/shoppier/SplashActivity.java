@@ -26,7 +26,7 @@ public class SplashActivity extends Activity {
 			if (v == login){
 				startActivity(new Intent(SplashActivity.this, MainActivity.class));
 			}else if (v== skip){
-				startActivity(new Intent(SplashActivity.this, ListSelect.class));
+				startActivity(new Intent(SplashActivity.this, GrocListActivity.class));
 			}
 		}
 	};
