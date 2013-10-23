@@ -22,7 +22,6 @@ public class GrocAdapter extends ArrayAdapter<Lists>{
 		pump = LayoutInflater.from(context);
 		itemLayout = layout;
 		dataSource = src;
-		
 	}
 	
 	class ViewHolder {
