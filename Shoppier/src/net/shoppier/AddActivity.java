@@ -28,7 +28,7 @@ public class AddActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				
+				//create a new intent 
 				Intent update = new Intent();
 				String new_name = nom.getText().toString();
 				update.putExtra("NewName",new_name);			
