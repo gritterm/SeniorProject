@@ -21,6 +21,8 @@ public class AddActivity extends Activity {
 		setTitle("Add New Item");
 		ImageButton add = (ImageButton) findViewById(R.id.but_add);
 		final TextView nom = (TextView) findViewById(R.id.item_name);
+		final TextView bran = (TextView) findViewById(R.id.item_brand);
+		final TextView siz = (TextView) findViewById(R.id.item_size);
 		
 		OnClickListener confHandler = new OnClickListener() {
 			
@@ -29,7 +31,11 @@ public class AddActivity extends Activity {
 				
 				Intent update = new Intent();
 				String new_name = nom.getText().toString();
-				update.putExtra("NewName",new_name);
+				update.putExtra("NewName",new_name);			
+				String new_brand = bran.getText().toString();
+				update.putExtra("NewBrand",new_brand);		
+				float new_size = Float.valueOf(siz.getText().toString());
+				update.putExtra("NewSize",new_size);
 				setResult(RESULT_OK, update);
 				finish();
 			}

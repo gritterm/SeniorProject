@@ -58,9 +58,13 @@ public class GrocListActivity extends ListActivity {
 			GrocItem item;
 			item = new GrocItem();
 			item.name = new StringBuffer("Milk");
+			item.brand = new StringBuffer("Country Fresh");
+			item.size = 42;
 			items.add(item);
 			item = new GrocItem();
 			item.name = new StringBuffer("Oreos");
+			item.brand = new StringBuffer("Nabisco");
+			item.size = 15;
 			items.add(item);
 
 		}
@@ -78,8 +82,13 @@ public class GrocListActivity extends ListActivity {
 
 			StringBuffer newname = new StringBuffer(
 					data.getStringExtra("NewName"));
-			GrocItem selected = new GrocItem();
+			StringBuffer newbrand = new StringBuffer(
+					data.getStringExtra("NewBrand"));
+			float newsize = data.getFloatExtra("NewSize", (float) 0.0);
+					GrocItem selected = new GrocItem();
 			selected.name = newname;
+			selected.brand = newbrand;
+			selected.size = newsize;
 			items.add(selected);
 			adapter.notifyDataSetChanged();
 
