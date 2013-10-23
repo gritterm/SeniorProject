@@ -1,48 +1,50 @@
 package net.shoppier;
 
-import net.shoppier.library.DatabaseHandler;
-import net.shoppier.library.UserFunctions;
+import java.util.ArrayList;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.os.Bundle;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.view.Gravity;
+import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
+import net.shoppier.library.DatabaseHandler;
+import net.shoppier.library.UserFunctions;
 
 public class MainActivity extends Activity {
 	Button login;
 	TextView skip;
-	Button btnLogin;
-	EditText inputUserName;
-	EditText inputPassword;
-	TextView loginErrorMsg;
+	 Button btnLogin;
+	    EditText inputUserName;
+	    EditText inputPassword;
+	    TextView loginErrorMsg;
 
-	// JSON Response node names
-	private static String KEY_SUCCESS = "success";
-	private static String KEY_ERROR = "error";
-	private static String KEY_ERROR_MSG = "error_msg";
-	private static String KEY_UID = "uid";
-	private static String KEY_NAME = "name";
-	private static String KEY_EMAIL = "email";
+	    
+		 // JSON Response node names
+	    private static String KEY_SUCCESS = "success";
+	    private static String KEY_ERROR = "error";
+	    private static String KEY_ERROR_MSG = "error_msg";
+	    private static String KEY_UID = "uid";
+	    private static String KEY_NAME = "name";
+	    private static String KEY_EMAIL = "email";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		login = (Button) findViewById(R.id.button1);
+		login = (Button) findViewById(R.id.btnLogout);
 		inputUserName = (EditText) findViewById(R.id.item_name);
-		inputPassword = (EditText) findViewById(R.id.editText2);
+        inputPassword = (EditText) findViewById(R.id.editText2);
 		login.setOnClickListener(handler);
+		loginErrorMsg = (TextView) findViewById(R.id.textView2);
+        loginErrorMsg.setVisibility(View.INVISIBLE);
 		skip = (TextView) findViewById(R.id.textView1);
 		skip.setOnClickListener(handler);
 	}
@@ -51,58 +53,77 @@ public class MainActivity extends Activity {
 
 		public void onClick(View v) {
 			if (v == login) {
+				
+				String username;
+				String password;
+				
 
-				String username = inputUserName.getText().toString();
-				String password = inputPassword.getText().toString();
-				UserFunctions userFunction = new UserFunctions(username,
-						password);
-				JSONObject json = userFunction.loginUser(username, password);
+					  username = inputUserName.getText().toString();
+		              password = inputPassword.getText().toString();
 
-				// check for login response
-				try {
-					if (json.getString(KEY_SUCCESS) != null) {
-						String res = json.getString(KEY_SUCCESS);
-						if (Integer.parseInt(res) == 1) {
-							// user successfully logged in
-							// Store user details in SQLite Database
-							DatabaseHandler db = new DatabaseHandler(
-									getApplicationContext());
-							JSONObject json_user = json.getJSONObject("user");
+				 
+	                
+	                UserFunctions userFunction = new UserFunctions(username, password);
+	                JSONObject json = userFunction.loginUser(username, password);
+	 
+	                
+	                // check for login response
+	                try {
+	                    if (json.getString(KEY_SUCCESS) != null) {
+	                        loginErrorMsg.setText("");
+	                        String res = json.getString(KEY_SUCCESS); 
+	                        if(Integer.parseInt(res) == 1){
+	                        	
+	                            // user successfully logged in
+	                        	SavePreferences(username, password);
+	                        	
+	                            // Store user details in SQLite Database
+	                            DatabaseHandler db = new DatabaseHandler(getApplicationContext());
+	                            JSONObject json_user = json.getJSONObject("user");
+	                             
+	                            // Clear all previous data in database
+	                            userFunction.logoutUser(getApplicationContext());
+	                            db.addUser(json_user.getString(KEY_NAME), json_user.getString(KEY_EMAIL), json.getString(KEY_UID));                        
+	                             
+	                            //get users groclist 
+	        	                ArrayList<Lists> grocList = userFunction.getUserGrocList(getApplicationContext());
+	        	                
+	        	                //add groclist items to list database table 
 
-							// Clear all previous data in database
-							userFunction.logoutUser(getApplicationContext());
-							db.addUser(json_user.getString(KEY_NAME),
-									json_user.getString(KEY_EMAIL),
-									json.getString(KEY_UID));
-
-							// Launch ListSelection Screen
-							startActivity(new Intent(MainActivity.this,
-									GrocListActivity.class));
-
-						} else {
-							// Error in login
-							Context context = getApplicationContext();
-							CharSequence text = "Incorrect username/password. "
-									+ "Please enter a valid username/password combination.";
-							int duration = Toast.LENGTH_LONG;
-
-							Toast toast = Toast.makeText(context, text,
-									duration);
-							toast.setGravity(Gravity.CENTER | Gravity.CENTER,
-									0, 0);
-							toast.show();
-						}
-					}
-				} catch (JSONException e) {
-					e.printStackTrace();
-				}
-
+	        	                for(Lists l : grocList){
+	        	                	if(!l.equals(null)){
+	        	                		db.addItemToListDB(l);
+	        	                	}
+	        	                }
+	                            
+	                            // Launch ListSelection Screen
+	                            startActivity(new Intent(MainActivity.this, GrocListActivity.class));
+	                            
+	                        }else{
+	                            // Error in login
+	                        	loginErrorMsg.setVisibility(View.VISIBLE);
+	                            loginErrorMsg.setText("Incorrect username/password");
+	                            inputPassword.setText("");
+	                        }
+	                    }
+	                } catch (JSONException e) {
+	                    e.printStackTrace();
+	                }
+	           
 			} else if (v == skip) {
-				startActivity(new Intent(MainActivity.this,
-						GrocListActivity.class));
+				startActivity(new Intent(MainActivity.this, GrocListActivity.class));
 			}
 		}
 	};
+	
+	private void SavePreferences(String username, String password ){
+		
+		SharedPreferences settings = getSharedPreferences("PreFile", MODE_APPEND);
+		SharedPreferences.Editor editor = settings.edit();
+		editor.putString("username", username).putString("password", password);
+		
+		editor.commit();
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

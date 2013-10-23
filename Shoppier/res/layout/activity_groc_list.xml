@@ -26,4 +26,22 @@
         android:layout_alignParentTop="true"
         android:src="@android:drawable/ic_menu_add" />
 
+    <Button
+        android:id="@+id/btnLogout"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/but_add"
+        android:layout_alignLeft="@android:id/list"
+        android:text="Logout" />
+
+    <Button
+        android:id="@+id/syncBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/btnLogout"
+        android:layout_alignBottom="@+id/btnLogout"
+        android:layout_toLeftOf="@+id/but_add"
+        android:text="Sync" />
+
 </RelativeLayout>

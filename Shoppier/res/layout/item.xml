@@ -6,40 +6,11 @@
     android:orientation="vertical" >
 
     <TextView
-        android:id="@+id/itemName"
+        android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:text="@string/item_name"
-        android:textSize="18sp" />
-
-    <TextView
-        android:id="@+id/itemBrand"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/itemName"
-        android:text="@string/item_name"
-        android:textSize="12sp" />
-
-    <TextView
-        android:id="@+id/itemSize"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/itemBrand"
-        android:layout_alignBottom="@+id/itemBrand"
-        android:layout_toRightOf="@+id/itemBrand"
-        android:text="@string/item_name"
-        android:textSize="12sp" />
-
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/itemSize"
-        android:layout_toRightOf="@+id/itemSize"
-        android:text="oz."
-        android:textSize="12sp" />
+        android:text="TextView" />
 
 </RelativeLayout>

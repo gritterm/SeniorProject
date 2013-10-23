@@ -6,68 +6,80 @@ import java.io.FileOutputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
-import android.os.Bundle;
-import android.app.AlertDialog;
+
 import android.app.ListActivity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.util.Log;
+import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.AdapterView.OnItemLongClickListener;
+import net.shoppier.library.DatabaseHandler;
+import net.shoppier.library.UserFunctions;
 
 public class GrocListActivity extends ListActivity {
-	private ArrayList<GrocItem> items;
+	//private ArrayList<GrocItem> items;
+	private ArrayList<Lists> items;
 	private GrocAdapter adapter;
 	private ListView lview;
 	private ImageButton add;
+	private Button logout;
 	private static final int ADD_REQUEST = 0xFACEEE;
+	private DatabaseHandler db; 
+	private Button sync;
+	UserFunctions userfunction;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_groc_list);
 
+		this.userfunction = new UserFunctions(); 
 		lview = getListView();
 		lview.setOnItemLongClickListener(lchandler);
-		items = new ArrayList<GrocItem>();
+		sync = (Button) findViewById(R.id.syncBtn);
 		add = (ImageButton) findViewById(R.id.but_add);
+		logout = (Button) findViewById(R.id.btnLogout);
+		
 		add.setOnClickListener(handler);
-		try {
-			FileInputStream myfile = openFileInput("mydata");
-			Scanner myscan = new Scanner(myfile);
-
-			GrocItem item;
-			while (myscan.hasNext()) {
-				String lin1 = myscan.nextLine();
-				item = new GrocItem();
-				item.name = new StringBuffer(lin1);
-
-				items.add(item);
-			}
-
-		} catch (FileNotFoundException e) {
-			// Display a toast message saying that there is no list found and
-			// give information about how to create one.
-			GrocItem item;
-			item = new GrocItem();
-			item.name = new StringBuffer("Milk");
-			item.brand = new StringBuffer("Country Fresh");
-			item.size = 42;
-			items.add(item);
-			item = new GrocItem();
-			item.name = new StringBuffer("Oreos");
-			item.brand = new StringBuffer("Nabisco");
-			item.size = 15;
-			items.add(item);
-
+		logout.setOnClickListener(handler);
+		
+		if(userfunction.isUserLoggedIn(getApplicationContext())){
+			sync.setOnClickListener(handler);
+		}else{
+			sync.setVisibility(View.GONE);
 		}
+		
+		items = new ArrayList<Lists>();
+				
+			this.db = new DatabaseHandler(getApplicationContext());
+			ArrayList<Lists> arryList= new ArrayList<Lists>();
+			arryList = db.getList();
+			
+			for(Lists l : arryList){
+				if(!l.equals(null)){
+					items.add(l);
+					
+				}
+			}
+			
+			if(arryList.size() == 0){
+				// Display a toast message saying that there is no list found and
+				// give information about how to create one.
+				Lists listItemToastMes1 = new Lists(); 
+				listItemToastMes1.setListItem("Enter An Item");
+				items.add(listItemToastMes1);
+				Lists listItemToastMes2 = new Lists();
+				listItemToastMes2.setListItem("Long Click to Delete");
+				items.add(listItemToastMes2);
+			}
+		
 		adapter = new GrocAdapter(this, R.layout.item, items);
 
 		setListAdapter(adapter);
@@ -80,16 +92,13 @@ public class GrocListActivity extends ListActivity {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (resultCode == RESULT_OK && requestCode == ADD_REQUEST) {
 
-			StringBuffer newname = new StringBuffer(
+			String newname = new String(
 					data.getStringExtra("NewName"));
-			StringBuffer newbrand = new StringBuffer(
-					data.getStringExtra("NewBrand"));
-			float newsize = data.getFloatExtra("NewSize", (float) 0.0);
-					GrocItem selected = new GrocItem();
-			selected.name = newname;
-			selected.brand = newbrand;
-			selected.size = newsize;
+			Lists selected = new Lists();
+			selected.setListItem(newname);
+			//StringBuffer(new selected.getListsItem()) = newname;
 			items.add(selected);
+			db.addItemToListDB(selected);
 			adapter.notifyDataSetChanged();
 
 		}
@@ -107,9 +116,28 @@ public class GrocListActivity extends ListActivity {
 		@Override
 		public void onClick(View v) {
 
-			Intent adder = new Intent(GrocListActivity.this, AddActivity.class);
+			if (v == add){
+				Intent adder = new Intent(GrocListActivity.this, AddActivity.class);
+				startActivityForResult(adder, ADD_REQUEST);
+				
+				
+			}if(v == logout){
+				UserFunctions userfunction = new UserFunctions(); 
+				
+				userfunction.logoutUser(getBaseContext());
+				
+				SharedPreferences settings = getSharedPreferences("PreFile",0);
+				SharedPreferences.Editor editor = settings.edit();
+				editor.clear();
+				editor.commit();
+				
+				startActivity(new Intent(GrocListActivity.this, SplashActivity.class));
+				
+			}if(v == sync){
+				userfunction.Sync(getApplicationContext());
+			}
 
-			startActivityForResult(adder, ADD_REQUEST);
+			
 		}
 
 	};
@@ -118,7 +146,7 @@ public class GrocListActivity extends ListActivity {
 		public boolean onItemLongClick(AdapterView<?> list, View item,
 				int position, long id) {
 			final int pos = position;
-
+			Lists itemToDel = (Lists) list.getItemAtPosition(position);
 			/*
 			 * AlertDialog.Builder dialog = new AlertDialog.Builder(
 			 * GrocListActivity.this); dialog.setTitle("Confirmation Required");
@@ -133,6 +161,7 @@ public class GrocListActivity extends ListActivity {
 			 * dialog.show(); return false;
 			 */
 			items.remove(pos);
+			db.removeItemFromList(itemToDel.getListsItemID(), itemToDel.getListsItem());
 			adapter.notifyDataSetChanged();
 			return false;
 		}
@@ -144,8 +173,8 @@ public class GrocListActivity extends ListActivity {
 			FileOutputStream myfile = openFileOutput("mydata",
 					Context.MODE_PRIVATE);
 			PrintWriter myprint = new PrintWriter(myfile);
-			for (GrocItem e : items) {
-				myprint.println(e.name.toString());
+			for (Lists e : items) {
+				myprint.println(e.getListsItem().toString());
 			}
 
 			myprint.close();

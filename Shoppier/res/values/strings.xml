@@ -14,6 +14,6 @@
     <string name="title_activity_splash">SplashActivity</string>
     <string name="title_activity_list_select">ListSelect</string>
     <string name="title_activity_groc_list">GrocListActivity</string>
-    <string name="item_name">Item Name</string><string name="item_brand">Item Brand</string><string name="item_size">Item Size</string>
+    <string name="item_name">Item Name</string>
 
 </resources>

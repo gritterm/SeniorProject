@@ -1,14 +1,21 @@
 package net.shoppier.library;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import net.shoppier.Lists;
+
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 
 public class UserFunctions {
 
@@ -20,10 +27,17 @@ public class UserFunctions {
 
 	private static String login_tag = "login";
 	private static String register_tag = "register";
+	
+	private static final String Array_List = "list";
+	private static final String Tag_ListID = "list_id";
+	private static final String Tag_LIST_ITEM = "list_text";
+	JSONArray userList = null;
+	private DatabaseHandler db;
 
 	// constructor
 	public UserFunctions() {
-
+		jsonParser = new JSONParser();
+		
 	}
 
 	// constructor for login
@@ -47,14 +61,74 @@ public class UserFunctions {
 			JSONObject json = jsonParser.execute(loginURL).get();
 			return json;
 		} catch (InterruptedException e) {
+			
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			
+			e.printStackTrace();
+		}
+		// Log.e("JSON", json.toString());
+		return null;
+	}
+	
+	public void Sync(Context context){
+		this.db = new DatabaseHandler(context);
+		List<NameValuePair> params = new ArrayList<NameValuePair>();
+		params.add(new BasicNameValuePair("tag", "storeUsersList"));
+		//params.add(new BasicNameValuePair("userID", db.getUserDetails().get("uid"))); 
+		params.add(new BasicNameValuePair("userID", "6")); 
+		params.add(new BasicNameValuePair("userList", db.getList().toString()));
+		jsonParser = new JSONParser(params);
+		
+		try {
+			jsonParser.execute(loginURL).get();
+		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ExecutionException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		// Log.e("JSON", json.toString());
-		return null;
+		
+		
+		
+	}
+	
+	public ArrayList<Lists> getUserGrocList(Context context) {
+		this.db = new DatabaseHandler(context);
+		List<NameValuePair> params = new ArrayList<NameValuePair>();
+		params.add(new BasicNameValuePair("tag", "getUsersList"));
+		params.add(new BasicNameValuePair("userID", db.getUserDetails().get("uid"))); 
+		// TODO add userID param
+
+		jsonParser = new JSONParser(params);
+
+		ArrayList<Lists> userGrocList = new ArrayList<Lists>();
+
+		try {
+			JSONObject json = jsonParser.execute(loginURL).get();
+			try {
+				userList = json.getJSONArray(Array_List);
+				for (int i = 0; i <= userList.length() - 1; i++) {
+					Lists li = new Lists();
+					JSONObject l = userList.getJSONObject(i);
+					li.setListsItemID(l.getString(Tag_ListID));
+					li.setListItem(l.getString(Tag_LIST_ITEM));
+					userGrocList.add(li);
+				}
+
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		
+
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			e.printStackTrace();
+		}
+
+		return userGrocList;
 	}
 
 	/**
@@ -83,7 +157,7 @@ public class UserFunctions {
 	 * */
 	public boolean isUserLoggedIn(Context context) {
 		DatabaseHandler db = new DatabaseHandler(context);
-		int count = db.getRowCount();
+		int count = db.getRowCount("user");
 		if (count > 0) {
 			// user logged in
 			return true;
@@ -97,6 +171,10 @@ public class UserFunctions {
 	public boolean logoutUser(Context context) {
 		DatabaseHandler db = new DatabaseHandler(context);
 		db.resetTables();
+		SharedPreferences settings = context.getSharedPreferences("PreFile", 0);
+		Editor edit = settings.edit();
+		edit.clear();
+		edit.commit();
 		return true;
 	}
 

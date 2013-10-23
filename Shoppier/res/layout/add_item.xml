@@ -18,14 +18,22 @@
     </EditText>
 
     <EditText
-        android:id="@+id/item_brand"
+        android:id="@+id/editText2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/item_name"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="40dp"
-        android:ems="10"
-        android:hint="@string/item_brand"  />
+        android:ems="10" />
+
+    <EditText
+        android:id="@+id/editText3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/editText2"
+        android:layout_below="@+id/editText2"
+        android:layout_marginTop="64dp"
+        android:ems="10" />
 
     <ImageButton
         android:id="@+id/but_add"
@@ -33,18 +41,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="30dp"
-        android:layout_toRightOf="@+id/item_size"
+        android:layout_toRightOf="@+id/editText3"
         android:src="@android:drawable/ic_input_add" />
-
-    <EditText
-        android:id="@+id/item_size"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/item_brand"
-        android:layout_below="@+id/item_brand"
-        android:layout_marginTop="36dp"
-        android:ems="10"
-        android:hint="@string/item_size"
-        android:inputType="numberDecimal" />
 
 </RelativeLayout>
