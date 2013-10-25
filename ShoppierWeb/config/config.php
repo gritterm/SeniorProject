@@ -13,7 +13,7 @@
  * if you are using a (differen) port, then put this in here, like http://mydomain:8888/mvc/
  * TODO: when not using subfolder, is the trailing slash important ?
  */
-define('URL', 'http://jonnyklemmer.com/shoppier/');
+define('URL', 'http://shoppier.net');
 
 
 /**
