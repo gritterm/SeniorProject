@@ -23,6 +23,5 @@
     <string name="add">Add</string>
     <string name="add_to_db">Add an item to database</string>
     <string name="item_brand">Item brand</string>
-    <string name="item_category">Item category</string>
 
 </resources>

@@ -61,7 +61,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="37dp"
             android:ems="10"
-            android:hint="@string/item_category"
+            android:hint="Item category"
             android:inputType="text" />
 
     </RelativeLayout>
