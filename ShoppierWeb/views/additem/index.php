@@ -1,4 +1,3 @@
-
 <div class="content">
 	<h1>Add item</h1>
     <h3>Select a store, an aisle, and then a location </h3>
@@ -39,7 +38,7 @@ function loadAisles()
         //load appropriate aisle information
         $.post(
         
-            "http://jonnyklemmer.com/shoppier/additem/aisles", 
+            "<?php echo URL;?>additem/aisles", 
             {store: store}, 
             function(data){
                 var arr = JSON.parse(data);
@@ -59,7 +58,7 @@ function loadLocations()
     var aisle = $("#aisle option:selected").attr("value");
     $.post(
         
-            "http://jonnyklemmer.com/shoppier/additem/locations", 
+            "<?php echo URL;?>additem/locations", 
             {aisle: aisle}, 
             function(data){
                 var arr = JSON.parse(data);
