@@ -13,7 +13,7 @@
  * if you are using a (differen) port, then put this in here, like http://mydomain:8888/mvc/
  * TODO: when not using subfolder, is the trailing slash important ?
  */
-define('URL', 'http://jonnyklemmer.com/shoppier/');
+define('URL', 'http://shoppier.net');
 
 
 /**
@@ -217,6 +217,9 @@ define("FEEDBACK_ACCOUNT_DOWNGRADE_FAILED", "Account downgrade failed.");
 define("FEEDBACK_NOTE_CREATION_FAILED", "Note creation failed.");
 define("FEEDBACK_NOTE_EDITING_FAILED", "Note editing failed.");
 define("FEEDBACK_NOTE_DELETION_FAILED", "Note deletion failed.");
+define("FEEDBACK_LIST_CREATION_FAILED", "List creation failed.");
+define("FEEDBACK_LIST_EDITING_FAILED", "List editing failed.");
+define("FEEDBACK_LIST_DELETION_FAILED", "List deletion failed.");
 define("FEEDBACK_COOKIE_INVALID", "Your remember-me-cookie is invalid.");
 define("FEEDBACK_COOKIE_LOGIN_SUCCESSFUL", "You were successfully logged in via the remember-me-cookie.");
 
