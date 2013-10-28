@@ -39,12 +39,18 @@
             android:name="net.shoppier.GrocListActivity"
             android:label="@string/title_activity_groc_list" >
         </activity>
+        <activity android:name="net.shoppier.AddActivity" >
+        </activity>
         <activity
-            android:name="net.shoppier.AddActivity" >
+            android:name="net.shoppier.SearchActivity"
+            android:label="@string/title_activity_search" >
+        </activity>
+        <activity
+            android:name="net.shoppier.SingleSearableItemView"
+            android:label="@string/title_activity_single_searable_item_view" >
         </activity>
     </application>
-    
-     
-    <uses-permission android:name="android.permission.INTERNET" /> 
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>

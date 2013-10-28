@@ -1,11 +1,11 @@
 package net.shoppier;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Scanner;
+
+import org.json.JSONException;
 
 import android.app.ListActivity;
 import android.content.Context;
@@ -31,8 +31,10 @@ public class GrocListActivity extends ListActivity {
 	private ImageButton add;
 	private Button logout;
 	private static final int ADD_REQUEST = 0xFACEEE;
+	private static final int ADD_FROM_SEARCH = 0x10000000; 
 	private DatabaseHandler db; 
 	private Button sync;
+	private Button search;
 	UserFunctions userfunction;
 
 	@Override
@@ -46,9 +48,10 @@ public class GrocListActivity extends ListActivity {
 		sync = (Button) findViewById(R.id.syncBtn);
 		add = (ImageButton) findViewById(R.id.but_add);
 		logout = (Button) findViewById(R.id.btnLogout);
-		
+		search = (Button) findViewById(R.id.searchBtn);
 		add.setOnClickListener(handler);
 		logout.setOnClickListener(handler);
+		search.setOnClickListener(handler);
 		
 		if(userfunction.isUserLoggedIn(getApplicationContext())){
 			sync.setOnClickListener(handler);
@@ -65,7 +68,6 @@ public class GrocListActivity extends ListActivity {
 			for(Lists l : arryList){
 				if(!l.equals(null)){
 					items.add(l);
-					
 				}
 			}
 			
@@ -73,16 +75,25 @@ public class GrocListActivity extends ListActivity {
 				// Display a toast message saying that there is no list found and
 				// give information about how to create one.
 				Lists listItemToastMes1 = new Lists(); 
-				listItemToastMes1.setListItem("Enter An Item");
+				listItemToastMes1.setListsItem("Enter An Item by clicking the + sign or searching");
 				items.add(listItemToastMes1);
 				Lists listItemToastMes2 = new Lists();
-				listItemToastMes2.setListItem("Long Click to Delete");
+				listItemToastMes2.setListsItem("Long Click the item to Delete");
 				items.add(listItemToastMes2);
 			}
 		
 		adapter = new GrocAdapter(this, R.layout.item, items);
 
 		setListAdapter(adapter);
+		
+		Intent i = getIntent();
+		if(i.getFlags() == ADD_FROM_SEARCH){
+			Lists tempList = new Lists();
+			tempList.setListsItem(i.getStringExtra("name"));
+			tempList.setSearchItemId(i.getStringExtra("ItemID"));
+			items.add(tempList);
+			db.addItemToListDB(tempList);
+		}
 
 		adapter.notifyDataSetChanged();
 
@@ -95,8 +106,7 @@ public class GrocListActivity extends ListActivity {
 			String newname = new String(
 					data.getStringExtra("NewName"));
 			Lists selected = new Lists();
-			selected.setListItem(newname);
-			//StringBuffer(new selected.getListsItem()) = newname;
+			selected.setListsItem(newname);
 			items.add(selected);
 			db.addItemToListDB(selected);
 			adapter.notifyDataSetChanged();
@@ -134,13 +144,17 @@ public class GrocListActivity extends ListActivity {
 				startActivity(new Intent(GrocListActivity.this, SplashActivity.class));
 				
 			}if(v == sync){
-				userfunction.Sync(getApplicationContext());
-			}
+				userfunction.Sync(getApplicationContext());		
+			}if(v == search){
 
-			
+				 Intent search = new Intent(GrocListActivity.this, SearchActivity.class);
+				startActivity(search);
+				
+			}
 		}
 
 	};
+	
 	private OnItemLongClickListener lchandler = new OnItemLongClickListener() {
 		@Override
 		public boolean onItemLongClick(AdapterView<?> list, View item,
@@ -161,7 +175,7 @@ public class GrocListActivity extends ListActivity {
 			 * dialog.show(); return false;
 			 */
 			items.remove(pos);
-			db.removeItemFromList(itemToDel.getListsItemID(), itemToDel.getListsItem());
+			db.removeItemFromList(itemToDel.getListsItemID());
 			adapter.notifyDataSetChanged();
 			return false;
 		}
@@ -169,17 +183,6 @@ public class GrocListActivity extends ListActivity {
 
 	protected void onDestroy() {
 		super.onDestroy();
-		try {
-			FileOutputStream myfile = openFileOutput("mydata",
-					Context.MODE_PRIVATE);
-			PrintWriter myprint = new PrintWriter(myfile);
-			for (Lists e : items) {
-				myprint.println(e.getListsItem().toString());
-			}
-
-			myprint.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
+		db.clearItemTable();
 	}
 }

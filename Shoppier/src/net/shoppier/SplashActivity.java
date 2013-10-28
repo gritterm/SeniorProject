@@ -32,8 +32,7 @@ public class SplashActivity extends Activity {
 		login.setOnClickListener(handler);
 		skip = (Button) findViewById(R.id.button2);
 		skip.setOnClickListener(handler);
-		test = (Button) findViewById(R.id.test);
-		test.setOnClickListener(handler);
+
 	}
 	private OnClickListener handler = new OnClickListener() {
 				

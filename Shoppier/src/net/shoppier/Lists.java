@@ -1,17 +1,27 @@
 package net.shoppier;
-
+/*
+ * This is represents a List Item Object 
+ * 
+ */
 public class Lists {
 	
+	//The PK of the list item 
 	String listsItemID; 
+	
+	//The List Item Name
 	String listsItem; 
 	
-	public Lists(){
-		
-	}
+	//The List route 
+	String listRoute;
 	
-	public Lists(String listID, String listText){
-		this.listsItem = listID; 
-		this.listsItem = listText;
+	//The Search item ID  if it exist
+	String searchItemId; 
+	
+	@Override
+	public String toString() {
+		return "Lists [listsItemID=" + listsItemID + ", listsItem=" + listsItem
+				+ ", listRoute=" + listRoute + ", searchItemId=" + searchItemId
+				+ "]";
 	}
 
 	public String getListsItemID() {
@@ -26,15 +36,39 @@ public class Lists {
 		return listsItem;
 	}
 
-	public void setListItem(String listsItem) {
+	public void setListsItem(String listsItem) {
 		this.listsItem = listsItem;
 	}
 
-	@Override
-	public String toString() {
-		return "[listsItemID=" + listsItemID + ", listsItem=" + listsItem
-				+ "]";
+	public String getListRoute() {
+		return listRoute;
 	}
+
+	public void setListRoute(String listRoute) {
+		this.listRoute = listRoute;
+	}
+
+	public String getSearchItemId() {
+		return searchItemId;
+	}
+
+	public void setSearchItemId(String searchItemId) {
+		this.searchItemId = searchItemId;
+	}
+
+	public Lists(){
+		
+	}
+	
+	public Lists(String listID, String listText, String listRoute, String searchItemID){
+		this.listsItemID = listID; 
+		this.listsItem = listText;
+		this.listRoute = listRoute; 
+		this.searchItemId = searchItemID; 
+	}
+
+
+
 	
 	
 	

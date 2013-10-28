@@ -29,8 +29,6 @@ public class MainActivity extends Activity {
 	    
 		 // JSON Response node names
 	    private static String KEY_SUCCESS = "success";
-	    private static String KEY_ERROR = "error";
-	    private static String KEY_ERROR_MSG = "error_msg";
 	    private static String KEY_UID = "uid";
 	    private static String KEY_NAME = "name";
 	    private static String KEY_EMAIL = "email";

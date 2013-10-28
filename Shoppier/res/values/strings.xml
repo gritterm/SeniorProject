@@ -15,5 +15,10 @@
     <string name="title_activity_list_select">ListSelect</string>
     <string name="title_activity_groc_list">GrocListActivity</string>
     <string name="item_name">Item Name</string>
+    <string name="title_activity_search">SearchActivity</string>
+    <string name="namelabel">Name: </string>
+    <string name="brandlabel">Brand: </string>
+    <string name="title_activity_single_searable_item_view">SingleSearableItemView</string>
+    <string name="space"> : </string>
 
 </resources>

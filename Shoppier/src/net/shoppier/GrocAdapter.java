@@ -1,7 +1,6 @@
 package net.shoppier;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import android.content.Context;
 import android.util.Log;

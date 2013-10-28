@@ -1,11 +1,11 @@
 package net.shoppier.library;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import net.shoppier.Lists;
+import net.shoppier.SearchableItem;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -31,7 +31,15 @@ public class UserFunctions {
 	private static final String Array_List = "list";
 	private static final String Tag_ListID = "list_id";
 	private static final String Tag_LIST_ITEM = "list_text";
+	private static final String Array_Search_List = "items";
+	
+	private static final String Tag_Item_ID = "item_pk";
+	private static final String Tag_Item_Name = "item_name";
+	private static final String Tag_Item_Cat = "item_cat";
+	private static final String Tag_Item_Brand = "item_brand";
+	
 	JSONArray userList = null;
+	JSONArray searchList = null;
 	private DatabaseHandler db;
 
 	// constructor
@@ -71,35 +79,62 @@ public class UserFunctions {
 		return null;
 	}
 	
+	//TODO figure out sending data back to database once the list table it full fixed
 	public void Sync(Context context){
 		this.db = new DatabaseHandler(context);
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
 		params.add(new BasicNameValuePair("tag", "storeUsersList"));
-		//params.add(new BasicNameValuePair("userID", db.getUserDetails().get("uid"))); 
-		params.add(new BasicNameValuePair("userID", "6")); 
+		params.add(new BasicNameValuePair("userID", db.getUserDetails().get("uid"))); 
 		params.add(new BasicNameValuePair("userList", db.getList().toString()));
 		jsonParser = new JSONParser(params);
 		
 		try {
 			jsonParser.execute(loginURL).get();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ExecutionException e) {
-			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	
+	public ArrayList<SearchableItem> getSearchableItems(Context context) throws JSONException{
+		this.db = new DatabaseHandler(context);
+		
+		List<NameValuePair> params = new ArrayList<NameValuePair>();
+		params.add(new BasicNameValuePair("tag", "getSearchableItems"));
+		
+		ArrayList<SearchableItem> searchableList = new ArrayList<SearchableItem>();
+		jsonParser = new JSONParser(params);
+		
+		try {
+			JSONObject json = jsonParser.execute(loginURL).get();
+			searchList = json.getJSONArray(Array_Search_List);
+			for (int i = 0; i <= searchList.length() - 1; i++) {
+				SearchableItem li = new SearchableItem();
+				JSONObject l = searchList.getJSONObject(i);
+				li.setItemBrand(l.getString(Tag_Item_Brand));
+				li.setItemCat(l.getString(Tag_Item_Cat));
+				li.setItemID(Integer.parseInt(l.getString(Tag_Item_ID)));
+				li.setItemName(l.getString(Tag_Item_Name));
+				searchableList.add(li);
+				db.addSearchableItem(li);
+			}
+			
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		} catch (ExecutionException e) {
 			e.printStackTrace();
 		}
 		
-		
+		return searchableList;
 		
 	}
-	
 	public ArrayList<Lists> getUserGrocList(Context context) {
 		this.db = new DatabaseHandler(context);
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
 		params.add(new BasicNameValuePair("tag", "getUsersList"));
 		params.add(new BasicNameValuePair("userID", db.getUserDetails().get("uid"))); 
-		// TODO add userID param
 
 		jsonParser = new JSONParser(params);
 
@@ -113,7 +148,7 @@ public class UserFunctions {
 					Lists li = new Lists();
 					JSONObject l = userList.getJSONObject(i);
 					li.setListsItemID(l.getString(Tag_ListID));
-					li.setListItem(l.getString(Tag_LIST_ITEM));
+					li.setListsItem(l.getString(Tag_LIST_ITEM));
 					userGrocList.add(li);
 				}
 
