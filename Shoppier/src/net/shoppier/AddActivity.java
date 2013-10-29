@@ -18,6 +18,7 @@ public class AddActivity extends Activity {
 		setTitle("Add New Item");
 		ImageButton add = (ImageButton) findViewById(R.id.but_add);
 		final TextView nom = (TextView) findViewById(R.id.item_name);
+		final TextView bra = (TextView) findViewById(R.id.editText2);
 		
 		OnClickListener confHandler = new OnClickListener() {
 			
@@ -25,7 +26,10 @@ public class AddActivity extends Activity {
 			public void onClick(View v) {
 				Intent update = new Intent();
 				String new_name = nom.getText().toString();
+				String new_brand = bra.getText().toString();
 				update.putExtra("NewName",new_name);
+				update.putExtra("NewBrand", new_brand);
+				
 				setResult(RESULT_OK, update);
 				finish();
 			}

@@ -37,8 +37,6 @@ public class SearchableItemAdapter  extends ArrayAdapter<SearchableItem>{
 	class ViewHolder {
 		TextView name; 
 		TextView brand; 
-		Button addBtn;
-
 	}
 	
 	@Override
@@ -53,29 +51,9 @@ public class SearchableItemAdapter  extends ArrayAdapter<SearchableItem>{
 			 // Locate the name and brand textviews
 			bin.brand = (TextView) convertView.findViewById(R.id.brand);
 			bin.name = (TextView) convertView.findViewById(R.id.name);
-			bin.addBtn = (Button) convertView.findViewById(R.id.addItemBtn);			
 			convertView.setTag(bin); 
 			
-			bin.addBtn.setOnClickListener(	new OnClickListener(){
-
-			@Override
-			public void onClick(View v) {
-				 // Send single item click data to g Class
-                Intent intent = new Intent(mycontext, GrocListActivity.class);
-                // Pass all data brand
-                intent.putExtra("brand",
-                        (list.get(position).getItemBrand()));
-                // Pass all data name
-                intent.putExtra("name",
-                        (list.get(position).getItemName()));
-                //Pass the item that was passed
-                intent.putExtra("ItemID", 
-                		list.get(position).getItemID());
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                mycontext.startActivity(intent);
-			}
 			
-		});
 		
 
 		} else {
@@ -83,7 +61,6 @@ public class SearchableItemAdapter  extends ArrayAdapter<SearchableItem>{
 			bin = (ViewHolder) convertView.getTag();
 
 		}
-		// String name_context = list.get(position).getItemName();
 			SearchableItem i = list.get(position);
 			if (i != null) {
 				bin.brand.setText(i.getItemBrand() + " ");
@@ -91,8 +68,6 @@ public class SearchableItemAdapter  extends ArrayAdapter<SearchableItem>{
 			}
 			
 		
-			
-
 		return convertView;
 	}
 	

@@ -45,7 +45,7 @@ public class SplashActivity extends Activity {
 				startActivity(new Intent(SplashActivity.this, GrocListActivity.class));
 			}else if (v == test){
 				 UserFunctions userFunction = new UserFunctions();
-	                ArrayList<Lists> grocList = userFunction.getUserGrocList(getApplicationContext());
+	                ArrayList<ListsItem> grocList = userFunction.getUserGrocList(getApplicationContext());
 			}
 		}
 	};

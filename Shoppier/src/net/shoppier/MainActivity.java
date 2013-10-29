@@ -36,6 +36,13 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		SharedPreferences settings = getPreferences(MODE_PRIVATE);
+		
+		String savedUserName = settings.getString("username", null);
+		String savedPW = settings.getString("password", null);
+		if(savedUserName != null && savedPW != null){
+			startActivity(new Intent(MainActivity.this, GrocListActivity.class));
+		}
 		setContentView(R.layout.activity_main);
 		login = (Button) findViewById(R.id.btnLogout);
 		inputUserName = (EditText) findViewById(R.id.item_name);
@@ -73,22 +80,25 @@ public class MainActivity extends Activity {
 	                        if(Integer.parseInt(res) == 1){
 	                        	
 	                            // user successfully logged in
-	                        	SavePreferences(username, password);
+	                        	
+	                             
+	                            // Clear all previous data in database
+	                            userFunction.logoutUser(getApplicationContext());
+	                                     
+	                             
+	                            //save username and password for future login
+	                            SavePreferences(username, password);
 	                        	
 	                            // Store user details in SQLite Database
 	                            DatabaseHandler db = new DatabaseHandler(getApplicationContext());
 	                            JSONObject json_user = json.getJSONObject("user");
-	                             
-	                            // Clear all previous data in database
-	                            userFunction.logoutUser(getApplicationContext());
-	                            db.addUser(json_user.getString(KEY_NAME), json_user.getString(KEY_EMAIL), json.getString(KEY_UID));                        
-	                             
+	                            db.addUser(json_user.getString(KEY_NAME), json_user.getString(KEY_EMAIL), json.getString(KEY_UID));     
 	                            //get users groclist 
-	        	                ArrayList<Lists> grocList = userFunction.getUserGrocList(getApplicationContext());
+	        	                ArrayList<ListsItem> grocList = userFunction.getUserGrocList(getApplicationContext());
 	        	                
 	        	                //add groclist items to list database table 
 
-	        	                for(Lists l : grocList){
+	        	                for(ListsItem l : grocList){
 	        	                	if(!l.equals(null)){
 	        	                		db.addItemToListDB(l);
 	        	                	}
@@ -109,6 +119,8 @@ public class MainActivity extends Activity {
 	                }
 	           
 			} else if (v == skip) {
+				UserFunctions  userFunction = new UserFunctions();
+				userFunction.logoutUser(getApplicationContext());
 				startActivity(new Intent(MainActivity.this, GrocListActivity.class));
 			}
 		}

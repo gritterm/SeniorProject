@@ -3,7 +3,7 @@ package net.shoppier.library;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import net.shoppier.Lists;
+import net.shoppier.ListsItem;
 import net.shoppier.SearchableItem;
 
 import android.content.ContentValues;
@@ -26,8 +26,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
 	// Table Names
 	private static final String TABLE_LOGIN = "user";
-	private static final String TABLE_LIST = "list";
+	private static final String TABLE_LIST_ITEMS = "list";
 	private static final String TABLE_ITEM = "item"; 
+	//private static final String TABLE_
 
 	// user Table Columns names
 	private static final String KEY_ID = "user_id";
@@ -36,9 +37,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	private static final String KEY_UID = "user_password_hash";
 	
 	
-	// list Table Columns names
-	private static final String KEY_LIST_ID = "list_id";
-	private static final String KEY_LIST_TEXT = "list_text";
+	// list_items Table Columns names
+	private static final String KEY_LIST_ID_PK = "list_item_id";
+	private static final String KEY_LISTITEM_NAME = "list_item_name";
+	private static final String KEY_LIST_SEARCH_ITEM_FK = "list_search_item_fk";
+	private static final String KEY_LIST_ITEM_LISTFK = "list_item_listfk";
+	private static final String KEY_LIST_ITEM_BRAND = "list_item_brand";
 	
 	//item Table Column names 
 	private static final String KEY_ITEM_PK = "item_pk";
@@ -46,14 +50,16 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	private static final String KEY_ITEM_BRAND = "item_brand";
 	private static final String KEY_ITEM_CAT = "item_cat";
 	
+	
 	//Query to create login table
 	String CREATE_LOGIN_TABLE = "CREATE TABLE " + TABLE_LOGIN + "("
 			+ KEY_ID + " INTEGER PRIMARY KEY," + KEY_NAME + " TEXT,"
 			+ KEY_EMAIL + " TEXT UNIQUE," + KEY_UID + " TEXT" + ")";
 	
-	//Query to create list table
-	String CREATE_LIST_TABLE = "CREATE TABLE " + TABLE_LIST + "("
-			+ KEY_LIST_ID + " INTEGER PRIMARY KEY," + KEY_LIST_TEXT + " TEXT" + ")";
+	//Query to create list_items table
+	String CREATE_LIST_TABLE = "CREATE TABLE " + TABLE_LIST_ITEMS + "("
+			+ KEY_LIST_ID_PK + " INTEGER PRIMARY KEY, " + KEY_LISTITEM_NAME + " TEXT, " + KEY_LIST_SEARCH_ITEM_FK +
+			" TEXT, " + KEY_LIST_ITEM_LISTFK + " TEXT, " + KEY_LIST_ITEM_BRAND + "TEXT "+ ")";
 	
 	//Query to create item table
 	String CREATE_ITEMS_TABLE = "CREATE TABLE " + TABLE_ITEM + "("
@@ -80,7 +86,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		// Drop older table if existed
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_LOGIN);
-		db.execSQL("DROP TABLE IF EXISTS " + TABLE_LIST);
+		db.execSQL("DROP TABLE IF EXISTS " + TABLE_LIST_ITEMS);
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_ITEM);
 		// Create tables again
 		onCreate(db);
@@ -142,16 +148,18 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	/**
 	 * Adding a List item to the database
 	 * */
-	public void addItemToListDB(Lists list){
+	public void addItemToListDB(ListsItem list){
 		SQLiteDatabase db = this.getWritableDatabase();
 		
 		ContentValues values = new ContentValues();
 		
-		values.put(KEY_LIST_ID, list.getListsItemID()); 
-		values.put(KEY_LIST_TEXT, list.getListsItem());
+		values.put(KEY_LIST_SEARCH_ITEM_FK, list.getSearchItemId()); 
+		values.put(KEY_LISTITEM_NAME, list.getListsItemName());
+		values.put(KEY_LIST_ITEM_LISTFK, list.getListFK());
+		values.put(KEY_LIST_ITEM_BRAND, list.getListItemBrand());
 
 		//insert row 
-		db.insert(TABLE_LIST, null, values);
+		db.insert(TABLE_LIST_ITEMS, null, values);
 	}
 	
 	/**
@@ -160,7 +168,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	public int removeItemFromList(String listID){
 		//TODO Fix deleteing newly added items
 		SQLiteDatabase db = this.getWritableDatabase();
-		int num_rows_Deleted = db.delete(TABLE_LIST, KEY_LIST_ID + " =?", 
+		int num_rows_Deleted = db.delete(TABLE_LIST_ITEMS, KEY_LIST_ID_PK + " =?", 
 				new String[]{String.valueOf(listID)});
 		Log.e("# of rows deleted - ", Integer.toString(num_rows_Deleted));
 		return num_rows_Deleted;
@@ -169,10 +177,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	/**
 	 * Fetch the whole grocery list stored in the database. 
 	 * */
-	public ArrayList<Lists> getList(){
-		ArrayList<Lists> alllist = new ArrayList<Lists>();
+	public ArrayList<ListsItem> getList(String listID){
+		ArrayList<ListsItem> alllist = new ArrayList<ListsItem>();
 		
-		String selectQuery = "SELECT  * FROM " + TABLE_LIST;
+		String selectQuery = "SELECT  * FROM " + TABLE_LIST_ITEMS + " WHERE " + KEY_LIST_ITEM_LISTFK + " = " + listID;
 		Log.e("getList", selectQuery);
 		
 		SQLiteDatabase db = this.getReadableDatabase();
@@ -180,10 +188,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	    
 	    if (c.moveToFirst()) {
 	        do {
-	            Lists li = new Lists();
-	            li.setListsItemID(c.getString(c.getColumnIndex(KEY_LIST_ID))); 
-	            li.setListsItem(c.getString(c.getColumnIndex(KEY_LIST_TEXT))); 
-	 
+	            ListsItem li = new ListsItem();
+	            li.setListFK(c.getString(c.getColumnIndex(KEY_LIST_ITEM_LISTFK)));
+	            li.setListsItemName(c.getString(c.getColumnIndex(KEY_LISTITEM_NAME)));
+	            li.setListsItemID(c.getString(c.getColumnIndex(KEY_LIST_ID_PK)));
+	            li.setSearchItemId(c.getString(c.getColumnIndex(KEY_LIST_SEARCH_ITEM_FK)));
+	            li.setListItemBrand(c.getString(c.getColumnIndex(KEY_LIST_ITEM_BRAND)));
 	            // adding to final list
 	            alllist.add(li);
 	        } while (c.moveToNext());
@@ -192,16 +202,18 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	    return alllist;
 	}
 	
+	
+	
 	/**
 	 * Edit a List item in the grocery list.  
 	 * */
-	public int editListItem(Lists listItem){
+	public int editListItem(ListsItem listItem){
 		ContentValues value = new ContentValues();
-		value.put(KEY_LIST_TEXT, listItem.getListsItem());
+		value.put(KEY_LISTITEM_NAME, listItem.getListsItemID());
 				
 		SQLiteDatabase db = this.getWritableDatabase();
 		
-		return db.update(TABLE_LIST, value, KEY_LIST_ID + " = ?",
+		return db.update(TABLE_LIST_ITEMS, value, KEY_LIST_ID_PK + " = ?",
 				new String[]{String.valueOf(listItem.getListsItemID())});
 	}
 	
@@ -296,10 +308,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	 * */
 	public void resetTables() {
 		SQLiteDatabase db = this.getWritableDatabase();
-		// Delete All Rows
+		// Delete All Tables
 		
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_LOGIN);
-		db.execSQL("DROP TABLE IF EXISTS " + TABLE_LIST);
+		db.execSQL("DROP TABLE IF EXISTS " + TABLE_LIST_ITEMS);
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_ITEM);
 		// Create tables again
 		onCreate(db);

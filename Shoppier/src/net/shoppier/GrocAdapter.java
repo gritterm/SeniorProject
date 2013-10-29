@@ -10,13 +10,13 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-public class GrocAdapter extends ArrayAdapter<Lists>{
+public class GrocAdapter extends ArrayAdapter<ListsItem>{
 	private LayoutInflater pump;
 	private int itemLayout;
-	private ArrayList<Lists> dataSource;
+	private ArrayList<ListsItem> dataSource;
 	
 	
-	public GrocAdapter(Context context, int layout, ArrayList<Lists> src) {
+	public GrocAdapter(Context context, int layout, ArrayList<ListsItem> src) {
 		super(context, layout, src);
 		pump = LayoutInflater.from(context);
 		itemLayout = layout;
@@ -24,7 +24,7 @@ public class GrocAdapter extends ArrayAdapter<Lists>{
 	}
 	
 	class ViewHolder {
-		TextView name_holder;
+		TextView name_holder, brand_holder;
 
 	}@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
@@ -37,6 +37,8 @@ public class GrocAdapter extends ArrayAdapter<Lists>{
 
 			bin.name_holder = (TextView) convertView
 					.findViewById(R.id.textView1);
+			bin.brand_holder = (TextView) convertView
+					.findViewById(R.id.textView2);
 
 			convertView.setTag(bin);
 
@@ -45,8 +47,10 @@ public class GrocAdapter extends ArrayAdapter<Lists>{
 			bin = (ViewHolder) convertView.getTag();
 
 		}
-		String name_context = dataSource.get(position).getListsItem();
+		String name_context = dataSource.get(position).getListsItemName();
+		String brand_context = dataSource.get(position).getListItemBrand();
 		bin.name_holder.setText(name_context);
+		bin.brand_holder.setText(brand_context);
 		return convertView;
 	}
 

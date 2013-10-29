@@ -1,15 +1,12 @@
 package net.shoppier;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.PrintWriter;
+
 import java.util.ArrayList;
 
-import org.json.JSONException;
 
 import android.app.AlertDialog;
 import android.app.ListActivity;
-import android.content.Context;
+
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -27,13 +24,13 @@ import net.shoppier.library.UserFunctions;
 
 public class GrocListActivity extends ListActivity {
 	// private ArrayList<GrocItem> items;
-	private ArrayList<Lists> items;
+	private ArrayList<ListsItem> items;
 	private GrocAdapter adapter;
 	private ListView lview;
 	private ImageButton add;
 	private Button logout;
 	private static final int ADD_REQUEST = 0xFACEEE;
-	private static final int ADD_FROM_SEARCH = 0x10000000;
+	 static final int ADD_FROM_SEARCH = 0x3;
 	private DatabaseHandler db;
 	private Button sync;
 	private Button search;
@@ -59,15 +56,16 @@ public class GrocListActivity extends ListActivity {
 			sync.setOnClickListener(handler);
 		} else {
 			sync.setVisibility(View.GONE);
+			logout.setVisibility(View.GONE);
 		}
 
-		items = new ArrayList<Lists>();
+		items = new ArrayList<ListsItem>();
 
 		this.db = new DatabaseHandler(getApplicationContext());
-		ArrayList<Lists> arryList = new ArrayList<Lists>();
-		arryList = db.getList();
+		ArrayList<ListsItem> arryList = new ArrayList<ListsItem>();
+		arryList = db.getList("3");
 
-		for (Lists l : arryList) {
+		for (ListsItem l : arryList) {
 			if (!l.equals(null)) {
 				items.add(l);
 			}
@@ -76,12 +74,12 @@ public class GrocListActivity extends ListActivity {
 		if (arryList.size() == 0) {
 			// Display a toast message saying that there is no list found and
 			// give information about how to create one.
-			Lists listItemToastMes1 = new Lists();
+			ListsItem listItemToastMes1 = new ListsItem();
 			listItemToastMes1
-					.setListsItem("Enter An Item by clicking the + sign or searching");
+					.setListsItemName("Enter An Item by clicking the + sign or searching");
 			items.add(listItemToastMes1);
-			Lists listItemToastMes2 = new Lists();
-			listItemToastMes2.setListsItem("Long Click the item to Delete");
+			ListsItem listItemToastMes2 = new ListsItem();
+			listItemToastMes2.setListsItemName("Long Click the item to Delete");
 			items.add(listItemToastMes2);
 		}
 
@@ -89,15 +87,7 @@ public class GrocListActivity extends ListActivity {
 
 		setListAdapter(adapter);
 
-		Intent i = getIntent();
-		if (i.getFlags() == ADD_FROM_SEARCH) {
-			Lists tempList = new Lists();
-			tempList.setListsItem(i.getStringExtra("name"));
-			tempList.setSearchItemId(i.getStringExtra("ItemID"));
-			items.add(tempList);
-			db.addItemToListDB(tempList);
-		}
-
+		
 		adapter.notifyDataSetChanged();
 
 	}
@@ -107,8 +97,23 @@ public class GrocListActivity extends ListActivity {
 		if (resultCode == RESULT_OK && requestCode == ADD_REQUEST) {
 
 			String newname = new String(data.getStringExtra("NewName"));
-			Lists selected = new Lists();
-			selected.setListsItem(newname);
+			String newbrand = new String(data.getStringExtra("NewBrand"));
+			ListsItem selected = new ListsItem();
+			selected.setListsItemName(newname);
+			selected.setListItemBrand(newbrand);
+			selected.setSearchItemId("0");
+			//TODO Figure out the best way to keep listFK / update listFK
+			selected.setListFK("3");
+			items.add(selected);
+			db.addItemToListDB(selected);
+			adapter.notifyDataSetChanged();
+
+		}if(resultCode == RESULT_OK && requestCode == ADD_FROM_SEARCH){
+			String newname = new String(data.getStringExtra("NewName"));
+			String newbrand = new String(data.getStringExtra("NewBrand"));
+			ListsItem selected = new ListsItem();
+			selected.setListsItemName(newname);
+			selected.setListItemBrand(newbrand);
 			items.add(selected);
 			db.addItemToListDB(selected);
 			adapter.notifyDataSetChanged();
@@ -145,17 +150,17 @@ public class GrocListActivity extends ListActivity {
 				editor.commit();
 
 				startActivity(new Intent(GrocListActivity.this,
-						SplashActivity.class));
+						MainActivity.class));
 
 			}
 			if (v == sync) {
-				userfunction.Sync(getApplicationContext());
+				userfunction.Sync(getApplicationContext(), "3");
 			}
 			if (v == search) {
 
 				Intent search = new Intent(GrocListActivity.this,
 						SearchActivity.class);
-				startActivity(search);
+				startActivityForResult(search, ADD_FROM_SEARCH);
 
 			}
 		}
@@ -167,7 +172,7 @@ public class GrocListActivity extends ListActivity {
 		public boolean onItemLongClick(AdapterView<?> list, View item,
 				int position, long id) {
 			final int pos = position;
-			final Lists itemToDel = (Lists) list.getItemAtPosition(position);
+			final ListsItem itemToDel = (ListsItem) list.getItemAtPosition(position);
 
 			AlertDialog.Builder dialog = new AlertDialog.Builder(
 					GrocListActivity.this);
