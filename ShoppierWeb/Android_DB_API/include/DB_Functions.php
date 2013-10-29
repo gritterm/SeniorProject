@@ -3,11 +3,13 @@
 class DB_Functions {
  
     private $db;
- 
+   
+    
     //put your code here
     // constructor
     function __construct() {
         require_once 'DB_Connect.php';
+        require_once '/home1/jonnykle/public_html/shoppier/libs/external/PasswordCompatibilityLibrary.php';
         // connecting to database
         $this->db = new DB_Connect();
         $this->db->connect();
@@ -43,30 +45,99 @@ class DB_Functions {
     /**
      * Get user by email and password
      */
-  public function getUserByEmailAndPassword($email, $password) {
-		// This can be changed to USERNAME if needed
-        $result = mysql_query("SELECT * FROM users WHERE user_email = '$email'") or die(mysql_error());
+  public function getUserByEmailAndPassword($username, $password) {
+	
+        $result = mysql_query("SELECT * FROM users WHERE user_name = '$username'") or die(mysql_error());
+        
         // check for result 
         $no_of_rows = mysql_num_rows($result);
         if ($no_of_rows > 0) {
             $result = mysql_fetch_array($result);
-        //    $salt = $result['salt'];
-        //   $encrypted_password = $result['encrypted_password'];
-        //  $hash = $this->checkhashSSHA($salt, $password);
-        // check for password equality
-
-          if ($password == $result['user_password_hash']) {
-                // user authentication details are correct
-                
-               // file_put_contents("/home1/jonnykle/public_html/shoppier/Android_DB_API/error_logDBFun.txt", "User Name in DB Functions: ".$result['user_name']);
-                
-                return $result[user_name];
-            }
+           
+         if (password_verify($password,  $result['user_password_hash'])){
+                return $result;
+            } 
         } else {
             // user not found
             return false;
         }
     }
+    
+    
+  public function getUsersGrocList($UID){
+  
+  	
+  	$miniLists = array();
+  	$listItems= array();
+  	$finalList= array();
+
+  	$result = mysql_query("SELECT list_pk, list_items, list_routefk FROM list WHERE list_userfk = '$UID'") or die(mysql_error());
+  	$no_of_rows = mysql_num_rows($result);
+  	if ($no_of_rows > 0) {
+  	  
+  	   while ($row = mysql_fetch_array($result)) {
+
+		$jsonString = $row['list_items'];
+		
+		$listFK = $row['list_pk'];
+  	   	$listItem2 =json_decode($jsonString);
+  	   	foreach($listItem2 as $listItem){
+	  	   	$list_ID = $listItem[0];
+	  	   	$list_text = $listItem[1];
+	  	   	$list_Item_Brand = $listItem[2];
+	  	   	$list_routefk = 0;
+	  	   	array_push($listItems, array('list_Search_item_id' => $list_ID, 'list_item_text' => $list_text,'list_Item_brand'
+	  	   	 => $list_Item_Brand , 'list_routefk' => $list_routefk, 'list_fk' => $listFK));
+  	   	}
+  	     }
+  	     
+  	    $finalList = array('list' =>  $listItems);
+  	    
+  	    return $finalList ;
+  	} else {
+  	
+  		return false; 
+  	}
+  	
+  }
+  
+  public function getSearchableItems(){
+	
+	$listItems= array();
+  	$finalList= array();
+  	
+  	$result = mysql_query("SELECT * FROM item") or die(mysql_error());
+  	$no_of_rows = mysql_num_rows($result);
+  	if ($no_of_rows > 0) {
+  	  
+  	   while ($row = mysql_fetch_array($result)) {
+  	   	$item_pk = $row["item_pk"]; 
+  	   	$item_name = $row["item_name"]; 
+  	   	$item_brand = $row["item_brand"]; 
+  	   	$item_cat = $row["item_catfk"]; 
+
+  	   	array_push($listItems, array('item_pk' => $item_pk, 'item_name' => $item_name,
+  	   		'item_brand' => $item_brand, 'item_cat' => $item_cat));
+  	     }
+  	     
+  	    $finalList = array('items' =>  $listItems);
+  	    return $finalList ;
+  	} else {
+  	
+  		return false; 
+  	}
+  
+  }
+  
+  public function syncList($LISTPK, $newList, $UID){
+  
+  	//file_put_contents("/home1/jonnykle/public_html/shoppier/Android_DB_API/output.txt",print_r($newList, true));
+
+ 
+  	//file_put_contents("/home1/jonnykle/public_html/shoppier/Android_DB_API/output.txt",print_r($inputList, true));
+
+  	$result = mysql_query("UPDATE list SET list_items = '$newList' WHERE list_pk = '$LISTPK' AND list_userfk = '$UID'");
+  }
  
     /**
      * Check user is existed or not
