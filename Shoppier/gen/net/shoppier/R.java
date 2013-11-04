@@ -29,9 +29,8 @@ public final class R {
     public static final class id {
         public static final int InputSearch=0x7f08000b;
         public static final int RelativeLayout1=0x7f080016;
-        public static final int action_forgot_password=0x7f08001b;
-        public static final int action_settings=0x7f08001a;
-        public static final int addItemBtn=0x7f080019;
+        public static final int action_forgot_password=0x7f08001a;
+        public static final int action_settings=0x7f080019;
         public static final int brand=0x7f080017;
         public static final int brand1=0x7f08000f;
         public static final int brandlabel=0x7f08000e;

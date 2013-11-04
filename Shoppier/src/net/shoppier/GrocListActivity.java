@@ -101,9 +101,9 @@ public class GrocListActivity extends ListActivity {
 			ListsItem selected = new ListsItem();
 			selected.setListsItemName(newname);
 			selected.setListItemBrand(newbrand);
-			selected.setSearchItemId("0");
+			selected.setSearchItemId(0);
 			//TODO Figure out the best way to keep listFK / update listFK
-			selected.setListFK("3");
+			selected.setListFK(3);
 			items.add(selected);
 			db.addItemToListDB(selected);
 			adapter.notifyDataSetChanged();
@@ -111,9 +111,13 @@ public class GrocListActivity extends ListActivity {
 		}if(resultCode == RESULT_OK && requestCode == ADD_FROM_SEARCH){
 			String newname = new String(data.getStringExtra("NewName"));
 			String newbrand = new String(data.getStringExtra("NewBrand"));
+			String searchId = new String(data.getStringExtra("SearchId"));
 			ListsItem selected = new ListsItem();
 			selected.setListsItemName(newname);
 			selected.setListItemBrand(newbrand);
+			selected.setSearchItemId(Integer.parseInt(searchId));
+			//TODO Fix when add multiple list 
+			selected.setListFK(3);
 			items.add(selected);
 			db.addItemToListDB(selected);
 			adapter.notifyDataSetChanged();

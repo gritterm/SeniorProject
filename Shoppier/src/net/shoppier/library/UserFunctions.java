@@ -32,6 +32,7 @@ public class UserFunctions {
 	private static final String Tag_ListFK = "list_fk";
 	private static final String Tag_LIST_ITEM_SEARCH_ID = "list_Search_item_id";
 	private static final String Tag_LISTITEM_NAME = "list_item_text";
+	private static final String Tag_LISTITEM_BRAND = "list_Item_brand";
 	
 	private static final String Array_Search_List = "items";
 	
@@ -42,6 +43,7 @@ public class UserFunctions {
 	
 	JSONArray userList = null;
 	JSONArray searchList = null;
+	JSONArray listIDs = null; 
 	private DatabaseHandler db;
 
 	// constructor
@@ -156,9 +158,10 @@ public class UserFunctions {
 					
 					ListsItem li = new ListsItem();
 					JSONObject l = userList.getJSONObject(i);
-					li.setListFK(l.getString(Tag_ListFK));
-					li.setSearchItemId(l.getString(Tag_LIST_ITEM_SEARCH_ID));
+					li.setListFK(l.getInt(Tag_ListFK));
+					li.setSearchItemId(l.getInt(Tag_LIST_ITEM_SEARCH_ID));
 					li.setListsItemName(l.getString(Tag_LISTITEM_NAME));
+					li.setListItemBrand(l.getString(Tag_LISTITEM_BRAND));
 					userGrocList.add(li);
 				}
 
@@ -176,7 +179,37 @@ public class UserFunctions {
 		return userGrocList;
 	}
 	
-	public String listtoArray(ArrayList<ListsItem> list){
+	public void getListIDS(Context context){
+		this.db = new DatabaseHandler(context);
+		List<NameValuePair> params = new ArrayList<NameValuePair>();
+		params.add(new BasicNameValuePair("tag", "getListIDs"));
+		params.add(new BasicNameValuePair("userID", db.getUserDetails().get("uid"))); 
+
+		jsonParser = new JSONParser(params);
+		try {
+			JSONObject json = jsonParser.execute(loginURL).get();
+			try {
+				listIDs = json.getJSONArray("listIds");
+				for (int i = 0; i <= listIDs.length() - 1; i++) {
+					JSONObject l = listIDs.getJSONObject(i);
+					//TODO Change when name field is added
+					db.addListID("TempListName" , l.getInt("list_pk"));
+				}
+
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		
+
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			e.printStackTrace();
+		}
+
+	}
+	
+	private String listtoArray(ArrayList<ListsItem> list){
 		
 		JSONArray totalList = new JSONArray();
 		for(int i = 0; i <= list.size() -1; i ++){

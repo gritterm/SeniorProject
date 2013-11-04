@@ -5,8 +5,8 @@ package net.shoppier;
  */
 public class ListsItem {
 	
-	//The PK of the list item for Search re
-	String listsItemID; 
+	//The FK of the  item ID
+	int listsItemID; 
 	
 	//The List Item Name
 	String listsItemName; 
@@ -15,10 +15,10 @@ public class ListsItem {
 	String listRoute;
 	
 	//The Search item ID  if it exist
-	String searchItemId; 
+	int searchItemId; 
 	
 	//The list it belongs to 
-	String listFK; 
+	int listFK; 
 	
 	//Brand name 
 	String listItemBrand; 
@@ -38,12 +38,12 @@ public class ListsItem {
 	}
 
 
-	public String getListsItemID() {
+	public int getListsItemID() {
 		return listsItemID;
 	}
 
 
-	public void setListsItemID(String listsItemID) {
+	public void setListsItemID(int listsItemID) {
 		this.listsItemID = listsItemID;
 	}
 
@@ -68,22 +68,22 @@ public class ListsItem {
 	}
 
 
-	public String getSearchItemId() {
+	public int getSearchItemId() {
 		return searchItemId;
 	}
 
 
-	public void setSearchItemId(String searchItemId) {
+	public void setSearchItemId(int searchItemId) {
 		this.searchItemId = searchItemId;
 	}
 
 
-	public String getListFK() {
+	public int getListFK() {
 		return listFK;
 	}
 
 
-	public void setListFK(String listFK) {
+	public void setListFK(int listFK) {
 		this.listFK = listFK;
 	}
 	

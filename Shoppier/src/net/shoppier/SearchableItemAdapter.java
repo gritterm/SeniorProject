@@ -53,8 +53,6 @@ public class SearchableItemAdapter  extends ArrayAdapter<SearchableItem>{
 			bin.name = (TextView) convertView.findViewById(R.id.name);
 			convertView.setTag(bin); 
 			
-			
-		
 
 		} else {
 			Log.d("=====", "Recycling view for item " + position);
@@ -81,7 +79,7 @@ public class SearchableItemAdapter  extends ArrayAdapter<SearchableItem>{
         return position;
     }
 
-	public void filter(String charText) {
+	public void filter(String charText)  {
 		charText = charText.toLowerCase(Locale.getDefault());
         list.clear(); 
         if (charText.length() == 0) {

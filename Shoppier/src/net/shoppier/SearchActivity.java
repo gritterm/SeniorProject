@@ -41,6 +41,8 @@ public class SearchActivity extends Activity implements OnItemClickListener {
 
 	// private static final int ADD_FROM_SEARCH = 1;
 	UserFunctions userfunction;
+	
+	DatabaseHandler db;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +50,7 @@ public class SearchActivity extends Activity implements OnItemClickListener {
 		setContentView(R.layout.activity_search);
 
 		userfunction = new UserFunctions();
-		DatabaseHandler db = new DatabaseHandler(getApplicationContext());
+		 db = new DatabaseHandler(getApplicationContext());
 		try {
 			db.clearItemTable();
 			userfunction.getSearchableItems(getApplicationContext());
@@ -102,9 +104,12 @@ public class SearchActivity extends Activity implements OnItemClickListener {
 				Intent add = new Intent();
 				String new_name = items.get(pos).itemName;
 				String new_brand = items.get(pos).itemBrand;
+				int search_id = items.get(pos).itemID;
 				add.putExtra("NewName", new_name);
 				add.putExtra("NewBrand", new_brand);
+				add.putExtra("SearchId", Integer.toString(search_id));
 				setResult(RESULT_OK, add);
+				
 				finish();
 			}
 
