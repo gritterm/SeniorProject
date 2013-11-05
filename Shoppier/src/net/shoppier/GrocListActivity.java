@@ -188,6 +188,7 @@ public class GrocListActivity extends ListActivity {
 			});
 
 			dialog.setNegativeButton("No", null);
+			dialog.setNeutralButton("Info", null);
 			dialog.create();
 			dialog.show();
 			return false;
