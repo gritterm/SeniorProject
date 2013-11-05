@@ -80,7 +80,6 @@ public class MainActivity extends Activity {
 	                        if(Integer.parseInt(res) == 1){
 	                        	
 	                            // user successfully logged in
-	                        	
 	                             
 	                            // Clear all previous data in database
 	                            userFunction.logoutUser(getApplicationContext());
@@ -92,7 +91,9 @@ public class MainActivity extends Activity {
 	                            // Store user details in SQLite Database
 	                            DatabaseHandler db = new DatabaseHandler(getApplicationContext());
 	                            JSONObject json_user = json.getJSONObject("user");
-	                            db.addUser(json_user.getString(KEY_NAME), json_user.getString(KEY_EMAIL), json.getString(KEY_UID));     
+	                            db.addUser(json_user.getString(KEY_NAME), json_user.getString(KEY_EMAIL), json.getString(KEY_UID)); 
+	                            
+	                            userFunction.getListIDS(getApplicationContext());
 	                            //get users groclist 
 	        	                ArrayList<ListsItem> grocList = userFunction.getUserGrocList(getApplicationContext());
 	        	                

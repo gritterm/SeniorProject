@@ -89,6 +89,19 @@ public class GrocListActivity extends ListActivity {
 
 		
 		adapter.notifyDataSetChanged();
+		
+		AlertDialog.Builder remv_conf = new AlertDialog.Builder(
+				GrocListActivity.this);
+		remv_conf.setTitle("Looks like you're new");
+		remv_conf.setMessage("Here's a few things you can do:\n\n" +
+				"Enter an item by searching for it using the search button or by clicking the \"+\" button.\n\n" +
+				"Delete an item from your list by long pressing it.");
+		
+		
+
+		remv_conf.setNegativeButton("Dismiss", null);
+		remv_conf.create();
+		remv_conf.show();
 
 	}
 
@@ -101,9 +114,9 @@ public class GrocListActivity extends ListActivity {
 			ListsItem selected = new ListsItem();
 			selected.setListsItemName(newname);
 			selected.setListItemBrand(newbrand);
-			selected.setSearchItemId("0");
+			selected.setSearchItemId(0);
 			//TODO Figure out the best way to keep listFK / update listFK
-			selected.setListFK("3");
+			selected.setListFK(3);
 			items.add(selected);
 			db.addItemToListDB(selected);
 			adapter.notifyDataSetChanged();
@@ -111,9 +124,13 @@ public class GrocListActivity extends ListActivity {
 		}if(resultCode == RESULT_OK && requestCode == ADD_FROM_SEARCH){
 			String newname = new String(data.getStringExtra("NewName"));
 			String newbrand = new String(data.getStringExtra("NewBrand"));
+			String searchId = new String(data.getStringExtra("SearchId"));
 			ListsItem selected = new ListsItem();
 			selected.setListsItemName(newname);
 			selected.setListItemBrand(newbrand);
+			selected.setSearchItemId(Integer.parseInt(searchId));
+			//TODO Fix when add multiple list 
+			selected.setListFK(3);
 			items.add(selected);
 			db.addItemToListDB(selected);
 			adapter.notifyDataSetChanged();
@@ -174,11 +191,11 @@ public class GrocListActivity extends ListActivity {
 			final int pos = position;
 			final ListsItem itemToDel = (ListsItem) list.getItemAtPosition(position);
 
-			AlertDialog.Builder dialog = new AlertDialog.Builder(
+			AlertDialog.Builder remv_conf = new AlertDialog.Builder(
 					GrocListActivity.this);
-			dialog.setTitle("Confirmation Required");
-			dialog.setMessage("Remove this item?");
-			dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+			remv_conf.setTitle("Confirmation Required");
+			remv_conf.setMessage("Remove this item?");
+			remv_conf.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int which) {
 					items.remove(pos);
 					db.removeItemFromList(itemToDel.getListsItemID());
@@ -187,10 +204,9 @@ public class GrocListActivity extends ListActivity {
 
 			});
 
-			dialog.setNegativeButton("No", null);
-			dialog.setNeutralButton("Info", null);
-			dialog.create();
-			dialog.show();
+			remv_conf.setNegativeButton("No", null);
+			remv_conf.create();
+			remv_conf.show();
 			return false;
 
 		}

@@ -23,5 +23,6 @@
     <string name="add">Add</string>
     <string name="add_to_db">Add an item to database</string>
     <string name="item_brand">Item brand</string>
+    <string name="dismiss">Dismiss</string>
 
 </resources>

@@ -18,7 +18,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="85dp"
             android:ems="10"
-            android:hint="@string/item_name" >
+            android:hint="Ex: Ketchup" >
 
             <requestFocus />
         </EditText>
@@ -31,26 +31,34 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="40dp"
             android:ems="10"
-            android:hint="@string/item_name"  />
-
-        <EditText
-            android:id="@+id/editText3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/editText2"
-            android:layout_below="@+id/editText2"
-            android:layout_marginTop="37dp"
-            android:ems="10"
-            android:hint="@string/item_name" />
+            android:hint="Ex: Heinz" />
 
         <ImageButton
             android:id="@+id/but_add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_below="@+id/editText3"
+            android:layout_below="@+id/editText2"
             android:layout_marginTop="34dp"
             android:src="@android:drawable/ic_input_add" />
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/item_name"
+            android:layout_alignLeft="@+id/item_name"
+            android:layout_marginBottom="34dp"
+            android:text="@string/item_name" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/editText2"
+            android:layout_below="@+id/item_name"
+            android:layout_marginTop="20dp"
+            android:text="@string/item_brand" />
 
     </RelativeLayout>
 
