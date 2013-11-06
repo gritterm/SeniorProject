@@ -96,15 +96,16 @@ public class SearchActivity extends Activity implements OnItemClickListener {
 	public void onItemClick(AdapterView<?> l, View v, final int pos, long id) {
 		AlertDialog.Builder dialog = new AlertDialog.Builder(
 				SearchActivity.this);
-		dialog.setTitle(items.get(pos).itemBrand + " "
-				+ items.get(pos).itemName);
+		final ArrayList<SearchableItem> list= (ArrayList<SearchableItem>) ((SearchableItemAdapter) adapter).getItems();
+		dialog.setTitle(list.get(pos).itemBrand + " "
+				+ list.get(pos).itemName);
 		dialog.setMessage("Add to list?");
 		dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
 				Intent add = new Intent();
-				String new_name = items.get(pos).itemName;
-				String new_brand = items.get(pos).itemBrand;
-				int search_id = items.get(pos).itemID;
+				String new_name = list.get(pos).itemName;
+				String new_brand = list.get(pos).itemBrand;
+				int search_id = list.get(pos).itemID;
 				add.putExtra("NewName", new_name);
 				add.putExtra("NewBrand", new_brand);
 				add.putExtra("SearchId", Integer.toString(search_id));

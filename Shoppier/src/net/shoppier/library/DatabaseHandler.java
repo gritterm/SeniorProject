@@ -249,7 +249,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	//TODO Fill CrowdSoured item database table.
 	
 	/**
-	 * Get all CrowdSoured items from the database.  
+	 * Get all CrowdSourced items from the database.  
 	 * */
 	
 	public ArrayList<SearchableItem> getAllSearchableItems(){

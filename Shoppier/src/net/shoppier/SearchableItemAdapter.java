@@ -74,6 +74,10 @@ public class SearchableItemAdapter  extends ArrayAdapter<SearchableItem>{
 	    return list.size ();
 	}
 	
+	public List<SearchableItem> getItems(){
+		return list;
+	}
+	
     @Override
     public long getItemId(int position) {
         return position;
