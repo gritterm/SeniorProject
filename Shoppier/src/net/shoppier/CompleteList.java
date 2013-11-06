@@ -1,15 +1,21 @@
 package net.shoppier;
 
-public class CompleteList {
+import net.shoppier.DrawerClasses.NavDrawerItem;
+
+public class CompleteList implements NavDrawerItem  {
 	
 	
-	int listPK; // list primary key 
+	private int listPK; // list primary key 
 	
-	String listName; //name of list
+	private String listName; //name of list
 	
-	String listRoute; // route for each list 
+	private String listRoute; // route for each list 
 	
-	boolean isChanged; // boolean to tell weather the list has been changed 
+	private boolean isChanged; // boolean to tell weather the list has been changed 
+	
+	public static final int ITEM_TYPE = 1; //type 1 = list
+
+	private  boolean updateActionBarTitle;
 
 	public CompleteList(){
 		
@@ -59,6 +65,30 @@ public class CompleteList {
 	public void setChanged(boolean isChanged) {
 		this.isChanged = isChanged;
 	}
+	@Override
+	public int getId() {
+		return listPK;
+	}
+	@Override
+	public String getLabel() {
+		return listName;
+	}
+	@Override
+	public int getType() {
+		return  ITEM_TYPE;
+	}
+	@Override
+	public boolean isEnabled() {
+		return true;
+	}
+    @Override
+    public boolean updateActionBarTitle() {
+        return this.updateActionBarTitle;
+    }
+
+    public void setUpdateActionBarTitle(boolean updateActionBarTitle) {
+        this.updateActionBarTitle = updateActionBarTitle;
+    }
 	
 	
 

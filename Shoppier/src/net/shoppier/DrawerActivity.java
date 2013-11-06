@@ -2,6 +2,9 @@ package net.shoppier;
 
 import java.util.ArrayList;
 
+import net.shoppier.DrawerClasses.NavDrawerAdapter;
+import net.shoppier.DrawerClasses.NavDrawerItem;
+import net.shoppier.DrawerClasses.NavMenuSection;
 import net.shoppier.library.DatabaseHandler;
 import net.shoppier.library.UserFunctions;
 
@@ -32,6 +35,7 @@ public class DrawerActivity extends Activity {
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
     private ArrayAdapter drawerAdapter;
+    private NavDrawerAdapter navAdapter;
     
 
 	@Override
@@ -47,9 +51,27 @@ public class DrawerActivity extends Activity {
 
         mDrawerLists = db.getList();        
      // Set the adapter for the list view
-        drawerAdapter = new ArrayAdapter<CompleteList>(this, R.layout.drawer_item, mDrawerLists);
-        mDrawerList.setAdapter(drawerAdapter);
+//        drawerAdapter = new ArrayAdapter<CompleteList>(this, R.layout.drawer_item, mDrawerLists);
+//        mDrawerList.setAdapter(drawerAdapter);
+
+        ArrayList<NavDrawerItem> Navlists = new ArrayList<NavDrawerItem>();
         
+        //List Section Head
+       Navlists.add( NavMenuSection.create(100, "Lists"));
+
+        
+        for (CompleteList l : mDrawerLists) {
+			if (!l.equals(null)) {
+				Navlists.add(l);
+			}
+		}
+        
+        Navlists.add( NavMenuSection.create(200, "Settings"));
+
+        navAdapter = new NavDrawerAdapter(this, R.layout.navdrawer_item, Navlists);
+        
+        mDrawerList.setAdapter(navAdapter);
+
         // Set the list's click listener
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
         
@@ -82,6 +104,8 @@ public class DrawerActivity extends Activity {
 		getMenuInflater().inflate(R.menu.drawer, menu);
 		return true;
 	}
+	
+	
 	private class DrawerItemClickListener implements ListView.OnItemClickListener {
 	    @Override
 	    public void onItemClick(AdapterView parent, View view, int position, long id) {
@@ -98,10 +122,11 @@ public class DrawerActivity extends Activity {
     }
     
     /** Swaps fragments in the main content view */
-	private void selectItem(int position) {
+	private void selectItem(int positionBefore) {
 	    // Create a new fragment and specify the list to show based on position
 		Fragment fragment = new GrocListFragment();
 	    Bundle args = new Bundle();
+	    int position = positionBefore - 1;
 	    int currentListID = mDrawerLists.get(position).getListPK();
 	    args.putString("listID", Integer.toString(currentListID));
 	    args.putString("ListName", mDrawerLists.get(position).getListName());
@@ -121,7 +146,7 @@ public class DrawerActivity extends Activity {
 	}
 
 	
-    
+  
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Pass the event to ActionBarDrawerToggle, if it returns
@@ -138,7 +163,8 @@ public class DrawerActivity extends Activity {
         mTitle = title;
         getActionBar().setTitle(mTitle);
     }
-
+    
+     
 
 
 }

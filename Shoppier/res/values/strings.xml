@@ -27,5 +27,6 @@
     <string name="drawer_open">Drawer Open</string>
     <string name="title_activity_drawer">DrawerActivity</string>
     <string name="dismiss">Dismiss</string>
+    <string name="list_name">List name</string>
 
 </resources>

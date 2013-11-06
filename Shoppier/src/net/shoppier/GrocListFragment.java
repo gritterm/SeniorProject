@@ -33,6 +33,7 @@ public class GrocListFragment extends Fragment{
 	private DatabaseHandler db;
 	private Button sync;
 	private Button search;
+	 String currentlistID;
 	UserFunctions userfunction;
 
 	
@@ -45,7 +46,7 @@ public class GrocListFragment extends Fragment{
         Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 		View rootView = inflater.inflate(R.layout.activity_groc_list, container, false);
-        String currentlistID = getArguments().getString("listID");
+        currentlistID = getArguments().getString("listID");
         String currentlistName = getArguments().getString("ListName", "List");
         getActivity().setTitle(currentlistName);
         
@@ -83,15 +84,19 @@ public class GrocListFragment extends Fragment{
 		}
 
 		if (arryList.size() == 0) {
-			// Display a toast message saying that there is no list found and
-			// give information about how to create one.
-			ListsItem listItemToastMes1 = new ListsItem();
-			listItemToastMes1
-					.setListsItemName("Enter An Item by clicking the + sign or searching");
-			items.add(listItemToastMes1);
-			ListsItem listItemToastMes2 = new ListsItem();
-			listItemToastMes2.setListsItemName("Long Click the item to Delete");
-			items.add(listItemToastMes2);
+			AlertDialog.Builder remv_conf = new AlertDialog.Builder(
+					getActivity());
+			remv_conf.setTitle("Looks like you're new");
+			remv_conf.setMessage("Here's a few things you can do:\n\n" +
+					"Enter an item by searching for it using the search button or by clicking the \"+\" button.\n\n" +
+					"Delete an item from your list by long pressing it.");
+			
+			
+
+			remv_conf.setNegativeButton("Dismiss", null);
+			remv_conf.create();
+			remv_conf.show();
+
 		}
 
 		
@@ -162,7 +167,7 @@ public class GrocListFragment extends Fragment{
 //
 //			}
 			if (v == sync) {
-				userfunction.Sync(getActivity(), "3");
+				userfunction.Sync(getActivity(), currentlistID);
 			}
 			if (v == search) {
 
@@ -182,10 +187,11 @@ public class GrocListFragment extends Fragment{
 			final int pos = position;
 			final ListsItem itemToDel = (ListsItem) list.getItemAtPosition(position);
 
-			AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
-			dialog.setTitle("Confirmation Required");
-			dialog.setMessage("Remove this item?");
-			dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+			AlertDialog.Builder remv_conf = new AlertDialog.Builder(
+					getActivity());
+			remv_conf.setTitle("Confirmation Required");
+			remv_conf.setMessage("Remove this item?");
+			remv_conf.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int which) {
 					items.remove(pos);
 					db.removeItemFromList(itemToDel.getListsItemID());
@@ -194,9 +200,9 @@ public class GrocListFragment extends Fragment{
 
 			});
 
-			dialog.setNegativeButton("No", null);
-			dialog.create();
-			dialog.show();
+			remv_conf.setNegativeButton("No", null);
+			remv_conf.create();
+			remv_conf.show();
 			return false;
 
 		}

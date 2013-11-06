@@ -41,7 +41,7 @@ public class MainActivity extends Activity {
 		String savedUserName = settings.getString("username", null);
 		String savedPW = settings.getString("password", null);
 		if(savedUserName != null && savedPW != null){
-			startActivity(new Intent(MainActivity.this, GrocListActivity.class));
+			startActivity(new Intent(MainActivity.this, GrocListFragment.class));
 		}
 		setContentView(R.layout.activity_main);
 		login = (Button) findViewById(R.id.btnLogout);
@@ -106,7 +106,6 @@ public class MainActivity extends Activity {
 	        	                }
 	                            
 	                            // Launch ListSelection Screen
-	                            //startActivity(new Intent(MainActivity.this, GrocListActivity.class));
 	                            startActivity(new Intent(MainActivity.this, DrawerActivity.class));
 	        	                
 	                        }else{

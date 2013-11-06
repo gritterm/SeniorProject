@@ -183,7 +183,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	 * Removing a List item from the database
 	 * */
 	public int removeItemFromList(int listID){
-		//TODO Fix deleteing newly added items
 		SQLiteDatabase db = this.getWritableDatabase();
 		int num_rows_Deleted = db.delete(TABLE_LIST_ITEMS, KEY_LIST_ID_PK + " =?", 
 				new String[]{String.valueOf(listID)});
@@ -332,7 +331,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	/**
 	 * Add List to ListID Table  
 	 * */
-	public void addListID(CompleteList list){
+	public int addListID(CompleteList list){
 		SQLiteDatabase db = this.getWritableDatabase();
 		
 		ContentValues values = new ContentValues();
@@ -340,8 +339,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		values.put(KEY_LIST_ID, list.getListPK());
 
 		//insert row 
-		db.insert(TABLE_LIST_IDS, null, values);
+		int newID = (int) db.insert(TABLE_LIST_IDS, null, values);
 		db.close();
+		return newID; 
 	}
 	
 	public ArrayList<CompleteList> getList(){
@@ -364,6 +364,16 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		    }
 		    db.close();
 		    return list;
+		
+	}
+	
+	public int removeList(int listID){
+		SQLiteDatabase db = this.getWritableDatabase();
+		int num_rows_Deleted = db.delete(TABLE_LIST_IDS, KEY_LIST_ID + " =?", 
+				new String[]{String.valueOf(listID)});
+		Log.e("# of LISTS deleted - ", Integer.toString(num_rows_Deleted));
+		db.close();
+		return num_rows_Deleted;
 		
 	}
 	
