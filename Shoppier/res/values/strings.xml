@@ -23,5 +23,8 @@
     <string name="add">Add</string>
     <string name="add_to_db">Add an item to database</string>
     <string name="item_brand">Item brand</string>
+    <string name="drawer_close">Drawer Closed</string>
+    <string name="drawer_open">Drawer Open</string>
+    <string name="title_activity_drawer">DrawerActivity</string>
 
 </resources>

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import net.shoppier.CompleteList;
 import net.shoppier.ListsItem;
 import net.shoppier.SearchableItem;
 
@@ -192,8 +193,13 @@ public class UserFunctions {
 				listIDs = json.getJSONArray("listIds");
 				for (int i = 0; i <= listIDs.length() - 1; i++) {
 					JSONObject l = listIDs.getJSONObject(i);
+					CompleteList tempList = new CompleteList();
 					//TODO Change when name field is added
-					db.addListID("TempListName" , l.getInt("list_pk"));
+					//TODO Change when routes are added
+					tempList.setListName("TempListName "+ l.getInt("list_pk"));
+					tempList.setListPK(l.getInt("list_pk"));
+					tempList.setChanged(false);
+					db.addListID(tempList);
 				}
 
 			} catch (JSONException e) {

@@ -3,6 +3,7 @@ package net.shoppier.library;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import net.shoppier.CompleteList;
 import net.shoppier.ListsItem;
 import net.shoppier.SearchableItem;
 
@@ -331,16 +332,39 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	/**
 	 * Add List to ListID Table  
 	 * */
-	public void addListID(String Listname, int ListID){
-	SQLiteDatabase db = this.getWritableDatabase();
+	public void addListID(CompleteList list){
+		SQLiteDatabase db = this.getWritableDatabase();
 		
 		ContentValues values = new ContentValues();
-		values.put(KEY_LIST_NAME, Listname);
-		values.put(KEY_LIST_ID, ListID);
+		values.put(KEY_LIST_NAME, list.getListName());
+		values.put(KEY_LIST_ID, list.getListPK());
 
 		//insert row 
 		db.insert(TABLE_LIST_IDS, null, values);
 		db.close();
+	}
+	
+	public ArrayList<CompleteList> getList(){
+		 SQLiteDatabase db = this.getReadableDatabase(); 
+			ArrayList<CompleteList> list = new ArrayList<CompleteList>();
+			
+			String selectQuery = "SELECT * FROM " + TABLE_LIST_IDS; 
+			Log.e("getSearchItems", selectQuery);
+			
+		    Cursor c = db.rawQuery(selectQuery, null);
+		    
+		    if (c.moveToFirst()) {
+		        do {
+		        	CompleteList li = new CompleteList();
+		            li.setListName(c.getString(c.getColumnIndex(KEY_LIST_NAME)));
+		            li.setListPK(Integer.parseInt(c.getString(c.getColumnIndex(KEY_LIST_ID))));
+		            // adding to final list
+		            list.add(li);
+		        } while (c.moveToNext());
+		    }
+		    db.close();
+		    return list;
+		
 	}
 	
 	/**

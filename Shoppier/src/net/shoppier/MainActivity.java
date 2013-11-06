@@ -106,8 +106,9 @@ public class MainActivity extends Activity {
 	        	                }
 	                            
 	                            // Launch ListSelection Screen
-	                            startActivity(new Intent(MainActivity.this, GrocListActivity.class));
-	                            
+	                            //startActivity(new Intent(MainActivity.this, GrocListActivity.class));
+	                            startActivity(new Intent(MainActivity.this, DrawerActivity.class));
+	        	                
 	                        }else{
 	                            // Error in login
 	                        	loginErrorMsg.setVisibility(View.VISIBLE);
@@ -122,7 +123,8 @@ public class MainActivity extends Activity {
 			} else if (v == skip) {
 				UserFunctions  userFunction = new UserFunctions();
 				userFunction.logoutUser(getApplicationContext());
-				startActivity(new Intent(MainActivity.this, GrocListActivity.class));
+				//startActivity(new Intent(MainActivity.this, GrocListActivity.class));
+				startActivity(new Intent(MainActivity.this, DrawerActivity.class));
 			}
 		}
 	};

@@ -1,31 +1,27 @@
 package net.shoppier;
 
-
 import java.util.ArrayList;
 
-
+import net.shoppier.library.DatabaseHandler;
+import net.shoppier.library.UserFunctions;
 import android.app.AlertDialog;
-
-
+import android.app.Fragment;
+import android.app.ListFragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-
-import android.support.v4.app.FragmentActivity;
-import android.view.Menu;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import net.shoppier.library.DatabaseHandler;
-import net.shoppier.library.UserFunctions;
+import android.widget.AdapterView.OnItemLongClickListener;
 
-public class GrocListActivity extends FragmentActivity   {
-	// private ArrayList<GrocItem> items;
+public class GrocListFragment extends Fragment{
 	private ArrayList<ListsItem> items;
 	private GrocAdapter adapter;
 	private ListView lview;
@@ -33,42 +29,52 @@ public class GrocListActivity extends FragmentActivity   {
 	private Button logout;
 	private static final int ADD_REQUEST = 0x4;
 	 static final int ADD_FROM_SEARCH = 0x3;
+	 static final int RESULT_OK = -1;
 	private DatabaseHandler db;
 	private Button sync;
 	private Button search;
 	UserFunctions userfunction;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_groc_list);
-
-		this.userfunction = new UserFunctions();
-		lview = (ListView) findViewById(R.id.list);
+	
+	public GrocListFragment() {
 		
-		sync = (Button) findViewById(R.id.syncBtn);
-		add = (ImageButton) findViewById(R.id.but_add);
-		logout = (Button) findViewById(R.id.btnLogout);
-		search = (Button) findViewById(R.id.searchBtn);
+	}
+
+
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+        Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+		View rootView = inflater.inflate(R.layout.activity_groc_list, container, false);
+        String currentlistID = getArguments().getString("listID");
+        String currentlistName = getArguments().getString("ListName", "List");
+        getActivity().setTitle(currentlistName);
+        
+        this.userfunction = new UserFunctions();
+		lview = (ListView) rootView.findViewById(R.id.list);
+		
+		sync = (Button) rootView.findViewById(R.id.syncBtn);
+		add = (ImageButton) rootView.findViewById(R.id.but_add);
+		logout = (Button) rootView.findViewById(R.id.btnLogout);
+		search = (Button) rootView.findViewById(R.id.searchBtn);
 		lview.setOnItemLongClickListener(lchandler);
 		add.setOnClickListener(handler);
 		logout.setOnClickListener(handler);
 		search.setOnClickListener(handler);
 
-		if (userfunction.isUserLoggedIn(getApplicationContext())) {
+		if (userfunction.isUserLoggedIn(getActivity())) {
 			sync.setOnClickListener(handler);
 		} else {
 			sync.setVisibility(View.GONE);
 			logout.setVisibility(View.GONE);
 		}
 
+
 		items = new ArrayList<ListsItem>();
 
-		Intent intent = getIntent();
-		String currentListID = intent.getStringExtra("ListID");		
-		this.db = new DatabaseHandler(getApplicationContext());
+	
+		this.db = new DatabaseHandler(getActivity());
 		ArrayList<ListsItem> arryList = new ArrayList<ListsItem>();
-		arryList = db.getList(currentListID);
+		arryList = db.getList(currentlistID);
 
 		for (ListsItem l : arryList) {
 			if (!l.equals(null)) {
@@ -89,14 +95,15 @@ public class GrocListActivity extends FragmentActivity   {
 		}
 
 		
-		adapter = new GrocAdapter(this, R.layout.item, items);
+		adapter = new GrocAdapter(this.getActivity(), R.layout.item, items);
 		lview.setAdapter(adapter);
 		adapter.notifyDataSetChanged();
-
-	}
-
+        
+        return rootView;
+    }
+	
 	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (resultCode == RESULT_OK && requestCode == ADD_REQUEST) {
 
@@ -128,45 +135,38 @@ public class GrocListActivity extends FragmentActivity   {
 
 		}
 	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.groc_list, menu);
-		return true;
-	}
-
+	
 	private OnClickListener handler = new OnClickListener() {
 
 		@Override
 		public void onClick(View v) {
 
 			if (v == add) {
-				Intent adder = new Intent(GrocListActivity.this,
+				Intent adder = new Intent(getActivity(),
 						AddActivity.class);
 				startActivityForResult(adder, ADD_REQUEST);
 
 			}
-			if (v == logout) {
-				UserFunctions userfunction = new UserFunctions();
-
-				userfunction.logoutUser(getBaseContext());
-
-				SharedPreferences settings = getSharedPreferences("PreFile", 0);
-				SharedPreferences.Editor editor = settings.edit();
-				editor.clear();
-				editor.commit();
-
-				startActivity(new Intent(GrocListActivity.this,
-						MainActivity.class));
-
-			}
+//			if (v == logout) {
+//				UserFunctions userfunction = new UserFunctions();
+//
+//				userfunction.logoutUser(getBaseContext());
+//
+//				SharedPreferences settings = getSharedPreferences("PreFile", 0);
+//				SharedPreferences.Editor editor = settings.edit();
+//				editor.clear();
+//				editor.commit();
+//
+//				startActivity(new Intent(getActivity(),
+//						MainActivity.class));
+//
+//			}
 			if (v == sync) {
-				userfunction.Sync(getApplicationContext(), "3");
+				userfunction.Sync(getActivity(), "3");
 			}
 			if (v == search) {
 
-				Intent search = new Intent(GrocListActivity.this,
+				Intent search = new Intent(getActivity(),
 						SearchActivity.class);
 				startActivityForResult(search, ADD_FROM_SEARCH);
 
@@ -182,8 +182,7 @@ public class GrocListActivity extends FragmentActivity   {
 			final int pos = position;
 			final ListsItem itemToDel = (ListsItem) list.getItemAtPosition(position);
 
-			AlertDialog.Builder dialog = new AlertDialog.Builder(
-					GrocListActivity.this);
+			AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
 			dialog.setTitle("Confirmation Required");
 			dialog.setMessage("Remove this item?");
 			dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
@@ -203,8 +202,4 @@ public class GrocListActivity extends FragmentActivity   {
 		}
 	};
 
-	protected void onDestroy() {
-		super.onDestroy();
-		db.clearItemTable();
-	}
 }
