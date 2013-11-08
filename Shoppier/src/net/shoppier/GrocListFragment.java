@@ -59,14 +59,12 @@ public class GrocListFragment extends Fragment{
 		search = (Button) rootView.findViewById(R.id.searchBtn);
 		lview.setOnItemLongClickListener(lchandler);
 		add.setOnClickListener(handler);
-		logout.setOnClickListener(handler);
 		search.setOnClickListener(handler);
 
 		if (userfunction.isUserLoggedIn(getActivity())) {
 			sync.setOnClickListener(handler);
 		} else {
 			sync.setVisibility(View.GONE);
-			logout.setVisibility(View.GONE);
 		}
 
 
@@ -118,8 +116,8 @@ public class GrocListFragment extends Fragment{
 			selected.setListsItemName(newname);
 			selected.setListItemBrand(newbrand);
 			selected.setSearchItemId(0);
-			//TODO Figure out the best way to keep listFK / update listFK
-			selected.setListFK(3);
+	
+			selected.setListFK(Integer.parseInt(currentlistID));
 			items.add(selected);
 			db.addItemToListDB(selected);
 			adapter.notifyDataSetChanged();
@@ -132,8 +130,7 @@ public class GrocListFragment extends Fragment{
 			selected.setListsItemName(newname);
 			selected.setListItemBrand(newbrand);
 			selected.setSearchItemId(Integer.parseInt(searchId));
-			//TODO Fix when add multiple list 
-			selected.setListFK(3);
+			selected.setListFK(Integer.parseInt(currentlistID));
 			items.add(selected);
 			db.addItemToListDB(selected);
 			adapter.notifyDataSetChanged();
@@ -152,20 +149,6 @@ public class GrocListFragment extends Fragment{
 				startActivityForResult(adder, ADD_REQUEST);
 
 			}
-//			if (v == logout) {
-//				UserFunctions userfunction = new UserFunctions();
-//
-//				userfunction.logoutUser(getBaseContext());
-//
-//				SharedPreferences settings = getSharedPreferences("PreFile", 0);
-//				SharedPreferences.Editor editor = settings.edit();
-//				editor.clear();
-//				editor.commit();
-//
-//				startActivity(new Intent(getActivity(),
-//						MainActivity.class));
-//
-//			}
 			if (v == sync) {
 				userfunction.Sync(getActivity(), currentlistID);
 			}

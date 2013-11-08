@@ -336,7 +336,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		
 		ContentValues values = new ContentValues();
 		values.put(KEY_LIST_NAME, list.getListName());
-		values.put(KEY_LIST_ID, list.getListPK());
+		if(list.getListPK() > 0){
+			values.put(KEY_LIST_ID, list.getListPK());
+		}
+		
 
 		//insert row 
 		int newID = (int) db.insert(TABLE_LIST_IDS, null, values);
