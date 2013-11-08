@@ -182,15 +182,23 @@ public class DrawerActivity extends Activity {
 	}
 	
 	
-	public static void startNewList(CompleteList newList){
+	public void startNewList(CompleteList newList) {
 		mDrawerLists.add(newList);
 		Navlists.add((numOfList + 1), newList);
 		numOfList = numOfList + 1;
-		navAdapter.notifyDataSetChanged();
-		
+		navAdapter.notifyDataSetChanged();		
+
+		Fragment fragment = new GrocListFragment();
+		Bundle args = new Bundle();
+		args.putString("listID", Integer.toString(newList.getListPK()));
+		args.putString("ListName",newList.getListName());
+		fragment.setArguments(args);
+		// Insert the fragment by replacing any existing fragment
+		FragmentManager fragmentManager = getFragmentManager();
+		fragmentManager.beginTransaction()
+				.replace(R.id.content_frame, fragment).commit();
+
 	}
-	 
-	
 	
 	public void logout(){
 		
