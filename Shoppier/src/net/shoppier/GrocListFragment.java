@@ -6,10 +6,8 @@ import net.shoppier.library.DatabaseHandler;
 import net.shoppier.library.UserFunctions;
 import android.app.AlertDialog;
 import android.app.Fragment;
-import android.app.ListFragment;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,13 +24,14 @@ public class GrocListFragment extends Fragment{
 	private GrocAdapter adapter;
 	private ListView lview;
 	private ImageButton add;
-	private Button logout;
 	private static final int ADD_REQUEST = 0x4;
 	 static final int ADD_FROM_SEARCH = 0x3;
+	 static final int ADD_FROM_BARCODE = 0x7;
 	 static final int RESULT_OK = -1;
 	private DatabaseHandler db;
 	private Button sync;
 	private Button search;
+	private Button barcodeButton; 
 	 String currentlistID;
 	UserFunctions userfunction;
 
@@ -55,11 +54,12 @@ public class GrocListFragment extends Fragment{
 		
 		sync = (Button) rootView.findViewById(R.id.syncBtn);
 		add = (ImageButton) rootView.findViewById(R.id.but_add);
-		logout = (Button) rootView.findViewById(R.id.btnLogout);
 		search = (Button) rootView.findViewById(R.id.searchBtn);
+		barcodeButton = (Button) rootView.findViewById(R.id.barcodeSearchButton);
 		lview.setOnItemLongClickListener(lchandler);
 		add.setOnClickListener(handler);
 		search.setOnClickListener(handler);
+		barcodeButton.setOnClickListener(handler);
 
 		if (userfunction.isUserLoggedIn(getActivity())) {
 			sync.setOnClickListener(handler);
@@ -135,6 +135,10 @@ public class GrocListFragment extends Fragment{
 			db.addItemToListDB(selected);
 			adapter.notifyDataSetChanged();
 
+		}if(resultCode == RESULT_OK && requestCode == ADD_FROM_BARCODE){
+			String contents = data.getStringExtra("SCAN_RESULT"); //this is the result
+			ListsItem newItem = userfunction.getBarcodeProduct(contents, currentlistID);
+			confirmAddFromBarCode(newItem);
 		}
 	}
 	
@@ -158,10 +162,35 @@ public class GrocListFragment extends Fragment{
 						SearchActivity.class);
 				startActivityForResult(search, ADD_FROM_SEARCH);
 
+			} 
+			if(v == barcodeButton ){
+				Intent intent = new Intent("com.google.zxing.client.android.SCAN");
+			       intent.putExtra("SCAN_MODE", "PRODUCT_MODE");//for Qr code, its "QR_CODE_MODE" instead of "PRODUCT_MODE"
+			       intent.putExtra("SAVE_HISTORY", false);//this stops saving ur barcode in barcode scanner app's history
+			       startActivityForResult(intent, ADD_FROM_BARCODE);
 			}
 		}
 
 	};
+	
+	private void confirmAddFromBarCode(final ListsItem item){
+		AlertDialog.Builder add_conf = new AlertDialog.Builder(
+				getActivity());
+		add_conf.setTitle("Confirmation Required");
+		add_conf.setMessage("Would you like to add " + item.getListsItemName() + "?");
+		add_conf.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+				items.add(item);
+				db.addItemToListDB(item);
+				adapter.notifyDataSetChanged();
+			}
+
+		});
+
+		add_conf.setNegativeButton("No", null);
+		add_conf.create();
+		add_conf.show();
+	}
 
 	private OnItemLongClickListener lchandler = new OnItemLongClickListener() {
 		@Override

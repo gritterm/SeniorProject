@@ -1,9 +1,9 @@
 package net.shoppier.library;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-
 import net.shoppier.CompleteList;
 import net.shoppier.ListsItem;
 import net.shoppier.SearchableItem;
@@ -25,6 +25,8 @@ public class UserFunctions {
 	private static String loginURL = "http://jonnyklemmer.com/shoppier/Android_DB_API/";
 	// private static String registerURL =
 	// "http://jonnyklemmer.com/shoppier/Android_DB_API/";
+	private static String barcode; 
+
 
 	private static String login_tag = "login";
 	private static String register_tag = "register";
@@ -224,6 +226,36 @@ public class UserFunctions {
 		totalList.put(aryItem);
 		}
 		return totalList.toString();
+	}
+	
+	public ListsItem getBarcodeProduct(String barcodeInput, String listID){
+		barcode = barcodeInput;
+		JSONObject json = null;
+		ListsItem tempItem = new ListsItem();
+		String barcodeURL = "https://api.scandit.com/v2/products/" + 
+				barcode + "?key=BqfeU4NrpvcMbqVsZ5MtFPum45E9apDqiGwn70xNlL4";
+		
+		jsonParser = new JSONParser();
+		try {
+			 json = jsonParser.execute(barcodeURL).get();
+			 JSONObject item = json.getJSONObject("basic");
+			 String itemName = item.getString("name");
+			 tempItem.setListFK(Integer.parseInt(listID));
+			 tempItem.setListsItemName(itemName);	
+			 tempItem.setSearchItemId(0);
+			 
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return tempItem;
+		
 	}
 
 	/**

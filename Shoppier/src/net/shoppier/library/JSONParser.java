@@ -12,6 +12,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
@@ -54,12 +55,18 @@ public class JSONParser extends AsyncTask<String, Void, JSONObject> {
 		try {
 			// defaultHttpClient
 			DefaultHttpClient httpClient = new DefaultHttpClient();
-			HttpPost httpPost = new HttpPost(url);
+			HttpResponse httpResponse = null;
 
 			// Url Encoding the POST parameters
-			httpPost.setEntity(new UrlEncodedFormEntity(params));
-
-			HttpResponse httpResponse = httpClient.execute(httpPost);
+			if(params != null){
+				HttpPost httpPost = new HttpPost(url);
+				httpPost.setEntity(new UrlEncodedFormEntity(params));
+				 httpResponse = httpClient.execute(httpPost);
+			}else{
+				HttpGet httpget = new HttpGet(url);
+				httpResponse = httpClient.execute(httpget);
+			}
+			
 			HttpEntity httpEntity = httpResponse.getEntity();
 			is = httpEntity.getContent();
 

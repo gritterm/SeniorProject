@@ -50,4 +50,13 @@
         android:layout_alignParentRight="true"
         layout="@layout/list_footer" />
 
+    <Button
+        android:id="@+id/barcodeSearchButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/syncBtn"
+        android:layout_alignBottom="@+id/syncBtn"
+        android:layout_toLeftOf="@+id/syncBtn"
+        android:text="Barcode" />
+
 </RelativeLayout>

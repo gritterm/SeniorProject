@@ -28,5 +28,6 @@
     <string name="title_activity_drawer">DrawerActivity</string>
     <string name="dismiss">Dismiss</string>
     <string name="list_name">List name</string>
+    <string name ="title_barcode">Barcode Scanner</string>
 
 </resources>

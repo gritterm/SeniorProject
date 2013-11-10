@@ -7,6 +7,8 @@
     <uses-sdk
         android:minSdkVersion="14"
         android:targetSdkVersion="18" />
+    
+      <uses-permission android:name="android.permission.CAMERA"/>
 
     <application
         android:allowBackup="true"
@@ -48,6 +50,10 @@
         <activity
             android:name="net.shoppier.DrawerActivity"
             android:label="@string/title_activity_drawer" >
+        </activity>
+         <activity
+            android:name="net.shoppier.BarcodeScanner"
+            android:label="@string/title_barcode" >
         </activity>
     </application>
 
