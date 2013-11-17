@@ -196,9 +196,8 @@ public class UserFunctions {
 				for (int i = 0; i <= listIDs.length() - 1; i++) {
 					JSONObject l = listIDs.getJSONObject(i);
 					CompleteList tempList = new CompleteList();
-					//TODO Change when name field is added
 					//TODO Change when routes are added
-					tempList.setListName("TempListName "+ l.getInt("list_pk"));
+					tempList.setListName(l.getString("list_name"));
 					tempList.setListPK(l.getInt("list_pk"));
 					tempList.setChanged(false);
 					db.addListID(tempList);
@@ -255,6 +254,30 @@ public class UserFunctions {
 			e.printStackTrace();
 		}
 		return tempItem;
+		
+	}
+	
+	public JSONObject sendCrowdSourceItem(String itemName, String itemBrand, int itemCatFK){
+		
+		List<NameValuePair> params = new ArrayList<NameValuePair>();
+		params.add(new BasicNameValuePair("tag", "sentCrowdSourcedItem"));
+		params.add(new BasicNameValuePair("item_name", itemName)); 
+		params.add(new BasicNameValuePair("item_brand", itemBrand)); 
+		params.add(new BasicNameValuePair("item_catFK", Integer.toString(itemCatFK)));
+
+		jsonParser = new JSONParser(params);
+		
+		JSONObject json = null;
+		try {
+			json = jsonParser.execute(loginURL).get();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return json;
 		
 	}
 
