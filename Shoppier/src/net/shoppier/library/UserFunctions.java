@@ -2,6 +2,8 @@ package net.shoppier.library;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import net.shoppier.CompleteList;
@@ -279,6 +281,19 @@ public class UserFunctions {
 			e.printStackTrace();
 		}
 		return json;
+		
+	}
+	
+	public ArrayList<ListsItem> routeList(ArrayList<ListsItem> list){
+		
+		Collections.sort(list, new Comparator<ListsItem>() {
+
+			@Override
+			public int compare(ListsItem item1, ListsItem item2) {
+				return item1.getListsItemName().compareToIgnoreCase(item2.getListsItemName());
+			}
+	});
+		return list;
 		
 	}
 

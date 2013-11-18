@@ -51,4 +51,13 @@
         android:layout_toLeftOf="@+id/but_add"
         android:src="@drawable/bar_code_reader2" />
 
+    <Button
+        android:id="@+id/routeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/searchBtn"
+        android:layout_alignBottom="@+id/searchBtn"
+        android:layout_toRightOf="@+id/searchBtn"
+        android:text="Route" />
+
 </RelativeLayout>
