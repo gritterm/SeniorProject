@@ -31,9 +31,8 @@ public class GrocListFragment extends Fragment{
 	 static final int ADD_FROM_BARCODE = 0x7;
 	 static final int RESULT_OK = -1;
 	private DatabaseHandler db;
-	private Button sync;
 	private Button search;
-	private Button barcodeButton; 
+	private ImageButton barcodeButton; 
 	 String currentlistID;
 	UserFunctions userfunction;
 
@@ -54,20 +53,14 @@ public class GrocListFragment extends Fragment{
         this.userfunction = new UserFunctions();
 		lview = (ListView) rootView.findViewById(R.id.list);
 		
-		sync = (Button) rootView.findViewById(R.id.syncBtn);
 		add = (ImageButton) rootView.findViewById(R.id.but_add);
 		search = (Button) rootView.findViewById(R.id.searchBtn);
-		barcodeButton = (Button) rootView.findViewById(R.id.barcodeSearchButton);
+		barcodeButton = (ImageButton) rootView.findViewById(R.id.barcodeSearchButton);
 		lview.setOnItemLongClickListener(lchandler);
 		add.setOnClickListener(handler);
 		search.setOnClickListener(handler);
 		barcodeButton.setOnClickListener(handler);
 
-		if (userfunction.isUserLoggedIn(getActivity())) {
-			sync.setOnClickListener(handler);
-		} else {
-			sync.setVisibility(View.GONE);
-		}
 
 
 		items = new ArrayList<ListsItem>();
@@ -83,7 +76,7 @@ public class GrocListFragment extends Fragment{
 			}
 		}
 
-		if (arryList.size() == 0) {
+		if (arryList.size() == 0 && (db.getRowCount("listId") - 1) == 0 ) {
 			AlertDialog.Builder remv_conf = new AlertDialog.Builder(
 					getActivity());
 			remv_conf.setTitle("Looks like you're new");
@@ -154,9 +147,6 @@ public class GrocListFragment extends Fragment{
 						AddActivity.class);
 				startActivityForResult(adder, ADD_REQUEST);
 
-			}
-			if (v == sync) {
-				userfunction.Sync(getActivity(), currentlistID);
 			}
 			if (v == search) {
 				Intent search = new Intent(getActivity(),

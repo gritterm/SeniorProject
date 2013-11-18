@@ -17,6 +17,7 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.preference.PreferenceManager;
 
 public class UserFunctions {
 
@@ -321,10 +322,10 @@ public class UserFunctions {
 	public boolean logoutUser(Context context) {
 		DatabaseHandler db = new DatabaseHandler(context);
 		db.resetTables();
-		SharedPreferences settings = context.getSharedPreferences("PreFile", 0);
-		Editor edit = settings.edit();
-		edit.clear();
-		edit.commit();
+		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
+		SharedPreferences.Editor editor = settings.edit();
+		editor.clear();
+		editor.commit();
 		return true;
 	}
 

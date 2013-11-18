@@ -9,6 +9,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -36,12 +37,12 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		SharedPreferences settings = getPreferences(MODE_PRIVATE);
-		
+		//SharedPreferences settings = getPreferences(MODE_PRIVATE);
+		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 		String savedUserName = settings.getString("username", null);
 		String savedPW = settings.getString("password", null);
 		if(savedUserName != null && savedPW != null){
-			startActivity(new Intent(MainActivity.this, GrocListFragment.class));
+			startActivity(new Intent(MainActivity.this, DrawerActivity.class));
 		}
 		setContentView(R.layout.activity_main);
 		login = (Button) findViewById(R.id.btnLogout);
@@ -55,6 +56,12 @@ public class MainActivity extends Activity {
 		
 		  
 	}
+	
+	@Override
+	public void onBackPressed() {
+		
+	}
+
 
 	private OnClickListener handler = new OnClickListener() {
 
@@ -76,14 +83,13 @@ public class MainActivity extends Activity {
 	                
 	                // check for login response
 	                try {
+	                	 // user successfully logged in
 	                    if (json.getString(KEY_SUCCESS) != null) {
 	                        loginErrorMsg.setText("");
 	                        String res = json.getString(KEY_SUCCESS); 
 	                        if(Integer.parseInt(res) == 1){
-	                        	
-	                            // user successfully logged in
 	                             
-	                            // Clear all previous data in database
+	                            // Clear all previous data in sql lite database
 	                            userFunction.logoutUser(getApplicationContext());
 	                                     
 	                             
@@ -95,12 +101,13 @@ public class MainActivity extends Activity {
 	                            JSONObject json_user = json.getJSONObject("user");
 	                            db.addUser(json_user.getString(KEY_NAME), json_user.getString(KEY_EMAIL), json.getString(KEY_UID)); 
 	                            
+	                            //Retrieve user's list from SQL Server Database
 	                            userFunction.getListIDS(getApplicationContext());
-	                            //get users groclist 
+	                            
+	                            //get users groclist items
 	        	                ArrayList<ListsItem> grocList = userFunction.getUserGrocList(getApplicationContext());
 	        	                
-	        	                //add groclist items to list database table 
-
+	        	                //add groclist items to list sql lite database table 
 	        	                for(ListsItem l : grocList){
 	        	                	if(!l.equals(null)){
 	        	                		db.addItemToListDB(l);
@@ -108,6 +115,7 @@ public class MainActivity extends Activity {
 	        	                }
 	                            
 	                            // Launch ListSelection Screen
+	        	                //TODO: Change start up screen after login
 	                            startActivity(new Intent(MainActivity.this, DrawerActivity.class));
 	        	                
 	                        }else{
@@ -124,7 +132,6 @@ public class MainActivity extends Activity {
 			} else if (v == skip) {
 				UserFunctions  userFunction = new UserFunctions();
 				userFunction.logoutUser(getApplicationContext());
-				//startActivity(new Intent(MainActivity.this, GrocListActivity.class));
 				startActivity(new Intent(MainActivity.this, DrawerActivity.class));
 			}
 		}
@@ -132,8 +139,9 @@ public class MainActivity extends Activity {
 	
 	private void SavePreferences(String username, String password ){
 		
-		SharedPreferences settings = getSharedPreferences("PreFile", MODE_APPEND);
+		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 		SharedPreferences.Editor editor = settings.edit();
+		editor.clear();
 		editor.putString("username", username).putString("password", password);
 		
 		editor.commit();
