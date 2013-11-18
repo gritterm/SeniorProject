@@ -47,10 +47,8 @@
                 android:layout_toLeftOf="@+id/btnLogout"
                 android:ems="10"
                 android:hint="@string/password"
-                android:inputType="textPassword" >
+                android:inputType="textPassword" />
 
-                <requestFocus />
-            </EditText>
         </RelativeLayout>
 
         <EditText
@@ -60,8 +58,10 @@
             android:layout_alignBottom="@+id/imageView1"
             android:layout_centerHorizontal="true"
             android:ems="10"
-            android:hint="@string/username" />
+            android:hint="@string/username" >
 
+                <requestFocus />
+            </EditText>
         <TextView
             android:id="@+id/textView1"
             android:layout_width="wrap_content"

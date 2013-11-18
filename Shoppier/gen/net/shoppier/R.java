@@ -27,34 +27,35 @@ public final class R {
         public static final int ic_drawer=0x7f020003;
         public static final int ic_launcher=0x7f020004;
         public static final int icon=0x7f020005;
-        public static final int logout_icon=0x7f020006;
-        public static final int shoppier=0x7f020007;
+        public static final int info=0x7f020006;
+        public static final int logout_icon=0x7f020007;
+        public static final int shoppier=0x7f020008;
     }
     public static final class id {
         public static final int InputSearch=0x7f080010;
         public static final int RelativeLayout1=0x7f08001c;
-        public static final int Scrollview=0x7f080008;
+        public static final int Scrollview=0x7f080009;
         public static final int action_forgot_password=0x7f080025;
         public static final int action_settings=0x7f080024;
-        public static final int barcodeSearchButton=0x7f080007;
+        public static final int barcodeSearchButton=0x7f080008;
         public static final int brand=0x7f080022;
         public static final int brand1=0x7f080014;
         public static final int brandlabel=0x7f080013;
         public static final int btnLogout=0x7f08000c;
-        public static final int but_add=0x7f080004;
+        public static final int but_add=0x7f080005;
         public static final int but_add_list=0x7f080017;
         public static final int but_del=0x7f08001e;
         public static final int but_inf=0x7f08001d;
         public static final int button1=0x7f080019;
-        public static final int content_frame=0x7f080001;
+        public static final int content_frame=0x7f080002;
         public static final int drawer_layout=0x7f080000;
         public static final int editText1=0x7f08001b;
         public static final int editText2=0x7f08000d;
         public static final int editText3=0x7f08001a;
-        public static final int imageView1=0x7f080009;
+        public static final int imageView1=0x7f080001;
         public static final int item_name=0x7f08000b;
-        public static final int left_drawer=0x7f080002;
-        public static final int list=0x7f080003;
+        public static final int left_drawer=0x7f080003;
+        public static final int list=0x7f080004;
         public static final int list_name=0x7f080016;
         public static final int name=0x7f080023;
         public static final int name1=0x7f080012;
@@ -65,8 +66,8 @@ public final class R {
         public static final int relativeLayout1=0x7f08000a;
         public static final int scroll=0x7f080015;
         public static final int scrollview=0x7f080018;
-        public static final int searchBtn=0x7f080006;
-        public static final int syncBtn=0x7f080005;
+        public static final int searchBtn=0x7f080007;
+        public static final int syncBtn=0x7f080006;
         public static final int textView1=0x7f08000e;
         public static final int textView2=0x7f08000f;
     }

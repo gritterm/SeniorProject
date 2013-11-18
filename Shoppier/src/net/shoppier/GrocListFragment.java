@@ -6,8 +6,10 @@ import net.shoppier.library.DatabaseHandler;
 import net.shoppier.library.UserFunctions;
 import android.app.AlertDialog;
 import android.app.Fragment;
+import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -157,17 +159,20 @@ public class GrocListFragment extends Fragment{
 				userfunction.Sync(getActivity(), currentlistID);
 			}
 			if (v == search) {
-
 				Intent search = new Intent(getActivity(),
 						SearchActivity.class);
 				startActivityForResult(search, ADD_FROM_SEARCH);
-
+				
 			} 
 			if(v == barcodeButton ){
+				try{
 				Intent intent = new Intent("com.google.zxing.client.android.SCAN");
 			       intent.putExtra("SCAN_MODE", "PRODUCT_MODE");//for Qr code, its "QR_CODE_MODE" instead of "PRODUCT_MODE"
 			       intent.putExtra("SAVE_HISTORY", false);//this stops saving ur barcode in barcode scanner app's history
 			       startActivityForResult(intent, ADD_FROM_BARCODE);
+			}catch(ActivityNotFoundException  ex){
+				confimDownloadingBarcodeReader();
+			}
 			}
 		}
 
@@ -192,6 +197,23 @@ public class GrocListFragment extends Fragment{
 		add_conf.show();
 	}
 
+	private void confimDownloadingBarcodeReader(){
+		AlertDialog.Builder add_conf = new AlertDialog.Builder(getActivity());
+		add_conf.setTitle("Confirmation Required");
+		add_conf.setMessage("You need to install the ZXing barcode reader to continue. Would you like to?");
+		add_conf.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+				Uri marketUri = Uri.parse("market://details?id=com.google.zxing.client.android");
+				Intent marketIntent = new Intent(Intent.ACTION_VIEW, marketUri);
+				startActivity(marketIntent);
+			}
+
+		});
+
+		add_conf.setNegativeButton("No", null);
+		add_conf.create();
+		add_conf.show();
+	}
 	private OnItemLongClickListener lchandler = new OnItemLongClickListener() {
 		@Override
 		public boolean onItemLongClick(AdapterView<?> list, View item,

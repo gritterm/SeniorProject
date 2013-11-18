@@ -52,6 +52,8 @@ public class MainActivity extends Activity {
         loginErrorMsg.setVisibility(View.INVISIBLE);
 		skip = (TextView) findViewById(R.id.textView1);
 		skip.setOnClickListener(handler);
+		
+		  
 	}
 
 	private OnClickListener handler = new OnClickListener() {
