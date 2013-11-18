@@ -25,14 +25,7 @@
         android:layout_alignParentTop="true"
         android:src="@android:drawable/ic_menu_add" />
 
-    <Button
-        android:id="@+id/syncBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/searchBtn"
-        android:layout_alignBottom="@+id/searchBtn"
-        android:layout_toLeftOf="@+id/but_add"
-        android:text="Sync" />
+
 
     <Button
         android:id="@+id/searchBtn"
@@ -40,13 +33,21 @@
         android:layout_height="wrap_content"
         android:text="Search" />
 
-    <Button
+    <ImageButton
         android:id="@+id/barcodeSearchButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/syncBtn"
-        android:layout_alignBottom="@+id/syncBtn"
-        android:layout_toLeftOf="@+id/syncBtn"
-        android:text="Barcode" />
+        android:layout_above="@+id/list"
+        android:layout_toLeftOf="@+id/but_add"
+        android:src="@drawable/bar_code_reader2" />
+
+    <Button
+        android:id="@+id/routeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/searchBtn"
+        android:layout_alignBottom="@+id/searchBtn"
+        android:layout_toRightOf="@+id/searchBtn"
+        android:text="Route" />
 
 </RelativeLayout>

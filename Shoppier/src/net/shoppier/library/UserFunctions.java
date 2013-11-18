@@ -2,6 +2,8 @@ package net.shoppier.library;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import net.shoppier.CompleteList;
@@ -17,6 +19,7 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.preference.PreferenceManager;
 
 public class UserFunctions {
 
@@ -280,6 +283,19 @@ public class UserFunctions {
 		return json;
 		
 	}
+	
+	public ArrayList<ListsItem> routeList(ArrayList<ListsItem> list){
+		
+		Collections.sort(list, new Comparator<ListsItem>() {
+
+			@Override
+			public int compare(ListsItem item1, ListsItem item2) {
+				return item1.getListsItemName().compareToIgnoreCase(item2.getListsItemName());
+			}
+	});
+		return list;
+		
+	}
 
 	/**
 	 * function Register User
@@ -321,10 +337,10 @@ public class UserFunctions {
 	public boolean logoutUser(Context context) {
 		DatabaseHandler db = new DatabaseHandler(context);
 		db.resetTables();
-		SharedPreferences settings = context.getSharedPreferences("PreFile", 0);
-		Editor edit = settings.edit();
-		edit.clear();
-		edit.commit();
+		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
+		SharedPreferences.Editor editor = settings.edit();
+		editor.clear();
+		editor.commit();
 		return true;
 	}
 

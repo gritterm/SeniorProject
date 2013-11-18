@@ -15,10 +15,10 @@ import android.widget.TextView;
 public class NavDrawerAdapter extends ArrayAdapter<NavDrawerItem>  {
 	
 	 private LayoutInflater inflater;
-	    
-	    public NavDrawerAdapter(Context context, int textViewResourceId, ArrayList<NavDrawerItem> objects ) {
-	        super(context, textViewResourceId, objects);
-	       
+	 ArrayList<NavDrawerItem> objects;
+	    public NavDrawerAdapter(Context context, int textViewResourceId, ArrayList<NavDrawerItem> inputobjects ) {
+	        super(context, textViewResourceId, inputobjects);
+	        this.objects = inputobjects;
 	        this.inflater = LayoutInflater.from(context);
 	    }
 
@@ -29,8 +29,10 @@ public class NavDrawerAdapter extends ArrayAdapter<NavDrawerItem>  {
 	        if ( menuItem.getType() == NavMenuItem.LIST_TYPE ) {
 	            view = getListView(convertView, parent, menuItem );
 	        }
-	        else if(menuItem.getType() == NavMenuItem.AddItem_TYPE || 
-	        		menuItem.getType() == NavMenuItem.LOGOUT_TYPE){ 
+	        else if(menuItem.getType() == NavMenuItem.AddLIST_TYPE || 
+	        		menuItem.getType() == NavMenuItem.LOGOUT_TYPE ||
+	        		menuItem.getType() == NavMenuItem.SYNC_TYPE ||
+	        		menuItem.getType() == NavMenuItem.LOGIN_TYPE) { 
 	        	view = getItemView(convertView, parent, menuItem);
 	        }else{
 	            view = getSectionView(convertView, parent, menuItem);
@@ -124,7 +126,7 @@ public class NavDrawerAdapter extends ArrayAdapter<NavDrawerItem>  {
 	    @Override
 	    public int getViewTypeCount() {
 	    	//Every new view needs to be added to this count
-	        return 4;
+	        return objects.size() + 1;
 	    }
 	    
 	    @Override
