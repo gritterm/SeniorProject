@@ -18,7 +18,7 @@ public class AddActivity extends Activity {
 		setTitle("Add New Item");
 		ImageButton add = (ImageButton) findViewById(R.id.but_add);
 		final TextView nom = (TextView) findViewById(R.id.item_name);
-		final TextView bra = (TextView) findViewById(R.id.editText2);
+		final TextView bra = (TextView) findViewById(R.id.db_add_brand);
 		
 		OnClickListener confHandler = new OnClickListener() {
 			

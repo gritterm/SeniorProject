@@ -38,7 +38,7 @@ public class GrocAdapter extends ArrayAdapter<ListsItem>{
 			bin.name_holder = (TextView) convertView
 					.findViewById(R.id.textView1);
 			bin.brand_holder = (TextView) convertView
-					.findViewById(R.id.textView2);
+					.findViewById(R.id.label_name);
 
 			convertView.setTag(bin);
 

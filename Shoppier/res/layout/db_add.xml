@@ -10,15 +10,6 @@
         android:layout_height="wrap_content"
         android:background="@drawable/back" >
 
-        <Button
-            android:id="@+id/button1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/editText2"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="28dp"
-            android:text="@string/add" />
-
         <TextView
             android:id="@+id/textView1"
             android:layout_width="wrap_content"
@@ -28,27 +19,86 @@
             android:layout_marginTop="17dp"
             android:text="@string/add_to_db" />
 
-        <EditText
-            android:id="@+id/editText1"
+        <Button
+            android:id="@+id/db_add_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/editText2"
-            android:layout_below="@+id/textView1"
-            android:layout_marginTop="19dp"
-            android:ems="10"
-            android:hint="@string/item_name"
-            android:inputType="text" />
-
-        <EditText
-            android:id="@+id/editText2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/editText1"
+            android:layout_below="@+id/db_add_container"
             android:layout_centerHorizontal="true"
-            android:ems="10"
-            android:hint="@string/item_brand"
-            android:inputType="text" />
+            android:layout_marginTop="16dp"
+            android:text="@string/add" />
 
+        <LinearLayout
+            android:id="@+id/db_add_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/textView1"
+            android:layout_below="@+id/textView1"
+            android:orientation="vertical" >
+
+            <EditText
+                android:id="@+id/db_add_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="19dp"
+                android:ems="10"
+                android:hint="@string/item_name"
+                android:inputType="text" />
+
+            <EditText
+                android:id="@+id/db_add_brand"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/item_brand"
+                android:inputType="text" />
+
+            <Spinner
+                android:id="@+id/db_add_store"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <Spinner
+                android:id="@+id/db_add_aisle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/label_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/db_add_container"
+            android:layout_marginTop="30dp"
+            android:layout_toLeftOf="@+id/db_add_container"
+            android:text="@string/namelabel" />
+
+        <TextView
+            android:id="@+id/label_brand"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignRight="@+id/label_name"
+            android:layout_below="@+id/label_name"
+            android:layout_marginTop="19dp"
+            android:text="@string/brandlabel" />
+
+        <TextView
+            android:id="@+id/label_store"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/label_brand"
+            android:layout_marginTop="19dp"
+            android:layout_toLeftOf="@+id/db_add_container"
+            android:text="@string/storelabel" />
+
+        <TextView
+            android:id="@+id/label_aisle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/label_store"
+            android:layout_marginTop="19dp"
+            android:layout_toLeftOf="@+id/db_add_container"
+            android:text="@string/aislelabel" />
     </RelativeLayout>
 
 </ScrollView>

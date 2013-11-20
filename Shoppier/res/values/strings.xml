@@ -18,6 +18,8 @@
     <string name="title_activity_search">SearchActivity</string>
     <string name="namelabel">Name: </string>
     <string name="brandlabel">Brand: </string>
+    <string name="storelabel">Store: </string>
+    <string name="aislelabel">Aisle: </string>
     <string name="title_activity_single_searable_item_view">SingleSearableItemView</string>
     <string name="space"> : </string>
     <string name="add">Add</string>

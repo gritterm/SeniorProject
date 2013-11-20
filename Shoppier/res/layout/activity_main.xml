@@ -41,7 +41,7 @@
                 android:text="@string/login" />
 
             <EditText
-                android:id="@+id/editText2"
+                android:id="@+id/db_add_brand"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toLeftOf="@+id/btnLogout"
@@ -73,7 +73,7 @@
             android:text="@string/skip" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/label_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_above="@+id/item_name"

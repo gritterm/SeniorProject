@@ -32,14 +32,15 @@ public class NavDrawerAdapter extends ArrayAdapter<NavDrawerItem>  {
 	        else if(menuItem.getType() == NavMenuItem.AddLIST_TYPE || 
 	        		menuItem.getType() == NavMenuItem.LOGOUT_TYPE ||
 	        		menuItem.getType() == NavMenuItem.SYNC_TYPE ||
-	        		menuItem.getType() == NavMenuItem.LOGIN_TYPE) { 
+	        		menuItem.getType() == NavMenuItem.LOGIN_TYPE ||
+					menuItem.getType() == NavMenuItem.ADDTODB_TYPE) { 
 	        	view = getItemView(convertView, parent, menuItem);
 	        }else{
 	            view = getSectionView(convertView, parent, menuItem);
 	        }
 	        return view ;
 	    }
-	    
+
 	    public View getListView( View convertView, ViewGroup parentView, NavDrawerItem navDrawerItem ) {
 	        
 	        CompleteList menuItem = (CompleteList) navDrawerItem ;

@@ -9,6 +9,7 @@ public class NavMenuItem implements NavDrawerItem {
 	public static final int LOGOUT_TYPE = 3;
 	public static final int SYNC_TYPE = 4;
 	public static final int LOGIN_TYPE = 5;
+	public static final int ADDTODB_TYPE = 6;
 
 	private int id;
 	private String label;
@@ -40,6 +41,8 @@ public class NavMenuItem implements NavDrawerItem {
 			return SYNC_TYPE;
 		} else if (id == 204) {
 			return LOGIN_TYPE;
+		} else if (id == 205){
+			return ADDTODB_TYPE;
 		}
 		return LIST_TYPE;
 	}

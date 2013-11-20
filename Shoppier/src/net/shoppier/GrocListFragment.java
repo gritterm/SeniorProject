@@ -133,8 +133,16 @@ public class GrocListFragment extends Fragment {
 		if (resultCode == RESULT_OK && requestCode == ADD_FROM_BARCODE) {
 			String contents = data.getStringExtra("SCAN_RESULT"); // this is the
 																	// result
-			ListsItem newItem = userfunction.getBarcodeProduct(contents,
-					currentlistID);
+//			ListsItem newItem = userfunction.getBarcodeProduct(contents,
+//					currentlistID);
+
+			// Temporary Hack
+			ListsItem newItem = new ListsItem();
+			newItem.setListItemBrand("Gatorade");
+			newItem.setListsItemName("Cool Blue");
+			//newItem.setListFK(Integer.parseInt(listID));
+			//newItem.setSearchItemId(0);
+			
 			confirmAddFromBarCode(newItem);
 		}
 	}
