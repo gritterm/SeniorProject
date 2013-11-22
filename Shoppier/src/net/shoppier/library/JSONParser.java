@@ -85,7 +85,8 @@ public class JSONParser extends AsyncTask<String, Void, JSONObject> {
 			String line = null;
 			
 			while ((line = reader.readLine()) != null) {
-				sb.append(line + "\n");
+				//sb.append(line + "\n");
+				sb.append(line);
 			}
 			is.close();
 			json = sb.toString();
@@ -99,6 +100,7 @@ public class JSONParser extends AsyncTask<String, Void, JSONObject> {
 			jObj = new JSONObject(json);
 		} catch (JSONException e) {
 			Log.e("JSON Parser", "Error parsing data " + e.toString());
+			
 		}
 
 		// return JSON String

@@ -12,8 +12,10 @@ import net.shoppier.library.UserFunctions;
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -42,6 +44,7 @@ public class DrawerActivity extends Activity {
 	static final int RESULT_OK = -1;
 	private static ArrayList<NavDrawerItem> Navlists;
 	DatabaseHandler db;
+	int currentListID;
 	UserFunctions userFunctions;
 
 	@Override
@@ -161,7 +164,7 @@ public class DrawerActivity extends Activity {
 			Fragment fragment = new GrocListFragment();
 			Bundle args = new Bundle();
 			int position = positionBefore - 1;
-			int currentListID = mDrawerLists.get(position).getListPK();
+			 currentListID = mDrawerLists.get(position).getListPK();
 			args.putString("listID", Integer.toString(currentListID));
 			args.putString("ListName", mDrawerLists.get(position).getListName());
 			fragment.setArguments(args);
@@ -199,8 +202,7 @@ public class DrawerActivity extends Activity {
 			FragmentManager fragmentManager = getFragmentManager();
 			fragmentManager.beginTransaction()
 					.replace(R.id.content_frame, fragment).commit();
-			// Highlight the selected item, update the title, and close the
-			// drawer
+			// Highlight the selected item, update the title, and close the drawer
 			mDrawerList.setItemChecked(positionBefore, true);
 			setTitle("Add Item");
 			mDrawerLayout.closeDrawer(mDrawerList);
@@ -208,7 +210,11 @@ public class DrawerActivity extends Activity {
 	}
 
 	private void sync() {
-
+//		ProgressDialog mProgressDialog = new ProgressDialog(getApplicationContext());
+//		mProgressDialog.setIndeterminate(false);
+//		mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+//		mProgressDialog.show();
+//		userFunctions.Sync(getApplicationContext(), Integer.parseInt(currentListID) );
 	}
 
 	public void startNewList(CompleteList newList) {

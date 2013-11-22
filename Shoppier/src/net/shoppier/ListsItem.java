@@ -22,9 +22,35 @@ public class ListsItem {
 	
 	//Brand name 
 	String listItemBrand; 
+	
+	//QTY of item
+	String itemQTY;
+	
+	//price of item
+	double itemPrice;
 
 	public ListsItem(){
 		
+	}
+
+
+	public String getItemQTY() {
+		return itemQTY;
+	}
+
+
+	public void setItemQTY(String itemQTY) {
+		this.itemQTY = itemQTY;
+	}
+
+
+	public double getItemPrice() {
+		return itemPrice;
+	}
+
+
+	public void setItemPrice(double d) {
+		this.itemPrice = d;
 	}
 
 
@@ -88,13 +114,9 @@ public class ListsItem {
 	}
 	
 	
-
-//TODO change 
 	@Override
 	public String toString() {
-		return "[listsItemID=" + listsItemID + ", listsItemName="
-				+ listsItemName + ", listRoute=" + listRoute
-				+ ", searchItemId=" + searchItemId + ", listFK=" + listFK + "]";
+		return listItemBrand + listsItemName;
 	}
 	
 	

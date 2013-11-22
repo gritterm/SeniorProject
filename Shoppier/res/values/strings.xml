@@ -31,5 +31,7 @@
     <string name="dismiss">Dismiss</string>
     <string name="list_name">List name</string>
     <string name ="title_barcode">Barcode Scanner</string>
+    <string name="add_location">Location:</string>
+    <string name="quanity">Qty:</string>
 
 </resources>

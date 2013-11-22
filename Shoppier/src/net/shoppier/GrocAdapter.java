@@ -1,5 +1,6 @@
 package net.shoppier;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 
 import android.content.Context;
@@ -24,7 +25,7 @@ public class GrocAdapter extends ArrayAdapter<ListsItem>{
 	}
 	
 	class ViewHolder {
-		TextView name_holder, brand_holder;
+		TextView name_holder, brand_holder, qty_holder, price_holder;
 
 	}@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
@@ -39,6 +40,10 @@ public class GrocAdapter extends ArrayAdapter<ListsItem>{
 					.findViewById(R.id.textView1);
 			bin.brand_holder = (TextView) convertView
 					.findViewById(R.id.label_name);
+			bin.qty_holder = (TextView) convertView
+					.findViewById(R.id.inputItemQty);
+			bin.price_holder = (TextView) convertView
+					.findViewById(R.id.itemAmt);
 
 			convertView.setTag(bin);
 
@@ -49,8 +54,16 @@ public class GrocAdapter extends ArrayAdapter<ListsItem>{
 		}
 		String name_context = dataSource.get(position).getListsItemName();
 		String brand_context = dataSource.get(position).getListItemBrand();
+		String qty_context = dataSource.get(position).getItemQTY();
+		String price_context = NumberFormat.getCurrencyInstance().format(dataSource.get(position).getItemPrice());		 
 		bin.name_holder.setText(name_context);
 		bin.brand_holder.setText(brand_context);
+		bin.qty_holder.setText(qty_context);
+		if(price_context.equals("$0.00")){
+			bin.price_holder.setText("");
+		}else{
+			bin.price_holder.setText(price_context);
+		}
 		return convertView;
 	}
 

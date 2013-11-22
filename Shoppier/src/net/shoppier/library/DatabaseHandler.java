@@ -3,9 +3,12 @@ package net.shoppier.library;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import net.shoppier.AisleObject;
+import net.shoppier.CategoryObject;
 import net.shoppier.CompleteList;
 import net.shoppier.ListsItem;
 import net.shoppier.SearchableItem;
+import net.shoppier.StoreObject;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -30,8 +33,16 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	private static final String TABLE_LIST_ITEMS = "list";
 	private static final String TABLE_ITEM = "item"; 
 	private static final String TABLE_LIST_IDS = "listId";
+	private static final String TABLE_STORE = "store";
+	private static final String TABLE_AISLE = "aisle";
+	private static final String TABLE_CAT = "category";
 	//private static final String TABLE_
-
+	
+	//aisle Table Column Names 
+	private static final String KEY_AISLE_PK = "aisle_pk";
+	private static final String KEY_AISLE_NAME = "aisle_name";
+	private static final String KEY_AISLE_STRFK = "aisle_STRFK";
+	
 	// user Table Columns names
 	private static final String KEY_ID = "user_id";
 	private static final String KEY_NAME = "user_name";
@@ -45,6 +56,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	private static final String KEY_LIST_SEARCH_ITEM_FK = "list_search_item_fk";
 	private static final String KEY_LIST_ITEM_LISTFK = "list_item_listfk";
 	private static final String KEY_LIST_ITEM_BRAND = "list_item_brand";
+	private static final String KEY_LIST_ITEM_qty = "list_item_qty";
+	private static final String KEY_LIST_ITEM_Price = "list_item_price";
 	
 	//item Table Column names 
 	private static final String KEY_ITEM_PK = "item_pk";
@@ -56,6 +69,43 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	private static final String KEY_LIST_NAME = "List_Name";
 	private static final String KEY_LIST_ID = "List_ID";
 	
+	//Store Column Names
+	private static final String KEY_storePK       = "storePK";
+	private static final String KEY_storeName     = "storeName";
+	private static final String KEY_storeAddress  = "storeAddress";
+	private static final String KEY_storeCity     = "storeCity";
+	private static final String KEY_storeZipCode  = "storeZipCode";
+	private static final String KEY_storeType     = "storeType";
+	private static final String KEY_storeImage    = "storeImage";
+	
+	//Category Column Names
+	private static final String KEYcat_pk     = "cat_pk";
+	private static final String KEYcat_locfk  = "cat_locfk";
+	private static final String KEYcat_name   = "cat_name";
+	private static final String KEYcat_value  = "cat_value"; 
+	private static final String KEYcat_x      = "cat_x";
+	private static final String KEYcat_y      = "cat_y"; 
+	private static final String Key_CAT_LOCAL_PK = "cat_PK_LOCAL";
+	
+	
+	//Query to create cat table
+			String CREATE_CAT_TABLE = "CREATE TABLE " + TABLE_CAT + "(" + Key_CAT_LOCAL_PK + " INTEGER PRIMARY KEY, "
+					+ KEYcat_pk + " INTEGER, " + KEYcat_name + " TEXT, "
+					+ KEYcat_value + " INTEGER, " + KEYcat_x + " TEXT, "  
+					+ KEYcat_y + " TEXT, "  + KEYcat_locfk + " INTEGER )";
+			
+	//Query to create aisle table
+		String CREATE_AISLE_TABLE = "CREATE TABLE " + TABLE_AISLE + "("
+				+ KEY_AISLE_PK + " INTEGER PRIMARY KEY," + KEY_AISLE_NAME + " TEXT,"
+				+ KEY_AISLE_STRFK + " INTEGER " + ")";
+
+	//Query to create Store Table 
+	String CREATE_STORE_TABLE = "CREATE TABLE " + TABLE_STORE + "("
+					+ KEY_storePK + " INTEGER PRIMARY KEY," 
+					+ KEY_storeName + " TEXT, " + KEY_storeAddress + " TEXT, " 
+					+ KEY_storeCity + " TEXT, " + KEY_storeImage + " TEXT, " 
+					+ KEY_storeZipCode + " INTEGER, " + KEY_storeType + " TEXT" + ")";
+	
 	
 	//Query to create login table
 	String CREATE_LOGIN_TABLE = "CREATE TABLE " + TABLE_LOGIN + "("
@@ -65,7 +115,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	//Query to create list_items table
 	String CREATE_LIST_TABLE = "CREATE TABLE " + TABLE_LIST_ITEMS + "("
 			+ KEY_LIST_ID_PK + " INTEGER PRIMARY KEY, " + KEY_LISTITEM_NAME + " TEXT, " + KEY_LIST_SEARCH_ITEM_FK +
-			" TEXT, " + KEY_LIST_ITEM_LISTFK + " TEXT, " + KEY_LIST_ITEM_BRAND + " TEXT " + ")";
+			" TEXT, " + KEY_LIST_ITEM_LISTFK + " TEXT, " + KEY_LIST_ITEM_BRAND + " TEXT, " 
+			+ KEY_LIST_ITEM_qty + " TEXT, " + KEY_LIST_ITEM_Price + " INTEGER" + ")";
 	
 	//Query to create item table
 	String CREATE_ITEMS_TABLE = "CREATE TABLE " + TABLE_ITEM + "("
@@ -76,6 +127,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		String CREATE_LISTIDS_TABLE = "CREATE TABLE " + TABLE_LIST_IDS + "("
 				+ KEY_LIST_ID + " INTEGER PRIMARY KEY," 
 				+ KEY_LIST_NAME + " TEXT " + ")";
+
 
 	public DatabaseHandler(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -92,6 +144,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		db.execSQL(CREATE_ITEMS_TABLE);
 		
 		db.execSQL(CREATE_LISTIDS_TABLE);
+		
+		db.execSQL(CREATE_STORE_TABLE);
+		
+		db.execSQL(CREATE_AISLE_TABLE);
+		
+		db.execSQL(CREATE_CAT_TABLE);
+		
 	}
 
 	// Upgrading database
@@ -171,6 +230,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		values.put(KEY_LISTITEM_NAME, list.getListsItemName());
 		values.put(KEY_LIST_ITEM_LISTFK, list.getListFK());
 		values.put(KEY_LIST_ITEM_BRAND, list.getListItemBrand());
+		values.put(KEY_LIST_ITEM_Price, list.getItemPrice());
+		values.put(KEY_LIST_ITEM_qty, list.getItemQTY());
 
 		//insert row 
 		result = (int) db.insert(TABLE_LIST_ITEMS, null, values);
@@ -209,17 +270,21 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	            String tempListFk = c.getString(c.getColumnIndex(KEY_LIST_ITEM_LISTFK));
 	            String tempSearchItemID = c.getString(c.getColumnIndex(KEY_LIST_SEARCH_ITEM_FK));
 	            String tempListItemID = c.getString(c.getColumnIndex(KEY_LIST_ID_PK));
+	            String tempListItemPrice = c.getString(c.getColumnIndex(KEY_LIST_ITEM_Price));
 	            
 	            li.setListFK(Integer.parseInt(tempListFk));
 	            li.setListsItemName(c.getString(c.getColumnIndex(KEY_LISTITEM_NAME)));
 	            li.setListsItemID(Integer.parseInt(tempListItemID));
 	            li.setSearchItemId(Integer.parseInt(tempSearchItemID));
 	            li.setListItemBrand(c.getString(c.getColumnIndex(KEY_LIST_ITEM_BRAND)));
+	            li.setItemQTY(c.getString(c.getColumnIndex(KEY_LIST_ITEM_qty)));
+	            li.setItemPrice(Integer.parseInt(tempListItemPrice));
 	            // adding to final list
 	            alllist.add(li);
 	        } while (c.moveToNext());
 	    }
 	    db.close();
+	    c.close();
 	    return alllist;
 	}
 	
@@ -241,11 +306,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		
 	}
 	
-	/**
-	 * Fill CrowdSoured item database table.  
-	 * */
-	
-	//TODO Fill CrowdSoured item database table.
 	
 	/**
 	 * Get all CrowdSourced items from the database.  
@@ -273,6 +333,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	        } while (c.moveToNext());
 	    }
 	    db.close();
+	    c.close();
 	    return items;
 		
 	}
@@ -366,6 +427,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		        } while (c.moveToNext());
 		    }
 		    db.close();
+		    c.close();
 		    return list;
 		
 	}
@@ -381,6 +443,156 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	}
 	
 	/**
+	 * Adding a Store  to the database
+	 * */
+	public int  addStoreDB(StoreObject store){
+		int result; 
+		SQLiteDatabase db = this.getWritableDatabase();
+		
+		ContentValues values = new ContentValues();
+				
+		values.put(KEY_storePK, store.getStorePK());    
+		values.put(KEY_storeName, store.getStoreName()); 
+		values.put(KEY_storeAddress, store.getStoreAddress()); 
+		values.put(KEY_storeCity, store.getStoreCity()); 
+		values.put(KEY_storeZipCode, store.getStoreZipCode()); 
+		values.put(KEY_storeType, store.getStoreType()); 
+		values.put(KEY_storeImage, store.getStoreImage()); 
+
+		//insert row 
+		result = (int) db.insert(TABLE_STORE, null, values);
+		db.close(); 
+		return result; 
+	}
+	
+	public ArrayList<StoreObject> getStores(){
+		SQLiteDatabase db = this.getReadableDatabase(); 
+		ArrayList<StoreObject> list = new ArrayList<StoreObject>();
+		
+		String selectQuery = "SELECT * FROM " + TABLE_STORE; 
+		Log.e("getTableItems", selectQuery);
+		
+	    Cursor c = db.rawQuery(selectQuery, null);
+	    
+	   c.moveToFirst();
+	   if(c.getCount() != 0){
+	        do {
+	        	
+	        	StoreObject store = new StoreObject();
+	        	
+	        	store.setStoreAddress(c.getString(c.getColumnIndex(KEY_storeAddress)));
+	        	store.setStoreCity(c.getString(c.getColumnIndex(KEY_storeCity)));
+	        	store.setStoreImage(c.getString(c.getColumnIndex(KEY_storeImage)));
+	        	store.setStoreName(c.getString(c.getColumnIndex(KEY_storeName)));
+	        	store.setStorePK(Integer.parseInt(c.getString(c.getColumnIndex(KEY_storePK))));
+	        	store.setStoreType(c.getString(c.getColumnIndex(KEY_storeType)));
+	        	store.setStoreZipCode(Integer.parseInt(c.getString(c.getColumnIndex(KEY_storeZipCode))));
+	            
+	            // adding to final list
+	            list.add(store);
+	        	
+	        } while (c.moveToNext());
+	   }
+	    db.close();
+	    c.close();
+	    return list;
+	}
+	
+	public int addAisle(AisleObject a){
+		int result; 
+		SQLiteDatabase db = this.getWritableDatabase();
+		
+		ContentValues values = new ContentValues();
+		values.put(KEY_AISLE_NAME, a.getAisleName());
+		values.put(KEY_AISLE_PK, a.getAislePK());
+		values.put(KEY_AISLE_STRFK, a.getAisleStoreFK());
+				
+		//insert row 
+		result = (int) db.insert(TABLE_AISLE, null, values);
+		db.close(); 
+		return result; 
+	}
+	
+	public ArrayList<AisleObject> getAisle(int storeFK){
+		SQLiteDatabase db = this.getReadableDatabase(); 
+		ArrayList<AisleObject> list = new ArrayList<AisleObject>();
+		
+		String selectQuery = "SELECT * FROM " + TABLE_AISLE + " WHERE " + KEY_AISLE_STRFK + " = " + storeFK; 
+		Log.e("getAsile", selectQuery);
+		
+	    Cursor c = db.rawQuery(selectQuery, null);
+	    
+	   c.moveToFirst();
+	   if(c.getCount() != 0){
+	        do {
+	        	
+	        	AisleObject aisle = new AisleObject();
+	        	
+	        	aisle.setAisleName(c.getString(c.getColumnIndex(KEY_AISLE_NAME)));
+	        	aisle.setAislePK(Integer.parseInt(c.getString(c.getColumnIndex(KEY_AISLE_PK))));
+	        	aisle.setAisleStoreFK(Integer.parseInt(c.getString(c.getColumnIndex(KEY_AISLE_STRFK))));
+	            
+	            // adding to final list
+	            list.add(aisle);
+	        	
+	        } while (c.moveToNext());
+	   }
+	    db.close();
+	    c.close();
+	    return list;
+	}
+	
+	
+	public int addCat(CategoryObject c){
+		int result; 
+		SQLiteDatabase db = this.getWritableDatabase();
+
+		ContentValues values = new ContentValues();
+		values.put(KEYcat_pk, c.getCat_pk());
+		values.put(KEYcat_locfk, c.getCat_locfk());
+		values.put(KEYcat_name, c.getCat_name());
+		values.put(KEYcat_value, c.getCat_value());
+		values.put(KEYcat_x, c.getCat_x());
+		values.put(KEYcat_y, c.getCat_y());
+
+		// insert row
+		result = (int) db.insert(TABLE_CAT, null, values);
+		db.close(); 
+		return result; 
+	}
+	
+	public ArrayList<CategoryObject> getCatFromAisle(int aisleFK){
+		SQLiteDatabase db = this.getReadableDatabase(); 
+		ArrayList<CategoryObject> list = new ArrayList<CategoryObject>();
+		
+		String selectQuery = "SELECT * FROM " + TABLE_CAT + " WHERE " + KEYcat_locfk + " = " + aisleFK; 
+		Log.e("getAsile", selectQuery);
+		
+	    Cursor c = db.rawQuery(selectQuery, null);
+	    
+	   c.moveToFirst();
+	   if(c.getCount() != 0){
+	        do {
+	        	
+	        	CategoryObject cat = new CategoryObject();
+	        	cat.setCat_locfk(Integer.parseInt(c.getString(c.getColumnIndex(KEYcat_locfk))));
+	        	cat.setCat_name(c.getString(c.getColumnIndex(KEYcat_name)));
+	        	cat.setCat_pk(Integer.parseInt(c.getString(c.getColumnIndex(KEYcat_pk))));
+	        	cat.setCat_value(Integer.parseInt(c.getString(c.getColumnIndex(KEYcat_value))));
+	        	cat.setCat_x(c.getString(c.getColumnIndex(KEYcat_x)));
+	        	cat.setCat_y(c.getString(c.getColumnIndex(KEYcat_y)));
+	        	
+	            // adding to final list
+	            list.add(cat);
+	        	
+	        } while (c.moveToNext());
+	   }
+	    db.close();
+	    c.close();
+	    return list;
+	}
+	
+	/**
 	 * Re crate database Delete all tables and create them again
 	 * */
 	public void resetTables() {
@@ -391,6 +603,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_LIST_ITEMS);
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_ITEM);
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_LIST_IDS);
+		db.execSQL("DROP TABLE IF EXISTS " + TABLE_STORE); 
+		db.execSQL("DROP TABLE IF EXISTS " + TABLE_AISLE);
+		db.execSQL("DROP TABLE IF EXISTS " + TABLE_CAT);
+
 		// Create tables again
 		onCreate(db);
 		db.close();

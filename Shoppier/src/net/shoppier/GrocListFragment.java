@@ -31,7 +31,7 @@ public class GrocListFragment extends Fragment {
 	static final int ADD_FROM_BARCODE = 0x7;
 	static final int RESULT_OK = -1;
 	private DatabaseHandler db;
-	private Button search;
+	private ImageButton search;
 	private ImageButton barcodeButton;
 	private Button routeButton;
 	String currentlistID;
@@ -54,7 +54,7 @@ public class GrocListFragment extends Fragment {
 		lview = (ListView) rootView.findViewById(R.id.list);
 
 		add = (ImageButton) rootView.findViewById(R.id.but_add);
-		search = (Button) rootView.findViewById(R.id.searchBtn);
+		search = (ImageButton) rootView.findViewById(R.id.searchBtn);
 		routeButton = (Button) rootView.findViewById(R.id.routeButton);
 		barcodeButton = (ImageButton) rootView
 				.findViewById(R.id.barcodeSearchButton);

@@ -6,9 +6,13 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+
+import net.shoppier.AisleObject;
+import net.shoppier.CategoryObject;
 import net.shoppier.CompleteList;
 import net.shoppier.ListsItem;
 import net.shoppier.SearchableItem;
+import net.shoppier.StoreObject;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -49,11 +53,14 @@ public class UserFunctions {
 	JSONArray userList = null;
 	JSONArray searchList = null;
 	JSONArray listIDs = null;
+	JSONArray storeList = null;
+	JSONArray aisleList = null;
+	JSONArray catList = null;
 	private DatabaseHandler db;
 
 	// constructor
 	public UserFunctions() {
-		jsonParser = new JSONParser();
+		this.jsonParser = new JSONParser();
 
 	}
 
@@ -64,7 +71,7 @@ public class UserFunctions {
 		params.add(new BasicNameValuePair("tag", login_tag));
 		params.add(new BasicNameValuePair("email", email));
 		params.add(new BasicNameValuePair("password", password));
-		jsonParser = new JSONParser(params);
+		this.jsonParser = new JSONParser(params);
 	}
 
 	/**
@@ -146,6 +153,70 @@ public class UserFunctions {
 		return searchableList;
 
 	}
+	
+	public void getDropDownInfo(Context context)
+			throws JSONException {
+		this.db = new DatabaseHandler(context);
+
+		List<NameValuePair> params = new ArrayList<NameValuePair>();
+		params.add(new BasicNameValuePair("tag", "getStores"));
+		ArrayList<StoreObject> storeArryList = new ArrayList<StoreObject>();
+		jsonParser = new JSONParser(params);
+
+		try {
+			JSONObject json = jsonParser.execute(loginURL).get();
+			JSONArray largelist = json.getJSONArray("DropDownItem");
+			//get store array
+			JSONObject storeobject = largelist.getJSONObject(0);
+			storeList = storeobject.getJSONArray("stores");
+			//get aisle array
+			JSONObject aisleobject = largelist.getJSONObject(1);
+			aisleList = aisleobject.getJSONArray("aisle");
+			//get cat array
+			JSONObject catobject = largelist.getJSONObject(2);
+			catList = catobject.getJSONArray("cat");
+			
+			for (int i = 0; i <= storeList.length() - 1; i++) {
+				StoreObject li = new StoreObject();
+				JSONObject l = storeList.getJSONObject(i);
+				li.setStoreAddress(l.getString("store_address "));
+				li.setStoreCity(l.getString("store_city "));
+				li.setStoreImage(l.getString("store_image "));
+				li.setStoreName(l.getString("store_name"));
+				li.setStorePK(l.getInt("store_pk"));
+				li.setStoreType(l.getString("store_type "));
+				li.setStoreZipCode(l.getInt("store_zipcode "));
+				storeArryList.add(li);
+				db.addStoreDB(li);
+			}
+			
+			for(int a = 0; a <= aisleList.length() -1; a++){
+				AisleObject aisle = new AisleObject();
+				JSONObject  o = aisleList.getJSONObject(a);
+				aisle.setAisleName(o.getString("aisle_name"));
+				aisle.setAislePK(o.getInt("aisle_pk"));
+				aisle.setAisleStoreFK(o.getInt("aisle_strfk"));
+				db.addAisle(aisle);
+			}
+			for(int a = 0; a <= catList.length() - 1; a++){
+				CategoryObject cat = new CategoryObject();
+				JSONObject  o = catList.getJSONObject(a);
+				cat.setCat_locfk(o.getInt("cat_locfk"));
+				cat.setCat_name(o.getString("cat_name"));
+				cat.setCat_pk(o.getInt("cat_pk"));
+				cat.setCat_value(o.getInt("cat_value "));
+				cat.setCat_x(o.getString("cat_x "));
+				cat.setCat_y(o.getString("cat_y"));
+				db.addCat(cat);
+			}
+
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			e.printStackTrace();
+		}
+
+	}
 
 	public ArrayList<ListsItem> getUserGrocList(Context context) {
 		this.db = new DatabaseHandler(context);
@@ -170,6 +241,9 @@ public class UserFunctions {
 					li.setSearchItemId(l.getInt(Tag_LIST_ITEM_SEARCH_ID));
 					li.setListsItemName(l.getString(Tag_LISTITEM_NAME));
 					li.setListItemBrand(l.getString(Tag_LISTITEM_BRAND));
+					li.setItemPrice(3.00);
+					li.setItemQTY("2");
+					
 					userGrocList.add(li);
 				}
 
@@ -279,10 +353,8 @@ public class UserFunctions {
 		try {
 			json = jsonParser.execute(loginURL).get();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ExecutionException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return json;

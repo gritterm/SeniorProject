@@ -6,12 +6,16 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
@@ -19,6 +23,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import net.shoppier.library.DatabaseHandler;
@@ -38,9 +43,18 @@ public class MainActivity extends Activity {
 	private static String KEY_NAME = "name";
 	private static String KEY_EMAIL = "email";
 
+	String username;
+	String password;
+	Context context;
+
+	DatabaseHandler db;
+	Handler updateBarHandler;
+
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		context = this;
 		// SharedPreferences settings = getPreferences(MODE_PRIVATE);
 		SharedPreferences settings = PreferenceManager
 				.getDefaultSharedPreferences(getApplicationContext());
@@ -54,118 +68,136 @@ public class MainActivity extends Activity {
 		inputUserName = (EditText) findViewById(R.id.item_name);
 		inputPassword = (EditText) findViewById(R.id.db_add_brand);
 		login.setOnClickListener(handler);
-		loginErrorMsg = (TextView) findViewById(R.id.label_name);
-		loginErrorMsg.setVisibility(View.INVISIBLE);
 		skip = (TextView) findViewById(R.id.textView1);
 		skip.setOnClickListener(handler);
+		updateBarHandler = new Handler();
+
 
 	}
 
-	@Override
-	public void onBackPressed() {
+	private void setDropDowns() {
 
+		UserFunctions userFuncation = new UserFunctions();
+		try {
+			userFuncation.getDropDownInfo(getApplicationContext());
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private OnClickListener handler = new OnClickListener() {
 
 		public void onClick(View v) {
-			if (v == login) {
 
-				String username;
-				String password;
+			
+
+			if (v == login) {
 
 				username = inputUserName.getText().toString();
 				password = inputPassword.getText().toString();
 
-				UserFunctions userFunction = new UserFunctions(username,
-						password);
-				JSONObject json = userFunction.loginUser(username, password);
+			
 
-				// check for login response
-				try {
-					// user successfully logged in
-					if (json.getString(KEY_SUCCESS) != null) {
-						loginErrorMsg.setText("");
-						String res = json.getString(KEY_SUCCESS);
-						if (Integer.parseInt(res) == 1) {
+							UserFunctions userFunction = new UserFunctions(
+									username, password);
+							JSONObject json = userFunction.loginUser(username,
+									password);
+							// check for login response
+							try {
+								// user successfully logged in
+								if (json.getString(KEY_SUCCESS) != null) {
+									String res = json.getString(KEY_SUCCESS);
+									if (Integer.parseInt(res) == 1) {
 
-							// Clear all previous data in sql lite database
-							userFunction.logoutUser(getApplicationContext());
+										// Clear all previous data in sql lite
+										// database
+										userFunction.logoutUser(getApplicationContext());
+										
+										setDropDowns();
+										
+										// save username and password for future login
+										SavePreferences(username, password);
 
-							// save username and password for future login
-							SavePreferences(username, password);
+										// Store user details in SQLite Database
+										db = new DatabaseHandler(
+												getApplicationContext());
+										JSONObject json_user = json
+												.getJSONObject("user");
+										db.addUser(
+												json_user.getString(KEY_NAME),
+												json_user.getString(KEY_EMAIL),
+												json.getString(KEY_UID));
 
-							// Store user details in SQLite Database
-							DatabaseHandler db = new DatabaseHandler(
-									getApplicationContext());
-							JSONObject json_user = json.getJSONObject("user");
-							db.addUser(json_user.getString(KEY_NAME),
-									json_user.getString(KEY_EMAIL),
-									json.getString(KEY_UID));
+										// Retrieve user's list from SQL Server
+										// Database
+										userFunction
+												.getListIDS(getApplicationContext());
 
-							// Retrieve user's list from SQL Server Database
-							userFunction.getListIDS(getApplicationContext());
+										// get users groclist items
+										ArrayList<ListsItem> grocList = userFunction
+												.getUserGrocList(getApplicationContext());
 
-							// get users groclist items
-							ArrayList<ListsItem> grocList = userFunction
-									.getUserGrocList(getApplicationContext());
+										// add groclist items to list sql lite
+										// database
+										// table
+										for (ListsItem l : grocList) {
+											if (!l.equals(null)) {
+												db.addItemToListDB(l);
+											}
+										}
 
-							// add groclist items to list sql lite database
-							// table
-							for (ListsItem l : grocList) {
-								if (!l.equals(null)) {
-									db.addItemToListDB(l);
+										// Launch ListSelection Screen
+										startActivity(new Intent(
+												MainActivity.this,
+												DrawerActivity.class));
+
+									} else {
+										Context context = getApplicationContext();
+										final Toast toast = Toast
+												.makeText(
+														context,
+														"Either the username was not found or"
+																+ " password was incorrect. Please check"
+																+ " your spelling and try again.",
+														Toast.LENGTH_LONG);
+										toast.setGravity(Gravity.TOP
+												| Gravity.CENTER, 0, 380);
+										LinearLayout linearLayout = (LinearLayout) toast
+												.getView();
+										TextView messageTextView = (TextView) linearLayout
+												.getChildAt(0);
+										messageTextView.setTextSize(18);
+										toast.show();
+										new CountDownTimer(5000, 1000) {
+
+											public void onTick(
+													long millisUntilFinished) {
+												toast.show();
+											}
+
+											public void onFinish() {
+												toast.show();
+											}
+
+										}.start();
+									}
 								}
+							} catch (JSONException e) {
+								e.printStackTrace();
 							}
 
-							// Launch ListSelection Screen
-							// TODO: Change start up screen after login
-							startActivity(new Intent(MainActivity.this,
-									DrawerActivity.class));
-
-						} else {
-							// Error in login
-							// loginErrorMsg.setVisibility(View.VISIBLE);
-							// loginErrorMsg.setText("Incorrect username/password");
-							// inputPassword.setText("");
-							Context context = getApplicationContext();
-							final Toast toast = Toast
-									.makeText(
-											context,
-											"Either the username was not found or"
-													+ " password was incorrect. Please check"
-													+ " your spelling and try again.",
-											Toast.LENGTH_LONG);
-							toast.setGravity(Gravity.TOP | Gravity.CENTER, 0,
-									380);
-							LinearLayout linearLayout = (LinearLayout) toast
-									.getView();
-							TextView messageTextView = (TextView) linearLayout
-									.getChildAt(0);
-							messageTextView.setTextSize(18);
-							toast.show();
-							new CountDownTimer(5000, 1000) {
-
-								public void onTick(long millisUntilFinished) {
-									toast.show();
-								}
-
-								public void onFinish() {
-									toast.show();
-								}
-
-							}.start();
-						}
-					}
-				} catch (JSONException e) {
-					e.printStackTrace();
-				}
 
 			} else if (v == skip) {
-				UserFunctions userFunction = new UserFunctions();
-				userFunction.logoutUser(getApplicationContext());
-				startActivity(new Intent(MainActivity.this,
-						DrawerActivity.class));
+				try {
+					UserFunctions userFunction = new UserFunctions();
+					userFunction.logoutUser(getApplicationContext());
+					// get dropdown information from SQL Server
+					setDropDowns();
+					startActivity(new Intent(MainActivity.this,
+							DrawerActivity.class));
+				} catch (Exception e) {
+					Log.e("tag", "error", e);
+				}
 			}
 		}
 	};
@@ -179,6 +211,7 @@ public class MainActivity extends Activity {
 		editor.putString("username", username).putString("password", password);
 
 		editor.commit();
+
 	}
 
 	@Override
@@ -188,4 +221,40 @@ public class MainActivity extends Activity {
 		return true;
 	}
 
+//	class ProgressTask extends AsyncTask<Void, Void, Boolean> {
+//		ProgressDialog ringProgressDialog = new ProgressDialog(context);
+//
+//		protected void onPreExecute() {
+//
+//			ringProgressDialog.setMessage("Doing awesome things ...");
+//			ringProgressDialog.setIndeterminate(true);
+//			ringProgressDialog.show();
+//		}
+//
+//		protected void onPostExecute(final Boolean success) {
+//
+//			if (ringProgressDialog.isShowing()) {
+//				ringProgressDialog.dismiss();
+//			}
+//
+//		}
+//
+//		@Override
+//		protected Boolean doInBackground(Void... params) {
+//			try {
+//				UserFunctions userFunction = new UserFunctions();
+//				userFunction.logoutUser(getApplicationContext());
+//				// get dropdown information from SQL Server
+//				setDropDowns();
+//				startActivity(new Intent(MainActivity.this,
+//						DrawerActivity.class));
+//				return true;
+//			} catch (Exception e) {
+//				Log.e("tag", "error", e);
+//			}
+//			return false;
+//		}
+//
+//	}
 }
+

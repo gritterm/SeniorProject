@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/RelativeLayout1"
+    android:id="@+id/itemPrice"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
@@ -26,5 +26,32 @@
         android:text="@string/item_name"
         android:textSize="16sp" />
 
+    <TextView
+        android:id="@+id/qtyText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/label_name"
+        android:text="@string/quanity" />
+
+    <TextView
+        android:id="@+id/inputItemQty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/qtyText"
+        android:layout_alignBottom="@+id/qtyText"
+        android:layout_toRightOf="@+id/qtyText"
+        android:text="item_Qty"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <TextView
+        android:id="@+id/itemAmt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/inputItemQty"
+        android:layout_alignBottom="@+id/inputItemQty"
+        android:layout_marginLeft="14dp"
+        android:layout_toRightOf="@+id/inputItemQty"
+        android:text="Item Amt" />
 
 </RelativeLayout>

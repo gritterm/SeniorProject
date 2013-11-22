@@ -51,8 +51,6 @@ public class addListFragment extends Fragment{
 				tempList.setListPK(db.addListID(tempList)); // adding list to DB and setting PK
 				
 				((DrawerActivity)getActivity()).startNewList(tempList);
-
-				
 				
 
 			}
