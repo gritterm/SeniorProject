@@ -45,10 +45,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toLeftOf="@+id/btnLogout"
+                android:background="@drawable/blank"
                 android:ems="10"
                 android:hint="@string/password"
                 android:inputType="textPassword" />
-
         </RelativeLayout>
 
         <EditText
@@ -57,11 +57,13 @@
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/imageView1"
             android:layout_centerHorizontal="true"
+            android:background="@drawable/blank"
             android:ems="10"
             android:hint="@string/username" >
 
-                <requestFocus />
-            </EditText>
+            <requestFocus />
+        </EditText>
+
         <TextView
             android:id="@+id/textView1"
             android:layout_width="wrap_content"
@@ -78,10 +80,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_above="@+id/item_name"
-            android:indeterminate="true"
             android:layout_alignLeft="@+id/item_name"
-            android:layout_alignRight="@+id/item_name" />
-
+            android:layout_alignRight="@+id/item_name"
+            android:indeterminate="true" />
     </RelativeLayout>
 
 </ScrollView>
