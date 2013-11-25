@@ -82,7 +82,8 @@ public class GrocListFragment extends Fragment {
 			remv_conf.setTitle("Looks like you're new");
 			remv_conf
 					.setMessage("Here's a few things you can do:\n\n"
-							+ "Enter an item by searching for it using the search button or by clicking the \"+\" button.\n\n"
+							+ "Enter an item by searching for it in our database using the search"
+							+ " button or by clicking the \"+\" button.\n\n"
 							+ "Delete an item from your list by long pressing it.");
 
 			remv_conf.setNegativeButton("Dismiss", null);
@@ -133,16 +134,18 @@ public class GrocListFragment extends Fragment {
 		if (resultCode == RESULT_OK && requestCode == ADD_FROM_BARCODE) {
 			String contents = data.getStringExtra("SCAN_RESULT"); // this is the
 																	// result
-//			ListsItem newItem = userfunction.getBarcodeProduct(contents,
-//					currentlistID);
+																	// ListsItem
+																	// newItem =
+																	// userfunction.getBarcodeProduct(contents,
+			// currentlistID);
 
 			// Temporary Hack
 			ListsItem newItem = new ListsItem();
 			newItem.setListItemBrand("Gatorade");
 			newItem.setListsItemName("Cool Blue");
-			//newItem.setListFK(Integer.parseInt(listID));
-			//newItem.setSearchItemId(0);
-			
+			// newItem.setListFK(Integer.parseInt(listID));
+			// newItem.setSearchItemId(0);
+
 			confirmAddFromBarCode(newItem);
 		}
 	}
@@ -156,24 +159,24 @@ public class GrocListFragment extends Fragment {
 				Intent adder = new Intent(getActivity(), AddActivity.class);
 				startActivityForResult(adder, ADD_REQUEST);
 
-			}
-			else if (v == search) {
+			} else if (v == search) {
 				Intent search = new Intent(getActivity(), SearchActivity.class);
 				startActivityForResult(search, ADD_FROM_SEARCH);
 
-			}
-			else if (v == barcodeButton) {
+			} else if (v == barcodeButton) {
 				try {
 					Intent intent = new Intent(
 							"com.google.zxing.client.android.SCAN");
 					intent.putExtra("SCAN_MODE", "PRODUCT_MODE"); // "PRODUCT_MODE"
-					intent.putExtra("SAVE_HISTORY", false);// this stops saving ur barcode in
-															// barcode scanner app's history
+					intent.putExtra("SAVE_HISTORY", false);// this stops saving
+															// ur barcode in
+															// barcode scanner
+															// app's history
 					startActivityForResult(intent, ADD_FROM_BARCODE);
 				} catch (ActivityNotFoundException ex) {
 					confimDownloadingBarcodeReader();
 				}
-			} else if(v == routeButton){
+			} else if (v == routeButton) {
 				route();
 			}
 		}
@@ -216,7 +219,7 @@ public class GrocListFragment extends Fragment {
 		add_conf.setNegativeButton("No", null);
 		add_conf.create();
 		add_conf.show();
-		
+
 	}
 
 	private void confimDownloadingBarcodeReader() {
@@ -258,7 +261,7 @@ public class GrocListFragment extends Fragment {
 							items.remove(pos);
 							db.removeItemFromList(itemToDel.getListsItemID());
 							adapter.notifyDataSetChanged();
-							
+
 						}
 
 					});

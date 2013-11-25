@@ -32,8 +32,9 @@ public final class R {
         public static final int info=0x7f020008;
         public static final int login_icon=0x7f020009;
         public static final int logout_icon=0x7f02000a;
-        public static final int shoppier=0x7f02000b;
-        public static final int sync_icon=0x7f02000c;
+        public static final int searchbar=0x7f02000b;
+        public static final int shoppier=0x7f02000c;
+        public static final int sync_icon=0x7f02000d;
     }
     public static final class id {
         public static final int InputSearch=0x7f080010;
