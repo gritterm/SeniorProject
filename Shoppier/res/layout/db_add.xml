@@ -37,7 +37,7 @@
                 android:inputType="text" />
 
             <EditText
-                android:id="@+id/db_add_brand"
+                android:id="@+id/login_pass"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="10"

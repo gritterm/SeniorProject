@@ -53,7 +53,6 @@ public final class R {
         public static final int but_inf=0x7f080027;
         public static final int content_frame=0x7f080002;
         public static final int db_add_aisle=0x7f08001d;
-        public static final int db_add_brand=0x7f08000d;
         public static final int db_add_button=0x7f080021;
         public static final int db_add_container=0x7f08001a;
         public static final int db_add_loc=0x7f080022;
@@ -64,7 +63,6 @@ public final class R {
         public static final int inputItemQty=0x7f080026;
         public static final int itemAmt=0x7f080023;
         public static final int itemPrice=0x7f080024;
-        public static final int item_name=0x7f08000b;
         public static final int label_aisle=0x7f080020;
         public static final int label_brand=0x7f08001e;
         public static final int label_name=0x7f080016;
@@ -72,6 +70,8 @@ public final class R {
         public static final int left_drawer=0x7f080003;
         public static final int list=0x7f080004;
         public static final int list_name=0x7f080017;
+        public static final int login_pass=0x7f08000d;
+        public static final int login_user=0x7f08000b;
         public static final int name=0x7f08002d;
         public static final int name1=0x7f080012;
         public static final int namelabel=0x7f080011;

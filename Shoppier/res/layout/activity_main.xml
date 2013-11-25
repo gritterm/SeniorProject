@@ -28,9 +28,9 @@
             android:id="@+id/relativeLayout1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/item_name"
-            android:layout_alignRight="@+id/item_name"
-            android:layout_below="@+id/item_name"
+            android:layout_alignLeft="@+id/login_user"
+            android:layout_alignRight="@+id/login_user"
+            android:layout_below="@+id/login_user"
             android:layout_marginTop="20dp" >
 
             <Button
@@ -41,25 +41,28 @@
                 android:text="@string/login" />
 
             <EditText
-                android:id="@+id/db_add_brand"
+                android:id="@+id/login_pass"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toLeftOf="@+id/btnLogout"
                 android:background="@drawable/blank"
                 android:ems="10"
                 android:hint="@string/password"
-                android:inputType="textPassword" />
+                android:inputType="textPassword"
+                android:singleLine="true" />
         </RelativeLayout>
 
         <EditText
-            android:id="@+id/item_name"
+            android:id="@+id/login_user"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/imageView1"
             android:layout_centerHorizontal="true"
             android:background="@drawable/blank"
             android:ems="10"
-            android:hint="@string/username" >
+            android:hint="@string/username"
+            android:imeOptions="actionNext"
+            android:singleLine="true" >
 
             <requestFocus />
         </EditText>
@@ -79,9 +82,9 @@
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/item_name"
-            android:layout_alignLeft="@+id/item_name"
-            android:layout_alignRight="@+id/item_name"
+            android:layout_above="@+id/login_user"
+            android:layout_alignLeft="@+id/login_user"
+            android:layout_alignRight="@+id/login_user"
             android:indeterminate="true" />
     </RelativeLayout>
 
