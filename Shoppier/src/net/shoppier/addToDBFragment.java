@@ -45,12 +45,12 @@ public class addToDBFragment extends Fragment {
 		addToDB = (Button) rootView.findViewById(R.id.db_add_button);
 		addToDB.setOnClickListener(handler);
 		itemName = (EditText) rootView.findViewById(R.id.db_add_name);
-		itemBrand = (EditText) rootView.findViewById(R.id.edit_item_brand);
+		itemBrand = (EditText) rootView.findViewById(R.id.login_pass);
 		store = (Spinner) rootView.findViewById(R.id.db_add_store);
 		addItemsOnStoreSpinner(store);
 		aisle = (Spinner) rootView.findViewById(R.id.db_add_aisle);
 		location = (Spinner) rootView.findViewById(R.id.db_add_loc);
-		
+
 		store.setOnItemSelectedListener(new OnItemSelectedListener() {
 
 			@Override
@@ -69,7 +69,7 @@ public class addToDBFragment extends Fragment {
 
 			}
 		});
-		
+
 		aisle.setOnItemSelectedListener(new OnItemSelectedListener() {
 
 			@Override
@@ -101,76 +101,104 @@ public class addToDBFragment extends Fragment {
 				String name = itemName.getText().toString();
 				String brand = itemBrand.getText().toString();
 
+				// Check if either name or brand is blank to prevent crash
+				if (name.matches("")) {
+					Toast.makeText(getActivity(), "Please enter a name for the item.",
+							Toast.LENGTH_SHORT).show();
+					return;
+				}
+				if (brand.matches("")) {
+					Toast.makeText(getActivity(), "Please enter a brand for the item.",
+							Toast.LENGTH_SHORT).show();
+					return;
+				}
+
 				// Cleanup to keep format consistent
-				
+
 				name = name.toLowerCase().trim();
 				brand = brand.toLowerCase().trim();
 				name = name.substring(0, 1).toUpperCase() + name.substring(1);
 				brand = brand.substring(0, 1).toUpperCase()
 						+ brand.substring(1);
 
-				//int itemCatFK = aisle.getSelectedItemPosition() + 1;
+				// Check AGAIN if either name or brand is blank to prevent crash
+				if (name.matches("")) {
+					Toast.makeText(getActivity(), "Please enter a name for the item.",
+							Toast.LENGTH_SHORT).show();
+					return;
+				}
+				if (brand.matches("")) {
+					Toast.makeText(getActivity(), "Please enter a brand for the item.",
+							Toast.LENGTH_SHORT).show();
+					return;
+				}
+
+				// int itemCatFK = aisle.getSelectedItemPosition() + 1;
 				StoreObject storeob = (StoreObject) store.getSelectedItem();
 				AisleObject aisleob = (AisleObject) aisle.getSelectedItem();
-				CategoryObject catob = (CategoryObject) location.getSelectedItem();
-				int itemCatFK  = catob.getCat_pk();
+				CategoryObject catob = (CategoryObject) location
+						.getSelectedItem();
+				int itemCatFK = catob.getCat_pk();
 				uf = new UserFunctions();
-				JSONObject returnValue = uf.sendCrowdSourceItem(name, brand, itemCatFK);
-				
-					Toast toast = Toast.makeText(getActivity(),
-							"Thank you for adding " + brand + " " + name
-									+ " to our database!", Toast.LENGTH_LONG);
-					toast.setGravity(Gravity.TOP, 0, 300);
-					toast.show();
-					//reshow addToDBFrag for user to add another item
-					Fragment fragment = new addToDBFragment();
-					FragmentManager fragmentManager = getFragmentManager();
-					fragmentManager.beginTransaction()
-							.replace(R.id.content_frame, fragment).commit();
-				
+				JSONObject returnValue = uf.sendCrowdSourceItem(name, brand,
+						itemCatFK);
+
+				Toast toast = Toast.makeText(getActivity(),
+						"Thank you for adding " + brand + " " + name
+								+ " to our database!", Toast.LENGTH_LONG);
+				toast.setGravity(Gravity.TOP, 0, 300);
+				toast.show();
+				// reshow addToDBFrag for user to add another item
+				Fragment fragment = new addToDBFragment();
+				FragmentManager fragmentManager = getFragmentManager();
+				fragmentManager.beginTransaction()
+						.replace(R.id.content_frame, fragment).commit();
+
 			}
 		}
 
 	};
-		
-	
-	 public void addItemsOnStoreSpinner(Spinner spinner) {
-		 
-			List<StoreObject> list = new ArrayList<StoreObject>();
-			
-			DatabaseHandler db = new DatabaseHandler(getActivity());
-			list = db.getStores();
 
+	public void addItemsOnStoreSpinner(Spinner spinner) {
 
-			ArrayAdapter<StoreObject> dataAdapter = new ArrayAdapter<StoreObject>(getActivity(),
-				android.R.layout.simple_spinner_item, list);
-			dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-			spinner.setAdapter(dataAdapter);
-		  }
-	 
-	 public void addItemsOnAisleSpinner(Spinner spinner, int storePK) {
-		 
-			List<AisleObject> list = new ArrayList<AisleObject>();
-			
-			DatabaseHandler db = new DatabaseHandler(getActivity());
-			list = db.getAisle(storePK);
+		List<StoreObject> list = new ArrayList<StoreObject>();
 
-			ArrayAdapter<AisleObject> dataAdapter = new ArrayAdapter<AisleObject>(getActivity(),
-				android.R.layout.simple_spinner_item, list);
-			dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-			spinner.setAdapter(dataAdapter);
-			
-		  }
-	 public void addItemsOnLocationSpinner(Spinner spinner, int aislePK) {
-		 
-			List<CategoryObject> list = new ArrayList<CategoryObject>();
-			
-			DatabaseHandler db = new DatabaseHandler(getActivity());
-			list = db.getCatFromAisle(aislePK);
+		DatabaseHandler db = new DatabaseHandler(getActivity());
+		list = db.getStores();
 
-			ArrayAdapter<CategoryObject> dataAdapter = new ArrayAdapter<CategoryObject>(getActivity(),
-				android.R.layout.simple_spinner_item, list);
-			dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-			spinner.setAdapter(dataAdapter);
-		  }
+		ArrayAdapter<StoreObject> dataAdapter = new ArrayAdapter<StoreObject>(
+				getActivity(), android.R.layout.simple_spinner_item, list);
+		dataAdapter
+				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		spinner.setAdapter(dataAdapter);
+	}
+
+	public void addItemsOnAisleSpinner(Spinner spinner, int storePK) {
+
+		List<AisleObject> list = new ArrayList<AisleObject>();
+
+		DatabaseHandler db = new DatabaseHandler(getActivity());
+		list = db.getAisle(storePK);
+
+		ArrayAdapter<AisleObject> dataAdapter = new ArrayAdapter<AisleObject>(
+				getActivity(), android.R.layout.simple_spinner_item, list);
+		dataAdapter
+				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		spinner.setAdapter(dataAdapter);
+
+	}
+
+	public void addItemsOnLocationSpinner(Spinner spinner, int aislePK) {
+
+		List<CategoryObject> list = new ArrayList<CategoryObject>();
+
+		DatabaseHandler db = new DatabaseHandler(getActivity());
+		list = db.getCatFromAisle(aislePK);
+
+		ArrayAdapter<CategoryObject> dataAdapter = new ArrayAdapter<CategoryObject>(
+				getActivity(), android.R.layout.simple_spinner_item, list);
+		dataAdapter
+				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		spinner.setAdapter(dataAdapter);
+	}
 }

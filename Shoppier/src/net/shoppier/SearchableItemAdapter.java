@@ -84,13 +84,13 @@ public class SearchableItemAdapter  extends ArrayAdapter<SearchableItem>{
     }
 
 	public void filter(String charText)  {
-		charText = charText.toLowerCase(Locale.getDefault());
+		charText = charText.toLowerCase(Locale.getDefault()).trim();
         list.clear(); 
         if (charText.length() == 0) {
             list.addAll(dataSource);
         } else {
             for (SearchableItem wp : dataSource) {
-                if (wp.getItemName().toLowerCase(Locale.getDefault())
+                if ((wp.getItemBrand()+" "+wp.getItemName()).toLowerCase(Locale.getDefault())
                         .contains(charText)) {
                     list.add(wp);
                 }

@@ -17,9 +17,11 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnKeyListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -65,8 +67,28 @@ public class MainActivity extends Activity {
 		}
 		setContentView(R.layout.activity_main);
 		login = (Button) findViewById(R.id.btnLogout);
-		inputUserName = (EditText) findViewById(R.id.edit_item_name);
-		inputPassword = (EditText) findViewById(R.id.edit_item_brand);
+		inputUserName = (EditText) findViewById(R.id.login_user);
+		inputPassword = (EditText) findViewById(R.id.login_pass);
+		inputPassword.setOnKeyListener(new OnKeyListener(){
+
+			@Override
+			public boolean onKey(View v, int keyCode, KeyEvent event) {
+				if (event.getAction() == KeyEvent.ACTION_DOWN)
+		        {
+		            switch (keyCode)
+		            {
+		                case KeyEvent.KEYCODE_DPAD_CENTER:
+		                case KeyEvent.KEYCODE_ENTER:
+		                    login.performClick();
+		                    return true;
+		                default:
+		                    break;
+		            }
+		        }return false;
+			}
+			
+		}
+		);
 		login.setOnClickListener(handler);
 		skip = (TextView) findViewById(R.id.textView1);
 		skip.setOnClickListener(handler);
@@ -201,6 +223,7 @@ public class MainActivity extends Activity {
 			}
 		}
 	};
+	
 
 	private void SavePreferences(String username, String password) {
 

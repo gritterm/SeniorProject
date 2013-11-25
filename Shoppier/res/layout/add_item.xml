@@ -11,7 +11,7 @@
         android:background="@drawable/back" >
 
         <EditText
-            android:id="@+id/edit_item_name"
+            android:id="@+id/login_user"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
@@ -24,10 +24,10 @@
         </EditText>
 
         <EditText
-            android:id="@+id/edit_item_brand"
+            android:id="@+id/login_pass"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/edit_item_name"
+            android:layout_below="@+id/login_user"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="40dp"
             android:ems="10"
@@ -38,7 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_below="@+id/edit_item_brand"
+            android:layout_below="@+id/login_pass"
             android:layout_marginTop="34dp"
             android:src="@android:drawable/ic_input_add" />
 

@@ -28,6 +28,7 @@
         android:layout_alignLeft="@android:id/list"
         android:layout_alignParentTop="true"
         android:layout_alignRight="@android:id/list"
+        android:background="@drawable/searchbar"
         android:ems="10" >
 
         <requestFocus />
