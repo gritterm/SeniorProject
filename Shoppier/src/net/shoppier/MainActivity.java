@@ -65,8 +65,8 @@ public class MainActivity extends Activity {
 		}
 		setContentView(R.layout.activity_main);
 		login = (Button) findViewById(R.id.btnLogout);
-		inputUserName = (EditText) findViewById(R.id.item_name);
-		inputPassword = (EditText) findViewById(R.id.db_add_brand);
+		inputUserName = (EditText) findViewById(R.id.edit_item_name);
+		inputPassword = (EditText) findViewById(R.id.edit_item_brand);
 		login.setOnClickListener(handler);
 		skip = (TextView) findViewById(R.id.textView1);
 		skip.setOnClickListener(handler);

@@ -105,8 +105,6 @@ public class UserFunctions {
 		params.add(new BasicNameValuePair("listID", listId));
 		params.add(new BasicNameValuePair("list", listtoArray(db
 				.getList(listId))));
-
-		// TODO Create a Get All List Methodd
 		jsonParser = new JSONParser(params);
 
 		try {

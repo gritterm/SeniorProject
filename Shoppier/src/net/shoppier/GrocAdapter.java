@@ -58,7 +58,12 @@ public class GrocAdapter extends ArrayAdapter<ListsItem>{
 		String price_context = NumberFormat.getCurrencyInstance().format(dataSource.get(position).getItemPrice());		 
 		bin.name_holder.setText(name_context);
 		bin.brand_holder.setText(brand_context);
-		bin.qty_holder.setText(qty_context);
+		if(qty_context.equals("")){
+			
+		}else{
+			bin.qty_holder.setText("Qty: " + qty_context);
+		}
+		
 		if(price_context.equals("$0.00")){
 			bin.price_holder.setText("");
 		}else{

@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -29,6 +30,7 @@ public class GrocListFragment extends Fragment {
 	private static final int ADD_REQUEST = 0x4;
 	static final int ADD_FROM_SEARCH = 0x3;
 	static final int ADD_FROM_BARCODE = 0x7;
+	static final int EDIT_ITEM = 0x10;
 	static final int RESULT_OK = -1;
 	private DatabaseHandler db;
 	private ImageButton search;
@@ -59,6 +61,7 @@ public class GrocListFragment extends Fragment {
 		barcodeButton = (ImageButton) rootView
 				.findViewById(R.id.barcodeSearchButton);
 		lview.setOnItemLongClickListener(lchandler);
+		lview.setOnItemClickListener(clickhandler);
 		add.setOnClickListener(handler);
 		search.setOnClickListener(handler);
 		barcodeButton.setOnClickListener(handler);
@@ -88,7 +91,6 @@ public class GrocListFragment extends Fragment {
 			remv_conf.setNegativeButton("Dismiss", null);
 			remv_conf.create();
 			remv_conf.show();
-
 		}
 
 		adapter = new GrocAdapter(this.getActivity(), R.layout.item, items);
@@ -144,6 +146,10 @@ public class GrocListFragment extends Fragment {
 			//newItem.setSearchItemId(0);
 			
 			confirmAddFromBarCode(newItem);
+		}
+		if (resultCode == RESULT_OK && requestCode == EDIT_ITEM) {
+			int contents = data.getIntExtra("result", 0); // this is the
+																	// result
 		}
 	}
 
@@ -267,6 +273,42 @@ public class GrocListFragment extends Fragment {
 			remv_conf.create();
 			remv_conf.show();
 			return false;
+
+		}
+	};
+	
+	private OnItemClickListener clickhandler = new OnItemClickListener() {
+		@Override
+		public void onItemClick(AdapterView<?> list, View item,
+				int position, long id) {
+			final int pos = position;
+			final ListsItem selectedItem = (ListsItem) list
+					.getItemAtPosition(position);
+
+			AlertDialog.Builder conf = new AlertDialog.Builder(
+					getActivity());
+			conf.setMessage("I would like to...");
+			conf.setPositiveButton("Edit Item",
+					new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int which) {
+							Intent editItem = new Intent(getActivity(),EditItemFragment.class);
+							editItem.putExtra("selectedItem", String.valueOf(selectedItem.getListsItemID()));
+							startActivityForResult(editItem, EDIT_ITEM);
+						}
+
+					});
+
+			conf.setNegativeButton("Find Item in Store",
+					new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int which) {
+					
+					
+				}
+
+			});
+			conf.create();
+			conf.show();
+			
 
 		}
 	};

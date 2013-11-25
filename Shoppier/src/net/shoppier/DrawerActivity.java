@@ -240,6 +240,7 @@ public class DrawerActivity extends Activity {
 
 	}
 
+
 	// public void removeList(int listID){
 	// mDrawerLists.remove(listID);
 	// Navlists.remove(listID);

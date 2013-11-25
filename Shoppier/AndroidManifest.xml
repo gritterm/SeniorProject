@@ -66,6 +66,11 @@
             android:label="@string/title_barcode"
             android:screenOrientation="portrait" >
         </activity>
+        <activity
+            android:name="net.shoppier.EditItemFragment"
+            android:label="@string/title_EditItem"
+            android:screenOrientation="portrait" >
+        </activity>
     </application>
 
 </manifest>

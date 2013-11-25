@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scrollview"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true" >
+             
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/back" >
+        
+     <EditText
+         android:id="@+id/edit_item_brand"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_below="@+id/edit_item_name"
+         android:layout_centerHorizontal="true"
+         android:layout_marginTop="40dp"
+         android:ems="10" />
+
+        <TextView
+            android:id="@+id/label_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/edit_item_brand"
+            android:layout_below="@+id/edit_item_name"
+            android:layout_marginTop="20dp"
+            android:text="@string/item_brand" />
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/edit_item_name"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="30dp"
+            android:text="@string/item_name" />
+
+        <EditText
+            android:id="@+id/edit_item_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/label_name"
+            android:layout_below="@+id/textView1"
+            android:ems="10" >
+
+            <requestFocus />
+        </EditText>
+
+        <EditText
+            android:id="@+id/editItemPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/TextView01"
+            android:layout_below="@+id/edit_item_brand"
+            android:layout_marginTop="36dp"
+            android:ems="10"
+            android:inputType="numberDecimal" />
+
+        <TextView
+            android:id="@+id/TextView02"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/editItemPrice"
+            android:layout_below="@+id/edit_item_brand"
+            android:layout_marginTop="22dp"
+            android:text="Price" />
+
+        <TextView
+            android:id="@+id/TextView01"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/edit_item_brand"
+            android:layout_alignTop="@+id/numberPicker"
+            android:layout_marginTop="42dp"
+            android:text="Quanity:"
+            android:textSize="15sp" />
+
+        <NumberPicker
+            android:id="@+id/numberPicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignRight="@+id/editItemPrice"
+            android:layout_below="@+id/editItemPrice"
+            android:layout_marginRight="29dp"
+            android:layout_marginTop="12dp"
+            android:width="5dp" />
+
+        <Button
+            android:id="@+id/editItemDoneBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/numberPicker"
+            android:layout_marginTop="26dp"
+            android:layout_toRightOf="@+id/TextView01"
+            android:text="Done" />
+     
+</RelativeLayout>
+
+    </ScrollView>
