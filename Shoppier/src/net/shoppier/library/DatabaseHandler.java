@@ -324,7 +324,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	 * */
 	public int editListItem(ListsItem listItem){
 		ContentValues value = new ContentValues();
-		value.put(KEY_LISTITEM_NAME, listItem.getListsItemID());
+		value.put(KEY_LISTITEM_NAME, listItem.getListsItemName());
 		value.put(KEY_LIST_ITEM_BRAND, listItem.getListItemBrand());
 		value.put(KEY_LIST_ITEM_qty, listItem.getItemQTY());
 		value.put(KEY_LIST_ITEM_Price, listItem.getItemPrice());

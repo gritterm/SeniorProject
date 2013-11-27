@@ -232,16 +232,17 @@ public class UserFunctions {
 			try {
 				userList = json.getJSONArray(Array_List);
 				for (int i = 0; i <= userList.length() - 1; i++) {
-
 					ListsItem li = new ListsItem();
 					JSONObject l = userList.getJSONObject(i);
 					li.setListFK(l.getInt(Tag_ListFK));
 					li.setSearchItemId(l.getInt(Tag_LIST_ITEM_SEARCH_ID));
 					li.setListsItemName(l.getString(Tag_LISTITEM_NAME));
 					li.setListItemBrand(l.getString(Tag_LISTITEM_BRAND));
-					li.setItemPrice(3.00);
-					li.setItemQTY("2");
-					
+					li.setItemPrice(l.getDouble("item_price"));
+					li.setItemQTY(l.getString("item_qty"));
+					li.setxCord(l.getInt("item_x"));
+					li.setyCord(l.getInt("item_y"));
+					li.setCatFK(l.getInt("item_catVal"));
 					userGrocList.add(li);
 				}
 

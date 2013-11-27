@@ -41,7 +41,7 @@ public class EditItemFragment extends Activity {
 			 listID = extra.getExtras().getString("selectedItem");
 		}
 		 li = db.getListItem(listID);
-		//if item from search make name and brand field un-editable
+		//if item if from search the name and brand field un-editable
 		if(li.getSearchItemId() != 0){
 			itemName.setEnabled(false);
 			itemBrand.setEnabled(false);

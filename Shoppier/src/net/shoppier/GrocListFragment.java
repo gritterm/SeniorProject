@@ -151,8 +151,18 @@ public class GrocListFragment extends Fragment {
 			confirmAddFromBarCode(newItem);
 		}
 		if (resultCode == RESULT_OK && requestCode == EDIT_ITEM) {
-			int contents = data.getIntExtra("result", 0); // this is the
-																	// result
+			int contents = data.getIntExtra("result", 0); // this is the result
+			this.db = new DatabaseHandler(getActivity());
+			ArrayList<ListsItem> arryList = new ArrayList<ListsItem>();
+			arryList = db.getList(currentlistID);
+
+			for (ListsItem l : arryList) {
+				if (!l.equals(null)) {
+					items.clear();
+					items.add(l);
+				}
+			}
+			adapter.notifyDataSetChanged();
 		}
 	}
 

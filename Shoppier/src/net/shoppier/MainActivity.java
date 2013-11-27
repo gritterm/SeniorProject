@@ -67,8 +67,8 @@ public class MainActivity extends Activity {
 		}
 		setContentView(R.layout.activity_main);
 		login = (Button) findViewById(R.id.btnLogout);
-		inputUserName = (EditText) findViewById(R.id.login_user);
-		inputPassword = (EditText) findViewById(R.id.login_pass);
+		inputUserName = (EditText) findViewById(R.id.add_item_Name);
+		inputPassword = (EditText) findViewById(R.id.add_item_brand);
 		inputPassword.setOnKeyListener(new OnKeyListener(){
 
 			@Override
