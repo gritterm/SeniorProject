@@ -54,6 +54,8 @@ public class DrawerActivity extends Activity {
 
 		userFunctions = new UserFunctions();
 		db = new DatabaseHandler(getApplicationContext());
+		
+		//fillUserGrcoList();
 		// Setting up the Drawer
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		mDrawerList = (ListView) findViewById(R.id.left_drawer);
@@ -283,6 +285,33 @@ public class DrawerActivity extends Activity {
 	@Override
 	public void onBackPressed() {
 
+	}
+	@Override
+	public void onStop(){
+		super.onStop();
+		
+		ArrayList<CompleteList> list = new ArrayList<CompleteList>();
+		list = db.getList();
+		
+		for(int i = 0; i <= list.size()-1; i++){
+			userFunctions.Sync(getApplicationContext(), String.valueOf(list.get(i).getListPK()));
+		}
+	}
+	
+	public void fillUserGrcoList(){
+		// get users groclist items
+		ArrayList<ListsItem> grocList = userFunctions
+				.getUserGrocList(getApplicationContext());
+		DatabaseHandler dbhandler = new DatabaseHandler(getApplicationContext());
+		dbhandler.clearListItemTable();
+		// add groclist items to list sql lite
+		// database
+		// table
+		for (ListsItem l : grocList) {
+			if (!l.equals(null)) {
+				dbhandler.addItemToListDB(l);
+			}
+		}
 	}
 
 	@Override

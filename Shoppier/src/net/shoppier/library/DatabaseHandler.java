@@ -685,6 +685,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		 db.close();
 	}
 	
+	public void clearListItemTable(){
+		SQLiteDatabase db = this.getWritableDatabase();
+		db.execSQL("DROP TABLE IF EXISTS " + TABLE_LIST_ITEMS);
+		db.execSQL(CREATE_LIST_TABLE);
+		 db.close();
+	}
+	
 	public void DBclose(){
 		 SQLiteDatabase db = this.getReadableDatabase();
 	        if (db != null && db.isOpen()){

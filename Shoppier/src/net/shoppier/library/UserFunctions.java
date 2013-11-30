@@ -24,6 +24,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
+import android.view.Gravity;
+import android.widget.Toast;
 
 public class UserFunctions {
 
@@ -104,13 +106,12 @@ public class UserFunctions {
 				"uid")));
 		params.add(new BasicNameValuePair("listID", listId));
 		params.add(new BasicNameValuePair("list", listtoArray(db
-				.getList(listId))));
+				.getList(listId), context)));
 		jsonParser = new JSONParser(params);
 
 		try {
 
 			jsonParser.execute(loginURL).get();
-			// TODO Add getting new items too.
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		} catch (ExecutionException e) {
@@ -293,14 +294,27 @@ public class UserFunctions {
 
 	}
 
-	private String listtoArray(ArrayList<ListsItem> list) {
+	private String listtoArray(ArrayList<ListsItem> list, Context context) {
 
 		JSONArray totalList = new JSONArray();
 		for (int i = 0; i <= list.size() - 1; i++) {
 			JSONArray aryItem = new JSONArray();
-			aryItem.put(list.get(i).getSearchItemId())
-					.put(list.get(i).getListsItemName())
-					.put(list.get(i).getListItemBrand());
+			try {
+				aryItem.put(0)
+						.put(list.get(i).getListsItemID())
+						.put(list.get(i).getListsItemName())
+						.put(list.get(i).getListItemBrand())
+						.put(list.get(i).getItemPrice())
+						.put(list.get(i).getItemQTY())
+						.put(list.get(i).getCatFK())
+						.put(list.get(i).getxCord())
+						.put(list.get(i).getyCord());
+			} catch (JSONException e) {
+				Toast toast = Toast.makeText(context,
+						"There was a problem syncing the list.", Toast.LENGTH_LONG);
+				toast.setGravity(Gravity.TOP, 0, 300);
+				toast.show();
+			}
 			totalList.put(aryItem);
 		}
 		return totalList.toString();

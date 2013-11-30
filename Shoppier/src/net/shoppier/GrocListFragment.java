@@ -54,7 +54,7 @@ public class GrocListFragment extends Fragment {
 
 		this.userfunction = new UserFunctions();
 		lview = (ListView) rootView.findViewById(R.id.list);
-
+		fillUserGrcoList();
 		add = (ImageButton) rootView.findViewById(R.id.but_add);
 		search = (ImageButton) rootView.findViewById(R.id.searchBtn);
 		routeButton = (Button) rootView.findViewById(R.id.routeButton);
@@ -326,4 +326,19 @@ public class GrocListFragment extends Fragment {
 		}
 	};
 
+	public void fillUserGrcoList(){
+		// get users groclist items
+		ArrayList<ListsItem> grocList = userfunction
+				.getUserGrocList(getActivity());
+		DatabaseHandler dbhandler = new DatabaseHandler(getActivity());
+		dbhandler.clearListItemTable();
+		// add groclist items to list sql lite
+		// database
+		// table
+		for (ListsItem l : grocList) {
+			if (!l.equals(null)) {
+				dbhandler.addItemToListDB(l);
+			}
+		}
+	}
 }
