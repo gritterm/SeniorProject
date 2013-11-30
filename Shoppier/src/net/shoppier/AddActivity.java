@@ -8,6 +8,10 @@ import android.view.View.OnClickListener;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+/**
+ * Activity to capture the text from the add_item_name text field
+ * and sends back new item info to GrocListFragment  
+ * */
 public class AddActivity extends Activity {
 	private final String TAG = getClass().getName();
 

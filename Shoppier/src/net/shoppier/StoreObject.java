@@ -3,19 +3,19 @@ package net.shoppier;
 
 public class StoreObject {
 	
-	int storePK; 
+	int storePK;  //store Primary key
 	
-	String storeName; 
+	String storeName; //store name 
 	
-	String storeAddress; 
+	String storeAddress; //store address
 	
-	String storeCity; 
+	String storeCity; //store city
 	
-	int storeZipCode; 
+	int storeZipCode; //store zipcode
 	
-	String storeType; 
+	String storeType; //store type
 	
-	String storeImage;
+	String storeImage; //store map
 	
 	
 

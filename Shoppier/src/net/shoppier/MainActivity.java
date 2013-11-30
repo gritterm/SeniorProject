@@ -49,9 +49,10 @@ public class MainActivity extends Activity {
 	String password;
 	Context context;
 
-	DatabaseHandler db;
+	DatabaseHandler db ;
 	Handler updateBarHandler;
 
+	UserFunctions userFuncation = new UserFunctions(); 
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -61,9 +62,11 @@ public class MainActivity extends Activity {
 		SharedPreferences settings = PreferenceManager
 				.getDefaultSharedPreferences(getApplicationContext());
 		String savedUserName = settings.getString("username", null);
+		userFuncation = new UserFunctions(); 
 		String savedPW = settings.getString("password", null);
 		if (savedUserName != null && savedPW != null) {
-			startActivity(new Intent(MainActivity.this, DrawerActivity.class));
+			fillUserGrcoList();
+						startActivity(new Intent(MainActivity.this, DrawerActivity.class));
 		}
 		setContentView(R.layout.activity_main);
 		login = (Button) findViewById(R.id.btnLogout);
@@ -96,6 +99,8 @@ public class MainActivity extends Activity {
 
 
 	}
+
+
 
 	private void setDropDowns() {
 
@@ -141,8 +146,7 @@ public class MainActivity extends Activity {
 										SavePreferences(username, password);
 
 										// Store user details in SQLite Database
-										db = new DatabaseHandler(
-												getApplicationContext());
+
 										JSONObject json_user = json
 												.getJSONObject("user");
 										db.addUser(
@@ -155,18 +159,8 @@ public class MainActivity extends Activity {
 										userFunction
 												.getListIDS(getApplicationContext());
 
-										// get users groclist items
-										ArrayList<ListsItem> grocList = userFunction
-												.getUserGrocList(getApplicationContext());
-
-										// add groclist items to list sql lite
-										// database
-										// table
-										for (ListsItem l : grocList) {
-											if (!l.equals(null)) {
-												db.addItemToListDB(l);
-											}
-										}
+										fillUserGrcoList();
+										
 
 										// Launch ListSelection Screen
 										startActivity(new Intent(
@@ -242,6 +236,21 @@ public class MainActivity extends Activity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
+	}
+	
+	public void fillUserGrcoList(){
+		// get users groclist items
+		ArrayList<ListsItem> grocList = userFuncation
+				.getUserGrocList(getApplicationContext());
+		DatabaseHandler dbhandler = new DatabaseHandler(getApplicationContext());
+		// add groclist items to list sql lite
+		// database
+		// table
+		for (ListsItem l : grocList) {
+			if (!l.equals(null)) {
+				dbhandler.addItemToListDB(l);
+			}
+		}
 	}
 
 //	class ProgressTask extends AsyncTask<Void, Void, Boolean> {

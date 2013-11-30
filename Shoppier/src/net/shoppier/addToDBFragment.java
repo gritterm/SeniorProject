@@ -23,7 +23,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
-
+/**
+ * Fragment to add a new crowdsourced item to the database
+ * 
+ * */
 public class addToDBFragment extends Fragment {
 
 	private Button addToDB;
@@ -140,6 +143,8 @@ public class addToDBFragment extends Fragment {
 						.getSelectedItem();
 				int itemCatFK = catob.getCat_pk();
 				uf = new UserFunctions();
+				
+				//sending the new item to the database
 				JSONObject returnValue = uf.sendCrowdSourceItem(name, brand,
 						itemCatFK);
 
@@ -148,7 +153,7 @@ public class addToDBFragment extends Fragment {
 								+ " to our database!", Toast.LENGTH_LONG);
 				toast.setGravity(Gravity.TOP, 0, 300);
 				toast.show();
-				// reshow addToDBFrag for user to add another item
+				// re-show addToDBFrag for user to add another item
 				Fragment fragment = new addToDBFragment();
 				FragmentManager fragmentManager = getFragmentManager();
 				fragmentManager.beginTransaction()
@@ -158,7 +163,11 @@ public class addToDBFragment extends Fragment {
 		}
 
 	};
-
+	/**
+	 * function fills store drop down from database based 
+	 * 
+	 * @param store spinner
+	 * */
 	public void addItemsOnStoreSpinner(Spinner spinner) {
 
 		List<StoreObject> list = new ArrayList<StoreObject>();
@@ -172,7 +181,12 @@ public class addToDBFragment extends Fragment {
 				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spinner.setAdapter(dataAdapter);
 	}
-
+	/**
+	 * function fills aisle drop down from database based on store selected 
+	 * 
+	 * @param aisle spinner
+	 * @param store primary key
+	 * */
 	public void addItemsOnAisleSpinner(Spinner spinner, int storePK) {
 
 		List<AisleObject> list = new ArrayList<AisleObject>();
@@ -187,6 +201,12 @@ public class addToDBFragment extends Fragment {
 		spinner.setAdapter(dataAdapter);
 
 	}
+	/**
+	 * function fills Location drop down from database based on aisle selected 
+	 * 
+	 * @param location spinner
+	 * @param Aisle Primary key
+	 * */
 
 	public void addItemsOnLocationSpinner(Spinner spinner, int aislePK) {
 

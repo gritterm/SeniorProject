@@ -4,15 +4,24 @@
     android:layout_height="match_parent" >
     
 <TextView
-       android:id="@+id/navmenusection_label"
-       android:layout_width="fill_parent"
-       android:layout_height="wrap_content"
-       android:text="Section"
-       android:textSize="18sp"
-       android:paddingTop="7dp"
-       android:paddingBottom="7dp"
-       android:textColor="#FFFFFF"
-       style="?android:attr/listSeparatorTextViewStyle"/>
+    android:id="@+id/navmenusection_label"
+    style="?android:attr/listSeparatorTextViewStyle"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="7dp"
+    android:paddingTop="7dp"
+    android:text="Section"
+    android:textColor="#FFFFFF"
+    android:textSize="15sp" />
+<View
+    android:layout_width="fill_parent"
+    android:layout_height="1dp"
+    android:background="#FFFFFF"
+    android:layout_below="@+id/navmenusection_label"/>
+<View
+    android:layout_width="fill_parent"
+    android:layout_height="1dp"
+    android:background="#FFFFFF"/>
 
 <!-- 	android:background="@color/purple_dark" -->
 

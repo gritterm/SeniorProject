@@ -16,7 +16,7 @@
         tools:context=".MainActivity" >
 
         <ImageView
-            android:id="@+id/imageView1"
+            android:id="@+id/mapView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
@@ -56,7 +56,7 @@
             android:id="@+id/add_item_Name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/imageView1"
+            android:layout_alignBottom="@+id/mapView"
             android:layout_centerHorizontal="true"
             android:background="@drawable/blank"
             android:ems="10"

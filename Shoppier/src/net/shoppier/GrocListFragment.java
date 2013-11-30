@@ -155,10 +155,10 @@ public class GrocListFragment extends Fragment {
 			this.db = new DatabaseHandler(getActivity());
 			ArrayList<ListsItem> arryList = new ArrayList<ListsItem>();
 			arryList = db.getList(currentlistID);
-
+			items.clear();
 			for (ListsItem l : arryList) {
 				if (!l.equals(null)) {
-					items.clear();
+					
 					items.add(l);
 				}
 			}
@@ -314,8 +314,8 @@ public class GrocListFragment extends Fragment {
 			conf.setNegativeButton("Find Item in Store",
 					new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int which) {
-					
-					
+					Intent findItem = new Intent(getActivity(), MapLocator.class);
+					startActivity(findItem);
 				}
 
 			});

@@ -1,11 +1,11 @@
 package net.shoppier;
 
 public class AisleObject {
-	int aislePK; 
+	int aislePK; //aisle primary key  
 	
-	String aisleName; 
+	String aisleName; //aisle name
 	
-	int aisleStoreFK;
+	int aisleStoreFK; //store associated with aisle
 
 	
 	public AisleObject(int aislePK, String aisleName, int aisleStoreFK) {

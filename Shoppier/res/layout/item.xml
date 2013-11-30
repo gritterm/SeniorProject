@@ -13,7 +13,7 @@
         android:layout_alignBottom="@+id/textView1"
         android:layout_alignParentLeft="true"
         android:text="@string/item_brand"
-        android:textSize="16sp"/>
+        android:textSize="20sp"/>
 
     <TextView
         android:id="@+id/textView1"
@@ -24,7 +24,7 @@
         android:layout_marginTop="12dp"
         android:layout_toRightOf="@+id/label_name"
         android:text="@string/item_name"
-        android:textSize="16sp" />
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/qtyText"
@@ -53,5 +53,6 @@
         android:layout_marginLeft="14dp"
         android:layout_toRightOf="@+id/inputItemQty"
         android:text="Item Amt" />
+ 
 
 </RelativeLayout>
