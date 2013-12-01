@@ -97,7 +97,6 @@ public class UserFunctions {
 		return null;
 	}
 
-	// TODO figure out sending data back to database
 	public void Sync(Context context, String listId) {
 		this.db = new DatabaseHandler(context);
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -118,6 +117,29 @@ public class UserFunctions {
 			e.printStackTrace();
 		}
 	}
+	
+	public void AddListToSqlServer(Context context, CompleteList list) {
+		this.db = new DatabaseHandler(context);
+		List<NameValuePair> params = new ArrayList<NameValuePair>();
+		params.add(new BasicNameValuePair("tag", "newList"));
+		params.add(new BasicNameValuePair("UID", db.getUserDetails().get(
+				"uid")));
+		params.add(new BasicNameValuePair("store_fk",String.valueOf(list.getStore())));
+		params.add(new BasicNameValuePair("list_name", list.getListName()));
+		params.add(new BasicNameValuePair("list_items", listtoArray(db
+				.getList(String.valueOf(list.getListPK())), context)));
+		jsonParser = new JSONParser(params);
+
+		try {
+
+			jsonParser.execute(loginURL).get();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			e.printStackTrace();
+		}
+	}
+	
 
 	public ArrayList<SearchableItem> getSearchableItems(Context context)
 			throws JSONException {
