@@ -69,6 +69,12 @@ public class MainActivity extends Activity {
 		login = (Button) findViewById(R.id.btnLogout);
 		inputUserName = (EditText) findViewById(R.id.login_user);
 		inputPassword = (EditText) findViewById(R.id.login_pass);
+		login.setOnClickListener(handler);
+		skip = (TextView) findViewById(R.id.textView1);
+		skip.setOnClickListener(handler);
+		updateBarHandler = new Handler();
+		
+		//Makes enter key in password perform like login button
 		inputPassword.setOnKeyListener(new OnKeyListener(){
 
 			@Override
@@ -89,10 +95,6 @@ public class MainActivity extends Activity {
 			
 		}
 		);
-		login.setOnClickListener(handler);
-		skip = (TextView) findViewById(R.id.textView1);
-		skip.setOnClickListener(handler);
-		updateBarHandler = new Handler();
 
 
 	}

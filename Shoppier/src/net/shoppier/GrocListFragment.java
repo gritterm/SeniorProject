@@ -25,14 +25,14 @@ public class GrocListFragment extends Fragment {
 	private ArrayList<ListsItem> items;
 	private GrocAdapter adapter;
 	private ListView lview;
-	private ImageButton add;
+	//private ImageButton add;
 	private static final int ADD_REQUEST = 0x4;
 	static final int ADD_FROM_SEARCH = 0x3;
 	static final int ADD_FROM_BARCODE = 0x7;
 	static final int RESULT_OK = -1;
 	private DatabaseHandler db;
-	private ImageButton search;
-	private ImageButton barcodeButton;
+	private Button search;
+	//private ImageButton barcodeButton;
 	private Button routeButton;
 	String currentlistID;
 	UserFunctions userfunction;
@@ -53,15 +53,15 @@ public class GrocListFragment extends Fragment {
 		this.userfunction = new UserFunctions();
 		lview = (ListView) rootView.findViewById(R.id.list);
 
-		add = (ImageButton) rootView.findViewById(R.id.but_add);
-		search = (ImageButton) rootView.findViewById(R.id.searchBtn);
+		//add = (ImageButton) rootView.findViewById(R.id.but_add);
+		search = (Button) rootView.findViewById(R.id.searchBtn);
 		routeButton = (Button) rootView.findViewById(R.id.routeButton);
-		barcodeButton = (ImageButton) rootView
-				.findViewById(R.id.barcodeSearchButton);
+		//barcodeButton = (ImageButton) rootView
+		//		.findViewById(R.id.barcodeSearchButton);
 		lview.setOnItemLongClickListener(lchandler);
-		add.setOnClickListener(handler);
+		//add.setOnClickListener(handler);
 		search.setOnClickListener(handler);
-		barcodeButton.setOnClickListener(handler);
+		//barcodeButton.setOnClickListener(handler);
 		routeButton.setOnClickListener(handler);
 
 		items = new ArrayList<ListsItem>();
@@ -155,27 +155,28 @@ public class GrocListFragment extends Fragment {
 		@Override
 		public void onClick(View v) {
 
-			if (v == add) {
-				Intent adder = new Intent(getActivity(), AddActivity.class);
-				startActivityForResult(adder, ADD_REQUEST);
-
-			} else if (v == search) {
+			//if (v == add) {
+//				Intent adder = new Intent(getActivity(), AddActivity.class);
+//				startActivityForResult(adder, ADD_REQUEST);
+//
+//			} else 
+				if (v == search) {
 				Intent search = new Intent(getActivity(), SearchActivity.class);
 				startActivityForResult(search, ADD_FROM_SEARCH);
 
-			} else if (v == barcodeButton) {
-				try {
-					Intent intent = new Intent(
-							"com.google.zxing.client.android.SCAN");
-					intent.putExtra("SCAN_MODE", "PRODUCT_MODE"); // "PRODUCT_MODE"
-					intent.putExtra("SAVE_HISTORY", false);// this stops saving
-															// ur barcode in
-															// barcode scanner
-															// app's history
-					startActivityForResult(intent, ADD_FROM_BARCODE);
-				} catch (ActivityNotFoundException ex) {
-					confimDownloadingBarcodeReader();
-				}
+//			} else if (v == barcodeButton) {
+//				try {
+//					Intent intent = new Intent(
+//							"com.google.zxing.client.android.SCAN");
+//					intent.putExtra("SCAN_MODE", "PRODUCT_MODE"); // "PRODUCT_MODE"
+//					intent.putExtra("SAVE_HISTORY", false);// this stops saving
+//															// ur barcode in
+//															// barcode scanner
+//															// app's history
+//					startActivityForResult(intent, ADD_FROM_BARCODE);
+//				} catch (ActivityNotFoundException ex) {
+//					confimDownloadingBarcodeReader();
+//				}
 			} else if (v == routeButton) {
 				route();
 			}
