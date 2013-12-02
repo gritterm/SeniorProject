@@ -244,6 +244,8 @@ public class MainActivity extends Activity {
 				.getUserGrocList(getApplicationContext());
 		DatabaseHandler dbhandler = new DatabaseHandler(getApplicationContext());
 		dbhandler.clearListItemTable();
+		dbhandler.clearListTable();
+		userFuncation.getListIDS(getApplicationContext());
 		// add groclist items to list sql lite
 		// database
 		// table

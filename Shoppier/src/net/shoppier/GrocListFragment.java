@@ -331,7 +331,9 @@ public class GrocListFragment extends Fragment {
 		ArrayList<ListsItem> grocList = userfunction
 				.getUserGrocList(getActivity());
 		DatabaseHandler dbhandler = new DatabaseHandler(getActivity());
+		dbhandler.clearListTable();
 		dbhandler.clearListItemTable();
+		userfunction.getListIDS(getActivity());
 		// add groclist items to list sql lite
 		// database
 		// table

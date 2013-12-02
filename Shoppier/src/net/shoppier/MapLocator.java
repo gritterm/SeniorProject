@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -16,41 +17,30 @@ import android.widget.ImageView;
 public class MapLocator extends Activity {
 	
 	ImageView map; 
-	Paint mpaint; 
 
 	protected void onCreate(Bundle savedInstanceState) {
 		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.map);
 		setTitle("Find Item");
-		Bitmap bitMap = BitmapFactory.decodeResource(getResources(), R.drawable.test_map);
-		
+		Bitmap bitMap = BitmapFactory.decodeResource(getResources(), R.drawable.jenisonmeijermap);
+		Bitmap bitMapPoint = BitmapFactory.decodeResource(getResources(), R.drawable.red_dot);
 		map = (ImageView) findViewById(R.id.mapView);
-		map.setImageBitmap(bitMap);
-		mpaint = new Paint(Color.RED);
-		Bitmap mutableBitmap = bitMap.copy(Bitmap.Config.ARGB_8888, true);
-		Canvas canvas = new Canvas(mutableBitmap);
-		canvas.drawLine(10, 20, 30, 40, mpaint);
-		BitmapDrawable bitMapDraw = new BitmapDrawable(getResources(), mutableBitmap); 
-		bitMapDraw.draw(canvas);
+		map.setImageBitmap(placePin(bitMap, bitMapPoint, 50, 50));
 	}
-	
-	
-	
-	class DrawView extends View {
-        Paint paint = new Paint();
 
-        public DrawView(Context context) {
-            super(context);
-            paint.setColor(Color.BLUE);
-        }
-        @Override
-        public void onDraw(Canvas canvas) {
-             super.onDraw(canvas);
-                canvas.drawLine(10, 20, 30, 40, paint);
-                
-
-        }
-}
+	
+    private Bitmap placePin(Bitmap map, Bitmap point, int x_cor, int y_cor) {
+        Bitmap bmOverlay = Bitmap.createBitmap(map.getWidth(), map.getHeight(), map.getConfig());
+        Canvas canvas = new Canvas(bmOverlay);
+        canvas.drawBitmap(map, new Matrix(), null);
+        
+        Matrix scaleMatrix = new Matrix();
+		scaleMatrix .postTranslate(x_cor, x_cor);
+        canvas.drawBitmap(point, scaleMatrix, null);
+        return bmOverlay;
+    }
+	
+	
 
 }

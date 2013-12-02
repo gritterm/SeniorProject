@@ -31,13 +31,14 @@ public final class R {
         public static final int ic_menu_search=0x7f020007;
         public static final int icon=0x7f020008;
         public static final int info=0x7f020009;
-        public static final int login_icon=0x7f02000a;
-        public static final int logout_icon=0x7f02000b;
-        public static final int red_dot=0x7f02000c;
-        public static final int searchbar=0x7f02000d;
-        public static final int shoppier=0x7f02000e;
-        public static final int sync_icon=0x7f02000f;
-        public static final int test_map=0x7f020010;
+        public static final int jenisonmeijermap=0x7f02000a;
+        public static final int login_icon=0x7f02000b;
+        public static final int logout_icon=0x7f02000c;
+        public static final int red_dot=0x7f02000d;
+        public static final int searchbar=0x7f02000e;
+        public static final int shoppier=0x7f02000f;
+        public static final int sync_icon=0x7f020010;
+        public static final int test_map=0x7f020011;
     }
     public static final class id {
         public static final int InputSearch=0x7f080010;
