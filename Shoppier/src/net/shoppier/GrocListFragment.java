@@ -315,6 +315,7 @@ public class GrocListFragment extends Fragment {
 					new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int which) {
 					Intent findItem = new Intent(getActivity(), MapLocator.class);
+					findItem.putExtra("selectedItem", String.valueOf(selectedItem.getListsItemID()));
 					startActivity(findItem);
 				}
 

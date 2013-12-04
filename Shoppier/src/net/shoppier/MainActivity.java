@@ -61,8 +61,9 @@ public class MainActivity extends Activity {
 		// SharedPreferences settings = getPreferences(MODE_PRIVATE);
 		SharedPreferences settings = PreferenceManager
 				.getDefaultSharedPreferences(getApplicationContext());
-		String savedUserName = settings.getString("username", null);
 		userFuncation = new UserFunctions(); 
+		//userFuncation.logoutUser(getApplicationContext());
+		String savedUserName = settings.getString("username", null);
 		String savedPW = settings.getString("password", null);
 		if (savedUserName != null && savedPW != null) {
 			fillUserGrcoList();
@@ -136,19 +137,18 @@ public class MainActivity extends Activity {
 									String res = json.getString(KEY_SUCCESS);
 									if (Integer.parseInt(res) == 1) {
 
-										// Clear all previous data in sql lite
-										// database
+										// Clear all previous data in sql lite database
 										userFunction.logoutUser(getApplicationContext());
 										
 										setDropDowns();
 										
-										// save username and password for future login
-										SavePreferences(username, password);
+										
 
 										// Store user details in SQLite Database
 
 										JSONObject json_user = json
 												.getJSONObject("user");
+										db = new DatabaseHandler(getApplicationContext());
 										db.addUser(
 												json_user.getString(KEY_NAME),
 												json_user.getString(KEY_EMAIL),
@@ -161,7 +161,8 @@ public class MainActivity extends Activity {
 
 										fillUserGrcoList();
 										
-
+										// save username and password for future login
+										SavePreferences(username, password);
 										// Launch ListSelection Screen
 										startActivity(new Intent(
 												MainActivity.this,

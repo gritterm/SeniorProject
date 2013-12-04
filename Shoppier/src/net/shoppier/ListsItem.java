@@ -153,7 +153,7 @@ public class ListsItem {
 	
 	@Override
 	public String toString() {
-		return listItemBrand + listsItemName;
+		return listItemBrand + " " + listsItemName;
 	}
 	
 	
