@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.shoppier.library.DatabaseHandler;
+import net.shoppier.library.UserFunctions;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
@@ -31,6 +32,7 @@ public class addListFragment extends Fragment{
 	static final int RESULT_OK = -1; 
 	private DatabaseHandler db; 
 	private Spinner storespinner;
+	private UserFunctions uf;
 	
 	public addListFragment(){
 		
@@ -47,7 +49,7 @@ public class addListFragment extends Fragment{
 			addListBtn.setOnClickListener(handler);
 			addItemsOnStoreSpinner(storespinner);
 			db = new DatabaseHandler(getActivity());
-
+			uf = new UserFunctions();
 	        return rootView; 
 	        
 	}
@@ -66,7 +68,7 @@ public class addListFragment extends Fragment{
 				tempList.setListName(list_name);
 				tempList.setStore(store.getStorePK());
 				tempList.setListPK(db.addListID(tempList)); // adding list to DB and setting PK
-				
+				uf.AddListToSqlServer(getActivity(), tempList);
 				((DrawerActivity)getActivity()).startNewList(tempList); //new list send back to DrawerActivity.
 				
 

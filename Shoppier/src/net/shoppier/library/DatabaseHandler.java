@@ -58,6 +58,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	private static final String KEY_LIST_ITEM_BRAND = "list_item_brand";
 	private static final String KEY_LIST_ITEM_qty = "list_item_qty";
 	private static final String KEY_LIST_ITEM_Price = "list_item_price";
+	private static final String KEY_LIST_ITEM_XCOR = "list_item_x";
+	private static final String KEY_LIST_ITEM_YCOR = "list_item_y";
+	private static final String KEY_LIST_CATFK= "list_item_catfk";
+	
 	
 	//item Table Column names 
 	private static final String KEY_ITEM_PK = "item_pk";
@@ -117,7 +121,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	String CREATE_LIST_TABLE = "CREATE TABLE " + TABLE_LIST_ITEMS + "("
 			+ KEY_LIST_ID_PK + " INTEGER PRIMARY KEY, " + KEY_LISTITEM_NAME + " TEXT, " + KEY_LIST_SEARCH_ITEM_FK +
 			" TEXT, " + KEY_LIST_ITEM_LISTFK + " TEXT, " + KEY_LIST_ITEM_BRAND + " TEXT, " 
-			+ KEY_LIST_ITEM_qty + " TEXT, " + KEY_LIST_ITEM_Price + " NUMERIC " + ")";
+			+ KEY_LIST_ITEM_qty + " TEXT, " + KEY_LIST_ITEM_YCOR + " NUMERIC, " +
+			KEY_LIST_ITEM_XCOR + " NUMERIC, " + KEY_LIST_CATFK + " NUMERIC, " + 
+			KEY_LIST_ITEM_Price + " NUMERIC " + ")";
 	
 	//Query to create item table
 	String CREATE_ITEMS_TABLE = "CREATE TABLE " + TABLE_ITEM + "("
@@ -233,7 +239,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		values.put(KEY_LIST_ITEM_BRAND, list.getListItemBrand());
 		values.put(KEY_LIST_ITEM_Price, list.getItemPrice());
 		values.put(KEY_LIST_ITEM_qty, list.getItemQTY());
-
+		values.put(KEY_LIST_ITEM_XCOR, list.getxCord());
+		values.put(KEY_LIST_CATFK, list.getCatFK());
+		values.put(KEY_LIST_ITEM_YCOR, list.getyCord());
 		//insert row 
 		result = (int) db.insert(TABLE_LIST_ITEMS, null, values);
 		list.setListsItemID(result);
@@ -254,6 +262,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	            String tempListFk = c.getString(c.getColumnIndexOrThrow(KEY_LIST_ITEM_LISTFK));
 	            String tempSearchItemID = c.getString(c.getColumnIndexOrThrow(KEY_LIST_SEARCH_ITEM_FK));
 	            String tempListItemID = c.getString(c.getColumnIndexOrThrow(KEY_LIST_ID_PK));
+	            String tempXCor = c.getString(c.getColumnIndexOrThrow(KEY_LIST_ITEM_XCOR));
+	            String tempYCor =c.getString(c.getColumnIndexOrThrow(KEY_LIST_ITEM_YCOR));
+	            String catFK =c.getString(c.getColumnIndexOrThrow(KEY_LIST_CATFK));
 	            
 	            li.setListFK(Integer.parseInt(tempListFk));
 	            li.setListsItemName(c.getString(c.getColumnIndexOrThrow(KEY_LISTITEM_NAME)));
@@ -262,6 +273,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	            li.setListItemBrand(c.getString(c.getColumnIndexOrThrow(KEY_LIST_ITEM_BRAND)));
 	            li.setItemQTY(c.getString(c.getColumnIndexOrThrow(KEY_LIST_ITEM_qty)));
 	            li.setItemPrice(c.getDouble(c.getColumnIndexOrThrow(KEY_LIST_ITEM_Price)));
+	            li.setxCord(Integer.parseInt(tempXCor));
+	            li.setyCord(Integer.parseInt(tempYCor));
+	            li.setCatFK(Integer.parseInt(catFK));
 	            // adding to final list
 	        } while (c.moveToNext());
 	    }
@@ -689,6 +703,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		SQLiteDatabase db = this.getWritableDatabase();
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_LIST_ITEMS);
 		db.execSQL(CREATE_LIST_TABLE);
+		 db.close();
+	}
+	
+	public void clearListTable(){
+		SQLiteDatabase db = this.getWritableDatabase();
+		db.execSQL("DROP TABLE IF EXISTS " + TABLE_LIST_IDS);
+		db.execSQL(CREATE_LISTIDS_TABLE);
 		 db.close();
 	}
 	

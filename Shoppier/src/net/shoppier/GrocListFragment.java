@@ -315,6 +315,7 @@ public class GrocListFragment extends Fragment {
 					new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int which) {
 					Intent findItem = new Intent(getActivity(), MapLocator.class);
+					findItem.putExtra("selectedItem", String.valueOf(selectedItem.getListsItemID()));
 					startActivity(findItem);
 				}
 
@@ -331,7 +332,9 @@ public class GrocListFragment extends Fragment {
 		ArrayList<ListsItem> grocList = userfunction
 				.getUserGrocList(getActivity());
 		DatabaseHandler dbhandler = new DatabaseHandler(getActivity());
+		dbhandler.clearListTable();
 		dbhandler.clearListItemTable();
+		userfunction.getListIDS(getActivity());
 		// add groclist items to list sql lite
 		// database
 		// table
