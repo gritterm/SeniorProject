@@ -24,6 +24,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
+import android.view.Gravity;
+import android.widget.Toast;
 
 public class UserFunctions {
 
@@ -104,15 +106,12 @@ public class UserFunctions {
 				"uid")));
 		params.add(new BasicNameValuePair("listID", listId));
 		params.add(new BasicNameValuePair("list", listtoArray(db
-				.getList(listId))));
-
-		// TODO Create a Get All List Methodd
+				.getList(listId), context)));
 		jsonParser = new JSONParser(params);
 
 		try {
 
 			jsonParser.execute(loginURL).get();
-			// TODO Add getting new items too.
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		} catch (ExecutionException e) {
@@ -222,8 +221,7 @@ public class UserFunctions {
 		this.db = new DatabaseHandler(context);
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
 		params.add(new BasicNameValuePair("tag", "getUsersList"));
-		params.add(new BasicNameValuePair("userID", db.getUserDetails().get(
-				"uid")));
+		params.add(new BasicNameValuePair("userID", "5"));
 
 		jsonParser = new JSONParser(params);
 
@@ -234,16 +232,17 @@ public class UserFunctions {
 			try {
 				userList = json.getJSONArray(Array_List);
 				for (int i = 0; i <= userList.length() - 1; i++) {
-
 					ListsItem li = new ListsItem();
 					JSONObject l = userList.getJSONObject(i);
 					li.setListFK(l.getInt(Tag_ListFK));
 					li.setSearchItemId(l.getInt(Tag_LIST_ITEM_SEARCH_ID));
 					li.setListsItemName(l.getString(Tag_LISTITEM_NAME));
 					li.setListItemBrand(l.getString(Tag_LISTITEM_BRAND));
-					li.setItemPrice(3.00);
-					li.setItemQTY("2");
-					
+					li.setItemPrice(l.getDouble("item_price"));
+					li.setItemQTY(l.getString("item_qty"));
+					li.setxCord(l.getInt("item_x"));
+					li.setyCord(l.getInt("item_y"));
+					li.setCatFK(l.getInt("item_catVal"));
 					userGrocList.add(li);
 				}
 
@@ -294,14 +293,27 @@ public class UserFunctions {
 
 	}
 
-	private String listtoArray(ArrayList<ListsItem> list) {
+	private String listtoArray(ArrayList<ListsItem> list, Context context) {
 
 		JSONArray totalList = new JSONArray();
 		for (int i = 0; i <= list.size() - 1; i++) {
 			JSONArray aryItem = new JSONArray();
-			aryItem.put(list.get(i).getSearchItemId())
-					.put(list.get(i).getListsItemName())
-					.put(list.get(i).getListItemBrand());
+			try {
+				aryItem.put(0)
+						.put(list.get(i).getListsItemID())
+						.put(list.get(i).getListsItemName())
+						.put(list.get(i).getListItemBrand())
+						.put(list.get(i).getItemPrice())
+						.put(list.get(i).getItemQTY())
+						.put(list.get(i).getCatFK())
+						.put(list.get(i).getxCord())
+						.put(list.get(i).getyCord());
+			} catch (JSONException e) {
+				Toast toast = Toast.makeText(context,
+						"There was a problem syncing the list.", Toast.LENGTH_LONG);
+				toast.setGravity(Gravity.TOP, 0, 300);
+				toast.show();
+			}
 			totalList.put(aryItem);
 		}
 		return totalList.toString();

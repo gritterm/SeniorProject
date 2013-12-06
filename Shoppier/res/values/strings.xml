@@ -33,5 +33,6 @@
     <string name ="title_barcode">Barcode Scanner</string>
     <string name="add_location">Location:</string>
     <string name="quanity">Qty:</string>
+    <string name="title_EditItem">Edit Item</string>
 
 </resources>

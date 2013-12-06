@@ -6,18 +6,29 @@ public class SearchableItem {
 	String itemName; 
 	String itemBrand; 
 	String itemCat; 
+	StoreObject store; 
 	
 	public SearchableItem(){
 		
 	}
 
 	public SearchableItem(int itemID, String itemName,
-			String itemBrand, String itemCat) {
+			String itemBrand, String itemCat, StoreObject store) {
 		super();
 		this.itemID = itemID;
 		this.itemName = itemName;
 		this.itemBrand = itemBrand;
 		this.itemCat = itemCat;
+		this.store = store; 
+	}
+
+	
+	public StoreObject getStore() {
+		return store;
+	}
+
+	public void setStore(StoreObject store) {
+		this.store = store;
 	}
 
 	public int getItemID() {

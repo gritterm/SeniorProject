@@ -17,15 +17,6 @@
             <requestFocus />
         </EditText>
 
-       <ImageButton
-           android:id="@+id/but_add_list"
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:layout_alignRight="@+id/list_name"
-           android:layout_below="@+id/list_name"
-           android:layout_marginTop="20dp"
-           android:src="@android:drawable/ic_input_add" />
-
        <TextView
            android:id="@+id/textView1"
            android:layout_width="wrap_content"
@@ -34,5 +25,21 @@
            android:layout_alignLeft="@+id/list_name"
            android:layout_marginBottom="42dp"
            android:text="@string/list_name" />
+
+       <ImageButton
+           android:id="@+id/but_add_list"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_alignRight="@+id/list_name"
+           android:layout_centerVertical="true"
+           android:src="@android:drawable/ic_input_add" />
+
+       <Spinner
+           android:id="@+id/newlist_storespinner"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_alignLeft="@+id/list_name"
+           android:layout_alignRight="@+id/list_name"
+           android:layout_below="@+id/list_name" />
 
 </RelativeLayout>

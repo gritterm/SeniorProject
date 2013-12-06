@@ -68,6 +68,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	//List ID Column Names
 	private static final String KEY_LIST_NAME = "List_Name";
 	private static final String KEY_LIST_ID = "List_ID";
+	private static final String KEY_LIST_STOREFK = "list_storefk";
 	
 	//Store Column Names
 	private static final String KEY_storePK       = "storePK";
@@ -116,7 +117,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	String CREATE_LIST_TABLE = "CREATE TABLE " + TABLE_LIST_ITEMS + "("
 			+ KEY_LIST_ID_PK + " INTEGER PRIMARY KEY, " + KEY_LISTITEM_NAME + " TEXT, " + KEY_LIST_SEARCH_ITEM_FK +
 			" TEXT, " + KEY_LIST_ITEM_LISTFK + " TEXT, " + KEY_LIST_ITEM_BRAND + " TEXT, " 
-			+ KEY_LIST_ITEM_qty + " TEXT, " + KEY_LIST_ITEM_Price + " INTEGER" + ")";
+			+ KEY_LIST_ITEM_qty + " TEXT, " + KEY_LIST_ITEM_Price + " NUMERIC " + ")";
 	
 	//Query to create item table
 	String CREATE_ITEMS_TABLE = "CREATE TABLE " + TABLE_ITEM + "("
@@ -125,7 +126,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	
 	//Query to create Table of List ID's
 		String CREATE_LISTIDS_TABLE = "CREATE TABLE " + TABLE_LIST_IDS + "("
-				+ KEY_LIST_ID + " INTEGER PRIMARY KEY," 
+				+ KEY_LIST_ID + " INTEGER PRIMARY KEY, "  + KEY_LIST_STOREFK + " INTEGER, "
 				+ KEY_LIST_NAME + " TEXT " + ")";
 
 
@@ -240,6 +241,36 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		return result; 
 	}
 	
+	public ListsItem getListItem(String listItemPK){
+		String selectQuery = "SELECT  * FROM " + TABLE_LIST_ITEMS + " WHERE " + KEY_LIST_ID_PK + " = " + listItemPK;
+		//Log.e("getList", selectQuery);
+		
+		SQLiteDatabase db = this.getReadableDatabase();
+	    Cursor c = db.rawQuery(selectQuery, null);
+	    ListsItem li = new ListsItem();
+	    if (c.moveToFirst()) {
+	        do {
+	           
+	            String tempListFk = c.getString(c.getColumnIndexOrThrow(KEY_LIST_ITEM_LISTFK));
+	            String tempSearchItemID = c.getString(c.getColumnIndexOrThrow(KEY_LIST_SEARCH_ITEM_FK));
+	            String tempListItemID = c.getString(c.getColumnIndexOrThrow(KEY_LIST_ID_PK));
+	            
+	            li.setListFK(Integer.parseInt(tempListFk));
+	            li.setListsItemName(c.getString(c.getColumnIndexOrThrow(KEY_LISTITEM_NAME)));
+	            li.setListsItemID(Integer.parseInt(tempListItemID));
+	            li.setSearchItemId(Integer.parseInt(tempSearchItemID));
+	            li.setListItemBrand(c.getString(c.getColumnIndexOrThrow(KEY_LIST_ITEM_BRAND)));
+	            li.setItemQTY(c.getString(c.getColumnIndexOrThrow(KEY_LIST_ITEM_qty)));
+	            li.setItemPrice(c.getDouble(c.getColumnIndexOrThrow(KEY_LIST_ITEM_Price)));
+	            // adding to final list
+	        } while (c.moveToNext());
+	    }
+	    db.close();
+	    c.close();
+	    
+	    return li;
+	}
+	
 	/**
 	 * Removing a List item from the database
 	 * */
@@ -259,30 +290,29 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		ArrayList<ListsItem> alllist = new ArrayList<ListsItem>();
 		
 		String selectQuery = "SELECT  * FROM " + TABLE_LIST_ITEMS + " WHERE " + KEY_LIST_ITEM_LISTFK + " = " + listID;
-		//Log.e("getList", selectQuery);
 		
 		SQLiteDatabase db = this.getReadableDatabase();
 	    Cursor c = db.rawQuery(selectQuery, null);
 	    
-	    if (c.moveToFirst()) {
+	    c.moveToFirst();
+		   if(c.getCount() != 0){
 	        do {
 	            ListsItem li = new ListsItem();
-	            String tempListFk = c.getString(c.getColumnIndex(KEY_LIST_ITEM_LISTFK));
-	            String tempSearchItemID = c.getString(c.getColumnIndex(KEY_LIST_SEARCH_ITEM_FK));
-	            String tempListItemID = c.getString(c.getColumnIndex(KEY_LIST_ID_PK));
-	            String tempListItemPrice = c.getString(c.getColumnIndex(KEY_LIST_ITEM_Price));
+	            String tempListFk = c.getString(c.getColumnIndexOrThrow(KEY_LIST_ITEM_LISTFK));
+	            String tempSearchItemID = c.getString(c.getColumnIndexOrThrow(KEY_LIST_SEARCH_ITEM_FK));
+	            String tempListItemID = c.getString(c.getColumnIndexOrThrow(KEY_LIST_ID_PK));
 	            
 	            li.setListFK(Integer.parseInt(tempListFk));
-	            li.setListsItemName(c.getString(c.getColumnIndex(KEY_LISTITEM_NAME)));
+	            li.setListsItemName(c.getString(c.getColumnIndexOrThrow(KEY_LISTITEM_NAME)));
 	            li.setListsItemID(Integer.parseInt(tempListItemID));
 	            li.setSearchItemId(Integer.parseInt(tempSearchItemID));
-	            li.setListItemBrand(c.getString(c.getColumnIndex(KEY_LIST_ITEM_BRAND)));
-	            li.setItemQTY(c.getString(c.getColumnIndex(KEY_LIST_ITEM_qty)));
-	            li.setItemPrice(Integer.parseInt(tempListItemPrice));
+	            li.setListItemBrand(c.getString(c.getColumnIndexOrThrow(KEY_LIST_ITEM_BRAND)));
+	            li.setItemQTY(c.getString(c.getColumnIndexOrThrow(KEY_LIST_ITEM_qty)));
+	            li.setItemPrice(c.getDouble((c.getColumnIndexOrThrow(KEY_LIST_ITEM_Price))));
 	            // adding to final list
 	            alllist.add(li);
 	        } while (c.moveToNext());
-	    }
+		   }
 	    db.close();
 	    c.close();
 	    return alllist;
@@ -295,7 +325,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	 * */
 	public int editListItem(ListsItem listItem){
 		ContentValues value = new ContentValues();
-		value.put(KEY_LISTITEM_NAME, listItem.getListsItemID());
+		value.put(KEY_LISTITEM_NAME, listItem.getListsItemName());
+		value.put(KEY_LIST_ITEM_BRAND, listItem.getListItemBrand());
+		value.put(KEY_LIST_ITEM_qty, listItem.getItemQTY());
+		value.put(KEY_LIST_ITEM_Price, listItem.getItemPrice());
 				
 		SQLiteDatabase db = this.getWritableDatabase();
 		
@@ -324,10 +357,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	        do {
 	        	SearchableItem li = new SearchableItem();
 
-	            li.setItemBrand(c.getString(c.getColumnIndex(KEY_ITEM_BRAND)));
-	            li.setItemCat(c.getString(c.getColumnIndex(KEY_ITEM_CAT)));
-	            li.setItemID(Integer.parseInt(c.getString(c.getColumnIndex(KEY_ITEM_PK))));
-	            li.setItemName(c.getString(c.getColumnIndex(KEY_ITEM_NAME)));
+	            li.setItemBrand(c.getString(c.getColumnIndexOrThrow(KEY_ITEM_BRAND)));
+	            li.setItemCat(c.getString(c.getColumnIndexOrThrow(KEY_ITEM_CAT)));
+	            li.setItemID(Integer.parseInt(c.getString(c.getColumnIndexOrThrow(KEY_ITEM_PK))));
+	            li.setItemName(c.getString(c.getColumnIndexOrThrow(KEY_ITEM_NAME)));
 	            // adding to final list
 	            items.add(li);
 	        } while (c.moveToNext());
@@ -397,6 +430,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		
 		ContentValues values = new ContentValues();
 		values.put(KEY_LIST_NAME, list.getListName());
+		values.put(KEY_LIST_STOREFK, list.getStore());
 		if(list.getListPK() > 0){
 			values.put(KEY_LIST_ID, list.getListPK());
 		}
@@ -420,8 +454,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		    if (c.moveToFirst()) {
 		        do {
 		        	CompleteList li = new CompleteList();
-		            li.setListName(c.getString(c.getColumnIndex(KEY_LIST_NAME)));
-		            li.setListPK(Integer.parseInt(c.getString(c.getColumnIndex(KEY_LIST_ID))));
+		            li.setListName(c.getString(c.getColumnIndexOrThrow(KEY_LIST_NAME)));
+		            li.setListPK(Integer.parseInt(c.getString(c.getColumnIndexOrThrow(KEY_LIST_ID))));
+		            li.setStore(Integer.parseInt(c.getString(c.getColumnIndexOrThrow(KEY_LIST_STOREFK))));
 		            // adding to final list
 		            list.add(li);
 		        } while (c.moveToNext());
@@ -465,6 +500,37 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		return result; 
 	}
 	
+	public StoreObject getStoreObject(int storeFK){
+		SQLiteDatabase db = this.getReadableDatabase();
+		
+		String selectQuery = "SELECT * FROM " + TABLE_STORE +  " WHERE " + KEY_storePK + " = " + storeFK; ; 
+		
+	    Cursor c = db.rawQuery(selectQuery, null);
+	    StoreObject store = null;
+	    
+	   c.moveToFirst();
+	   if(c.getCount() != 0){
+	        do {
+	        	
+	        	 store = new StoreObject();
+	        	
+	        	store.setStoreAddress(c.getString(c.getColumnIndexOrThrow(KEY_storeAddress)));
+	        	store.setStoreCity(c.getString(c.getColumnIndexOrThrow(KEY_storeCity)));
+	        	store.setStoreImage(c.getString(c.getColumnIndexOrThrow(KEY_storeImage)));
+	        	store.setStoreName(c.getString(c.getColumnIndexOrThrow(KEY_storeName)));
+	        	store.setStorePK(Integer.parseInt(c.getString(c.getColumnIndexOrThrow(KEY_storePK))));
+	        	store.setStoreType(c.getString(c.getColumnIndexOrThrow(KEY_storeType)));
+	        	store.setStoreZipCode(Integer.parseInt(c.getString(c.getColumnIndexOrThrow(KEY_storeZipCode))));
+	       
+	        	
+	        } while (c.moveToNext());
+	   }
+	    db.close();
+	    c.close();
+	    return store;
+		
+	}
+	
 	public ArrayList<StoreObject> getStores(){
 		SQLiteDatabase db = this.getReadableDatabase(); 
 		ArrayList<StoreObject> list = new ArrayList<StoreObject>();
@@ -480,13 +546,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	        	
 	        	StoreObject store = new StoreObject();
 	        	
-	        	store.setStoreAddress(c.getString(c.getColumnIndex(KEY_storeAddress)));
-	        	store.setStoreCity(c.getString(c.getColumnIndex(KEY_storeCity)));
-	        	store.setStoreImage(c.getString(c.getColumnIndex(KEY_storeImage)));
-	        	store.setStoreName(c.getString(c.getColumnIndex(KEY_storeName)));
-	        	store.setStorePK(Integer.parseInt(c.getString(c.getColumnIndex(KEY_storePK))));
-	        	store.setStoreType(c.getString(c.getColumnIndex(KEY_storeType)));
-	        	store.setStoreZipCode(Integer.parseInt(c.getString(c.getColumnIndex(KEY_storeZipCode))));
+	        	store.setStoreAddress(c.getString(c.getColumnIndexOrThrow(KEY_storeAddress)));
+	        	store.setStoreCity(c.getString(c.getColumnIndexOrThrow(KEY_storeCity)));
+	        	store.setStoreImage(c.getString(c.getColumnIndexOrThrow(KEY_storeImage)));
+	        	store.setStoreName(c.getString(c.getColumnIndexOrThrow(KEY_storeName)));
+	        	store.setStorePK(Integer.parseInt(c.getString(c.getColumnIndexOrThrow(KEY_storePK))));
+	        	store.setStoreType(c.getString(c.getColumnIndexOrThrow(KEY_storeType)));
+	        	store.setStoreZipCode(Integer.parseInt(c.getString(c.getColumnIndexOrThrow(KEY_storeZipCode))));
 	            
 	            // adding to final list
 	            list.add(store);
@@ -528,9 +594,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	        	
 	        	AisleObject aisle = new AisleObject();
 	        	
-	        	aisle.setAisleName(c.getString(c.getColumnIndex(KEY_AISLE_NAME)));
-	        	aisle.setAislePK(Integer.parseInt(c.getString(c.getColumnIndex(KEY_AISLE_PK))));
-	        	aisle.setAisleStoreFK(Integer.parseInt(c.getString(c.getColumnIndex(KEY_AISLE_STRFK))));
+	        	aisle.setAisleName(c.getString(c.getColumnIndexOrThrow(KEY_AISLE_NAME)));
+	        	aisle.setAislePK(Integer.parseInt(c.getString(c.getColumnIndexOrThrow(KEY_AISLE_PK))));
+	        	aisle.setAisleStoreFK(Integer.parseInt(c.getString(c.getColumnIndexOrThrow(KEY_AISLE_STRFK))));
 	            
 	            // adding to final list
 	            list.add(aisle);
@@ -575,12 +641,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	        do {
 	        	
 	        	CategoryObject cat = new CategoryObject();
-	        	cat.setCat_locfk(Integer.parseInt(c.getString(c.getColumnIndex(KEYcat_locfk))));
-	        	cat.setCat_name(c.getString(c.getColumnIndex(KEYcat_name)));
-	        	cat.setCat_pk(Integer.parseInt(c.getString(c.getColumnIndex(KEYcat_pk))));
-	        	cat.setCat_value(Integer.parseInt(c.getString(c.getColumnIndex(KEYcat_value))));
-	        	cat.setCat_x(c.getString(c.getColumnIndex(KEYcat_x)));
-	        	cat.setCat_y(c.getString(c.getColumnIndex(KEYcat_y)));
+	        	cat.setCat_locfk(Integer.parseInt(c.getString(c.getColumnIndexOrThrow(KEYcat_locfk))));
+	        	cat.setCat_name(c.getString(c.getColumnIndexOrThrow(KEYcat_name)));
+	        	cat.setCat_pk(Integer.parseInt(c.getString(c.getColumnIndexOrThrow(KEYcat_pk))));
+	        	cat.setCat_value(Integer.parseInt(c.getString(c.getColumnIndexOrThrow(KEYcat_value))));
+	        	cat.setCat_x(c.getString(c.getColumnIndexOrThrow(KEYcat_x)));
+	        	cat.setCat_y(c.getString(c.getColumnIndexOrThrow(KEYcat_y)));
 	        	
 	            // adding to final list
 	            list.add(cat);
@@ -616,6 +682,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		SQLiteDatabase db = this.getWritableDatabase();
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_ITEM);
 		db.execSQL(CREATE_ITEMS_TABLE);
+		 db.close();
+	}
+	
+	public void clearListItemTable(){
+		SQLiteDatabase db = this.getWritableDatabase();
+		db.execSQL("DROP TABLE IF EXISTS " + TABLE_LIST_ITEMS);
+		db.execSQL(CREATE_LIST_TABLE);
 		 db.close();
 	}
 	

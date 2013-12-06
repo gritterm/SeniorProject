@@ -7,6 +7,7 @@ import net.shoppier.library.UserFunctions;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -15,7 +16,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -29,6 +32,7 @@ public class GrocListFragment extends Fragment {
 	private static final int ADD_REQUEST = 0x4;
 	static final int ADD_FROM_SEARCH = 0x3;
 	static final int ADD_FROM_BARCODE = 0x7;
+	static final int EDIT_ITEM = 0x10;
 	static final int RESULT_OK = -1;
 	private DatabaseHandler db;
 	private Button search;
@@ -53,16 +57,14 @@ public class GrocListFragment extends Fragment {
 		this.userfunction = new UserFunctions();
 		lview = (ListView) rootView.findViewById(R.id.list);
 
-		//add = (ImageButton) rootView.findViewById(R.id.but_add);
+		fillUserGrcoList();
 		search = (Button) rootView.findViewById(R.id.searchBtn);
 		routeButton = (Button) rootView.findViewById(R.id.routeButton);
-		//barcodeButton = (ImageButton) rootView
-		//		.findViewById(R.id.barcodeSearchButton);
 		lview.setOnItemLongClickListener(lchandler);
-		//add.setOnClickListener(handler);
+		lview.setOnItemClickListener(clickhandler);
 		search.setOnClickListener(handler);
-		//barcodeButton.setOnClickListener(handler);
 		routeButton.setOnClickListener(handler);
+		
 
 		items = new ArrayList<ListsItem>();
 
@@ -89,7 +91,6 @@ public class GrocListFragment extends Fragment {
 			remv_conf.setNegativeButton("Dismiss", null);
 			remv_conf.create();
 			remv_conf.show();
-
 		}
 
 		adapter = new GrocAdapter(this.getActivity(), R.layout.item, items);
@@ -147,6 +148,20 @@ public class GrocListFragment extends Fragment {
 			// newItem.setSearchItemId(0);
 
 			confirmAddFromBarCode(newItem);
+		}
+		if (resultCode == RESULT_OK && requestCode == EDIT_ITEM) {
+			int contents = data.getIntExtra("result", 0); // this is the result
+			this.db = new DatabaseHandler(getActivity());
+			ArrayList<ListsItem> arryList = new ArrayList<ListsItem>();
+			arryList = db.getList(currentlistID);
+			items.clear();
+			for (ListsItem l : arryList) {
+				if (!l.equals(null)) {
+					
+					items.add(l);
+				}
+			}
+			adapter.notifyDataSetChanged();
 		}
 	}
 
@@ -274,5 +289,56 @@ public class GrocListFragment extends Fragment {
 
 		}
 	};
+	
+	private OnItemClickListener clickhandler = new OnItemClickListener() {
+		@Override
+		public void onItemClick(AdapterView<?> list, View item,
+				int position, long id) {
+			final int pos = position;
+			final ListsItem selectedItem = (ListsItem) list
+					.getItemAtPosition(position);
 
+			AlertDialog.Builder conf = new AlertDialog.Builder(
+					getActivity());
+			conf.setMessage("I would like to...");
+			conf.setPositiveButton("Edit Item",
+					new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int which) {
+							Intent editItem = new Intent(getActivity(),EditItemFragment.class);
+							editItem.putExtra("selectedItem", String.valueOf(selectedItem.getListsItemID()));
+							startActivityForResult(editItem, EDIT_ITEM);
+						}
+
+					});
+
+			conf.setNegativeButton("Find Item in Store",
+					new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int which) {
+					Intent findItem = new Intent(getActivity(), MapLocator.class);
+					startActivity(findItem);
+				}
+
+			});
+			conf.create();
+			conf.show();
+			
+
+		}
+	};
+
+	public void fillUserGrcoList(){
+		// get users groclist items
+		ArrayList<ListsItem> grocList = userfunction
+				.getUserGrocList(getActivity());
+		DatabaseHandler dbhandler = new DatabaseHandler(getActivity());
+		dbhandler.clearListItemTable();
+		// add groclist items to list sql lite
+		// database
+		// table
+		for (ListsItem l : grocList) {
+			if (!l.equals(null)) {
+				dbhandler.addItemToListDB(l);
+			}
+		}
+	}
 }

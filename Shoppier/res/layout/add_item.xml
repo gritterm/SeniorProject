@@ -11,7 +11,7 @@
         android:background="@drawable/back" >
 
         <EditText
-            android:id="@+id/login_user"
+            android:id="@+id/add_item_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
@@ -24,7 +24,7 @@
         </EditText>
 
         <EditText
-            android:id="@+id/login_pass"
+            android:id="@+id/add_item_brand"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/login_user"

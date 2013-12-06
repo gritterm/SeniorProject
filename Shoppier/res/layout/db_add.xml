@@ -37,7 +37,7 @@
                 android:inputType="text" />
 
             <EditText
-                android:id="@+id/login_pass"
+                android:id="@+id/db_add_brand"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -111,10 +111,10 @@
             android:id="@+id/itemAmt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/label_aisle"
+             android:layout_below="@+id/label_aisle"
             android:layout_marginTop="19dp"
             android:layout_toLeftOf="@+id/db_add_container"
             android:text="@string/add_location" />
-    </RelativeLayout>
+</RelativeLayout>
 
 </ScrollView>

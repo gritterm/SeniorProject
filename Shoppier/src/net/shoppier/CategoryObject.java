@@ -2,17 +2,17 @@ package net.shoppier;
 
 public class CategoryObject {
 	
-	int cat_pk;
+	int cat_pk; //cat primary key 
 	
-	int cat_locfk;
+	int cat_locfk; // location associated with cat
 	
-	String cat_name;
+	String cat_name; //cat name
 	
 	int cat_value; 
 	
-	String cat_x;
+	String cat_x; // cat x location on store map 
 	
-	String cat_y;
+	String cat_y; // cat y location on store map
 	
 	
 

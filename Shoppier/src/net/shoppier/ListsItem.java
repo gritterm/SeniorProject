@@ -28,6 +28,43 @@ public class ListsItem {
 	
 	//price of item
 	double itemPrice;
+	
+	int xCord; 
+	int yCord; 
+	int catFK; 
+	
+	
+	
+
+	public int getCatFK() {
+		return catFK;
+	}
+
+
+	public void setCatFK(int catFK) {
+		this.catFK = catFK;
+	}
+
+
+	public int getxCord() {
+		return xCord;
+	}
+
+
+	public void setxCord(int xCord) {
+		this.xCord = xCord;
+	}
+
+
+	public int getyCord() {
+		return yCord;
+	}
+
+
+	public void setyCord(int yCord) {
+		this.yCord = yCord;
+	}
+
 
 	public ListsItem(){
 		

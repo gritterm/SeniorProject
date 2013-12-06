@@ -26,11 +26,12 @@
         android:id="@+id/InputSearch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@android:id/list"
+        android:layout_alignLeft="@+id/list"
         android:layout_alignParentTop="true"
-        android:layout_alignRight="@android:id/list"
+        android:layout_alignRight="@+id/list"
         android:background="@drawable/searchbar"
-        android:ems="10" >
+        android:ems="10"
+        android:textCursorDrawable="@null" >
 
         <requestFocus />
     </EditText>

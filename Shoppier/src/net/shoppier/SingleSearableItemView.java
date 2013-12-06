@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.widget.TextView;
 
 //This Class will be used for displaying extra information about a product if the user press the (i) button 
+
 public class SingleSearableItemView extends Activity {
 
 	TextView txtName; 

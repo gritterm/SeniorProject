@@ -1,6 +1,8 @@
 package net.shoppier;
 
+import android.content.Context;
 import net.shoppier.DrawerClasses.NavDrawerItem;
+import net.shoppier.library.DatabaseHandler;
 
 public class CompleteList implements NavDrawerItem  {
 	
@@ -15,21 +17,33 @@ public class CompleteList implements NavDrawerItem  {
 	
 	public static final int ITEM_TYPE = 1; //type 1 = list
 
-	private  boolean updateActionBarTitle;
+	private  boolean updateActionBarTitle; //update title bar for list 
+	
+	private int storeFK; //The store associated with this list
 
 	public CompleteList(){
 		
 	}
 	public CompleteList(int listPK, String listName, String listRoute,
-			boolean isChanged) {
+			boolean isChanged, int storeFK) {
 		super();
 		this.listPK = listPK;
 		this.listName = listName;
 		this.listRoute = listRoute;
 		this.isChanged = isChanged;
+		this.storeFK = storeFK;
+		
 	}
 	
+	
+	
 
+	public int getStore() {
+		return storeFK;
+	}
+	public void setStore(int storeFK) {
+		this.storeFK = storeFK;
+	}
 	@Override
 	public String toString() {
 		return listName;
@@ -88,6 +102,11 @@ public class CompleteList implements NavDrawerItem  {
 
     public void setUpdateActionBarTitle(boolean updateActionBarTitle) {
         this.updateActionBarTitle = updateActionBarTitle;
+    }
+    
+    public StoreObject getStoreObject(int storePK, Context context){
+    	DatabaseHandler db = new DatabaseHandler(context);
+    	return db.getStoreObject(storePK);
     }
 	
 	
