@@ -14,7 +14,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/list_footer"
-        android:layout_alignRight="@+id/but_add"
         android:layout_alignParentTop="true"
         android:fadeScrollbars="false" >
     </ListView>
@@ -42,7 +41,6 @@
             android:layout_gravity="fill_horizontal"
             android:background="@drawable/trans"
             android:text="Route" />
-
     </GridLayout>
 
 </RelativeLayout>

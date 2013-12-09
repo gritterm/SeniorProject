@@ -133,9 +133,13 @@ public class MainActivity extends Activity {
 							JSONObject json = userFunction.loginUser(username,
 									password);
 							// check for login response
+					
 							try {
+					            
 								// user successfully logged in
 								if (json.getString(KEY_SUCCESS) != null) {
+									
+						            
 									String res = json.getString(KEY_SUCCESS);
 									if (Integer.parseInt(res) == 1) {
 

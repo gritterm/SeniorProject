@@ -83,7 +83,7 @@ public class DrawerActivity extends Activity {
 				getBaseContext()));
 
 		// Add List button
-		Navlists.add(NavMenuItem.create(201, "Add List", "add_list_icon", true,
+		Navlists.add(NavMenuItem.create(201, "Create New List", "add_list_icon", true,
 				getBaseContext()));
 		// Add to Database button
 		Navlists.add(NavMenuItem.create(205, "Add Item To Our Database", "add_list_icon", true,
