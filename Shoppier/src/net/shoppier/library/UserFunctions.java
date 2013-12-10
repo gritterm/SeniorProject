@@ -243,8 +243,7 @@ public class UserFunctions {
 		this.db = new DatabaseHandler(context);
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
 		params.add(new BasicNameValuePair("tag", "getUsersList"));
-		params.add(new BasicNameValuePair("userID", db.getUserDetails().get(
-				"uid")));
+		params.add(new BasicNameValuePair("userID", "5"));
 
 		jsonParser = new JSONParser(params);
 

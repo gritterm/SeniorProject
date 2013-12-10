@@ -11,55 +11,62 @@
         android:background="@drawable/back" >
 
         <EditText
-            android:id="@+id/add_item_Name"
+            android:id="@+id/add_item_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="85dp"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/add_item_brand"
+            android:layout_marginRight="18dp"
             android:ems="10"
-            android:hint="Ex: Ketchup" >
-
-            <requestFocus />
-        </EditText>
+            android:hint="Ex: Ketchup" />
 
         <EditText
             android:id="@+id/add_item_brand"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/add_item_Name"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="40dp"
+            android:layout_alignLeft="@+id/add_item_name"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="25dp"
             android:ems="10"
             android:hint="Ex: Heinz" />
-
-        <ImageButton
-            android:id="@+id/but_add"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_below="@+id/add_item_brand"
-            android:layout_marginTop="34dp"
-            android:src="@android:drawable/ic_input_add" />
-
-        <TextView
-            android:id="@+id/textView1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/add_item_Name"
-            android:layout_alignLeft="@+id/add_item_Name"
-            android:layout_marginBottom="34dp"
-            android:text="@string/item_name" />
 
         <TextView
             android:id="@+id/label_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/add_item_brand"
-            android:layout_below="@+id/add_item_Name"
-            android:layout_marginTop="20dp"
+            android:layout_alignBaseline="@+id/add_item_brand"
+            android:layout_alignBottom="@+id/add_item_brand"
+            android:layout_toLeftOf="@+id/add_item_brand"
             android:text="@string/item_brand" />
 
-    </RelativeLayout>
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/add_item_name"
+            android:layout_alignBottom="@+id/add_item_name"
+            android:layout_toLeftOf="@+id/add_item_name"
+            android:text="@string/item_name" />
+
+        <ImageButton
+            android:id="@+id/but_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/add_item_name"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="24dp"
+            android:src="@android:drawable/ic_input_add" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/but_add"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="18dp"
+            android:text="Disclaimer: Items that are not added through the search functionality are not included in routing functionality and cannot be found on the map."
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    </RelativeLayout> 
 
 </ScrollView>

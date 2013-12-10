@@ -28,9 +28,9 @@
             android:id="@+id/relativeLayout1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/add_item_Name"
-            android:layout_alignRight="@+id/add_item_Name"
-            android:layout_below="@+id/add_item_Name"
+            android:layout_alignLeft="@+id/login_user"
+            android:layout_alignRight="@+id/login_user"
+            android:layout_below="@+id/login_user"
             android:layout_marginTop="20dp" >
 
             <Button
@@ -41,7 +41,7 @@
                 android:text="@string/login" />
 
             <EditText
-                android:id="@+id/add_item_brand"
+                android:id="@+id/login_pass"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toLeftOf="@+id/btnLogout"
@@ -53,7 +53,7 @@
         </RelativeLayout>
 
         <EditText
-            android:id="@+id/add_item_Name"
+            android:id="@+id/login_user"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/mapView"
@@ -77,15 +77,15 @@
             android:clickable="true"
             android:text="@string/skip" />
 
-        <ProgressBar
-            android:id="@+id/progressBarMainScreen"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/add_item_Name"
-            android:layout_alignLeft="@+id/add_item_Name"
-            android:layout_alignRight="@+id/add_item_Name"
-            android:indeterminate="true" />
+<!--         <ProgressBar -->
+<!--             android:id="@+id/progressBarMainScreen" -->
+<!--             style="?android:attr/progressBarStyleHorizontal" -->
+<!--             android:layout_width="wrap_content" -->
+<!--             android:layout_height="wrap_content" -->
+<!--             android:layout_above="@+id/login_user" -->
+<!--             android:layout_alignLeft="@+id/login_user" -->
+<!--             android:layout_alignRight="@+id/login_user" -->
+<!--             android:indeterminate="true" /> -->
                </RelativeLayout>
 
 </ScrollView>

@@ -7,6 +7,7 @@ import net.shoppier.library.UserFunctions;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -15,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
@@ -26,15 +28,15 @@ public class GrocListFragment extends Fragment {
 	private ArrayList<ListsItem> items;
 	private GrocAdapter adapter;
 	private ListView lview;
-	private ImageButton add;
+	//private ImageButton add;
 	private static final int ADD_REQUEST = 0x4;
 	static final int ADD_FROM_SEARCH = 0x3;
 	static final int ADD_FROM_BARCODE = 0x7;
 	static final int EDIT_ITEM = 0x10;
 	static final int RESULT_OK = -1;
 	private DatabaseHandler db;
-	private ImageButton search;
-	private ImageButton barcodeButton;
+	private Button search;
+	//private ImageButton barcodeButton;
 	private Button routeButton;
 	String currentlistID;
 	UserFunctions userfunction;
@@ -54,18 +56,15 @@ public class GrocListFragment extends Fragment {
 
 		this.userfunction = new UserFunctions();
 		lview = (ListView) rootView.findViewById(R.id.list);
+
 		fillUserGrcoList();
-		add = (ImageButton) rootView.findViewById(R.id.but_add);
-		search = (ImageButton) rootView.findViewById(R.id.searchBtn);
+		search = (Button) rootView.findViewById(R.id.searchBtn);
 		routeButton = (Button) rootView.findViewById(R.id.routeButton);
-		barcodeButton = (ImageButton) rootView
-				.findViewById(R.id.barcodeSearchButton);
 		lview.setOnItemLongClickListener(lchandler);
 		lview.setOnItemClickListener(clickhandler);
-		add.setOnClickListener(handler);
 		search.setOnClickListener(handler);
-		barcodeButton.setOnClickListener(handler);
 		routeButton.setOnClickListener(handler);
+		
 
 		items = new ArrayList<ListsItem>();
 
@@ -171,27 +170,28 @@ public class GrocListFragment extends Fragment {
 		@Override
 		public void onClick(View v) {
 
-			if (v == add) {
-				Intent adder = new Intent(getActivity(), AddActivity.class);
-				startActivityForResult(adder, ADD_REQUEST);
-
-			} else if (v == search) {
+			//if (v == add) {
+//				Intent adder = new Intent(getActivity(), AddActivity.class);
+//				startActivityForResult(adder, ADD_REQUEST);
+//
+//			} else 
+				if (v == search) {
 				Intent search = new Intent(getActivity(), SearchActivity.class);
 				startActivityForResult(search, ADD_FROM_SEARCH);
 
-			} else if (v == barcodeButton) {
-				try {
-					Intent intent = new Intent(
-							"com.google.zxing.client.android.SCAN");
-					intent.putExtra("SCAN_MODE", "PRODUCT_MODE"); // "PRODUCT_MODE"
-					intent.putExtra("SAVE_HISTORY", false);// this stops saving
-															// ur barcode in
-															// barcode scanner
-															// app's history
-					startActivityForResult(intent, ADD_FROM_BARCODE);
-				} catch (ActivityNotFoundException ex) {
-					confimDownloadingBarcodeReader();
-				}
+//			} else if (v == barcodeButton) {
+//				try {
+//					Intent intent = new Intent(
+//							"com.google.zxing.client.android.SCAN");
+//					intent.putExtra("SCAN_MODE", "PRODUCT_MODE"); // "PRODUCT_MODE"
+//					intent.putExtra("SAVE_HISTORY", false);// this stops saving
+//															// ur barcode in
+//															// barcode scanner
+//															// app's history
+//					startActivityForResult(intent, ADD_FROM_BARCODE);
+//				} catch (ActivityNotFoundException ex) {
+//					confimDownloadingBarcodeReader();
+//				}
 			} else if (v == routeButton) {
 				route();
 			}

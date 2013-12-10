@@ -71,8 +71,14 @@ public class MainActivity extends Activity {
 		}
 		setContentView(R.layout.activity_main);
 		login = (Button) findViewById(R.id.btnLogout);
-		inputUserName = (EditText) findViewById(R.id.add_item_Name);
-		inputPassword = (EditText) findViewById(R.id.add_item_brand);
+		inputUserName = (EditText) findViewById(R.id.login_user);
+		inputPassword = (EditText) findViewById(R.id.login_pass);
+		login.setOnClickListener(handler);
+		skip = (TextView) findViewById(R.id.textView1);
+		skip.setOnClickListener(handler);
+		updateBarHandler = new Handler();
+		
+		//Makes enter key in password perform like login button
 		inputPassword.setOnKeyListener(new OnKeyListener(){
 
 			@Override
@@ -93,10 +99,6 @@ public class MainActivity extends Activity {
 			
 		}
 		);
-		login.setOnClickListener(handler);
-		skip = (TextView) findViewById(R.id.textView1);
-		skip.setOnClickListener(handler);
-		updateBarHandler = new Handler();
 
 
 	}
@@ -131,9 +133,13 @@ public class MainActivity extends Activity {
 							JSONObject json = userFunction.loginUser(username,
 									password);
 							// check for login response
+					
 							try {
+					            
 								// user successfully logged in
 								if (json.getString(KEY_SUCCESS) != null) {
+									
+						            
 									String res = json.getString(KEY_SUCCESS);
 									if (Integer.parseInt(res) == 1) {
 

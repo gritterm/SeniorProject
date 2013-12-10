@@ -48,7 +48,7 @@ public class addToDBFragment extends Fragment {
 		addToDB = (Button) rootView.findViewById(R.id.db_add_button);
 		addToDB.setOnClickListener(handler);
 		itemName = (EditText) rootView.findViewById(R.id.db_add_name);
-		itemBrand = (EditText) rootView.findViewById(R.id.add_item_brand);
+		itemBrand = (EditText) rootView.findViewById(R.id.db_add_brand);
 		store = (Spinner) rootView.findViewById(R.id.db_add_store);
 		addItemsOnStoreSpinner(store);
 		aisle = (Spinner) rootView.findViewById(R.id.db_add_aisle);

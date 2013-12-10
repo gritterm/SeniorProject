@@ -13,11 +13,12 @@
         android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_above="@+id/search_footer"
         android:layout_below="@+id/InputSearch"
         android:background="@drawable/back"
         android:clickable="true"
-        android:longClickable="false" >
+        android:longClickable="false" 
+        android:fadeScrollbars="false">
 
     </ListView>
 
@@ -25,15 +26,39 @@
         android:id="@+id/InputSearch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@android:id/list"
+        android:layout_alignLeft="@+id/list"
         android:layout_alignParentTop="true"
-        android:layout_alignRight="@android:id/list"
+        android:layout_alignRight="@+id/list"
         android:background="@drawable/searchbar"
-        android:ems="10" >
+        android:ems="10"
+        android:textCursorDrawable="@null" >
 
         <requestFocus />
     </EditText>
 
+    <GridLayout
+        android:id="@+id/search_footer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true" >
+
+        <ImageButton
+            android:id="@+id/but_add"
+            android:layout_width="131dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/trans"
+            android:src="@android:drawable/ic_menu_add" />
+
+        <ImageButton
+            android:id="@+id/barcodeSearchButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="fill_horizontal"
+            android:background="@drawable/trans"
+            android:src="@drawable/bar_code_reader2" />
+
+    </GridLayout>
+
 </RelativeLayout>
-
-

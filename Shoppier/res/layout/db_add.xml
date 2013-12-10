@@ -28,20 +28,20 @@
             android:orientation="vertical" >
 
             <EditText
-                android:id="@+id/db_add_name"
+                android:id="@+id/db_add_brand"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="19dp"
                 android:ems="10"
-                android:hint="@string/item_name"
+                android:hint="@string/item_brand"
                 android:inputType="text" />
 
             <EditText
-                android:id="@+id/add_item_brand"
+                android:id="@+id/db_add_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint="@string/item_brand"
+                android:hint="@string/item_name"
                 android:inputType="text" />
 
             <Spinner
@@ -53,31 +53,36 @@
                 android:id="@+id/db_add_aisle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
-        </LinearLayout>
 
-        <TextView
-            android:id="@+id/label_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/db_add_container"
-            android:layout_marginTop="30dp"
-            android:layout_toLeftOf="@+id/db_add_container"
-            android:text="@string/namelabel" />
+            <Spinner
+                android:id="@+id/db_add_loc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/label_brand"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignRight="@+id/label_name"
-            android:layout_below="@+id/label_name"
-            android:layout_marginTop="19dp"
+            android:layout_alignTop="@+id/db_add_container"
+            android:layout_marginTop="30dp"
+            android:layout_toLeftOf="@+id/db_add_container"
             android:text="@string/brandlabel" />
+
+        <TextView
+            android:id="@+id/label_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignRight="@+id/label_brand"
+            android:layout_below="@+id/label_brand"
+            android:layout_marginTop="19dp"
+            android:text="@string/namelabel" />
 
         <TextView
             android:id="@+id/label_store"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/label_brand"
+            android:layout_below="@+id/label_name"
             android:layout_marginTop="19dp"
             android:layout_toLeftOf="@+id/db_add_container"
             android:text="@string/storelabel" />
@@ -91,30 +96,24 @@
             android:layout_toLeftOf="@+id/db_add_container"
             android:text="@string/aislelabel" />
 
-        <Button
-            android:id="@+id/db_add_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="20dp"
-            android:text="@string/add" />
-
-        <Spinner
-            android:id="@+id/db_add_loc"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/db_add_container"
-            android:layout_toRightOf="@+id/label_aisle" />
-
         <TextView
             android:id="@+id/itemAmt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-             android:layout_below="@+id/label_aisle"
+            android:layout_below="@+id/label_aisle"
             android:layout_marginTop="19dp"
             android:layout_toLeftOf="@+id/db_add_container"
             android:text="@string/add_location" />
-</RelativeLayout>
+
+        <Button
+            android:id="@+id/db_add_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/db_add_container"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp"
+            android:text="@string/add" />
+
+    </RelativeLayout>
 
 </ScrollView>
