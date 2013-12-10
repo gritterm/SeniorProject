@@ -118,9 +118,11 @@ public class SearchActivity extends Activity implements OnItemClickListener {
 				String new_name = list.get(pos).itemName;
 				String new_brand = list.get(pos).itemBrand;
 				int search_id = list.get(pos).itemID;
+				String cat_fk = list.get(pos).itemCat;
 				add.putExtra("NewName", new_name);
 				add.putExtra("NewBrand", new_brand);
 				add.putExtra("SearchId", Integer.toString(search_id));
+				add.putExtra("NewCatFK", cat_fk);
 				setResult(RESULT_OK, add);
 				
 				finish();

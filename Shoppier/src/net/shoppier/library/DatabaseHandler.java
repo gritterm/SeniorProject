@@ -647,6 +647,34 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		return result; 
 	}
 	
+	public ArrayList<Integer> getItemCorFromCatPK(int catPK){
+		SQLiteDatabase db = this.getReadableDatabase(); 
+		ArrayList<Integer> corddinates = new ArrayList<Integer>();
+		
+		String selectQuery = "SELECT * FROM " + TABLE_CAT + " WHERE " + KEYcat_pk + " = " + catPK; 
+		Log.e("getCorrdiantes", selectQuery);
+		
+	    Cursor c = db.rawQuery(selectQuery, null);
+	    
+	   c.moveToFirst();
+	   if(c.getCount() != 0){
+	        do {
+
+	        	int x = Integer.parseInt(c.getString(c.getColumnIndexOrThrow(KEYcat_x)));
+	        	int y = Integer.parseInt(c.getString(c.getColumnIndexOrThrow(KEYcat_y)));
+	        	
+	            // adding to final list
+	        	corddinates.add(0, x);
+	        	corddinates.add(1, y);
+	        	
+	        } while (c.moveToNext());
+	   }
+	    db.close();
+	    c.close();
+	    return corddinates;
+		
+	}
+	
 	public ArrayList<CategoryObject> getCatFromAisle(int aisleFK){
 		SQLiteDatabase db = this.getReadableDatabase(); 
 		ArrayList<CategoryObject> list = new ArrayList<CategoryObject>();

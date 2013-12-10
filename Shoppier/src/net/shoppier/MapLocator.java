@@ -2,6 +2,7 @@ package net.shoppier;
 
 import net.shoppier.library.DatabaseHandler;
 import android.app.Activity;
+import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -40,6 +41,7 @@ public class MapLocator extends Activity {
 			 listID = extra.getExtras().getString("selectedItem");
 		}
 		itemSelected = db.getListItem(listID);
+					   
 		
 		
 		Bitmap bitMap = BitmapFactory.decodeResource(getResources(), R.drawable.jenisonmeijermap);
@@ -54,7 +56,7 @@ public class MapLocator extends Activity {
 	            	
 	            	if((x  < itemSelected.getxCord() + 100 && x > itemSelected.getxCord() - 100) && 
 	            	   (y  < (itemSelected.getyCord() / 10)+ 100 && y > (itemSelected.getyCord() / 10)- 100)	){
-	            		Toast.makeText(getApplicationContext(), "It worked! ",
+	            		Toast.makeText(getApplicationContext(),itemSelected.getListItemBrand() + " " + itemSelected.getListsItemName(),
 								Toast.LENGTH_SHORT).show();
 	            	}
 	            
