@@ -116,7 +116,7 @@ public class UserFunctions {
 		} catch (ExecutionException e) {
 			e.printStackTrace();
 		}
-	}
+	} 
 	
 	public void AddListToSqlServer(Context context, CompleteList list) {
 		this.db = new DatabaseHandler(context);
