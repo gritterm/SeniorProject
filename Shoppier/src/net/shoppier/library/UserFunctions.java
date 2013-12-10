@@ -243,7 +243,8 @@ public class UserFunctions {
 		this.db = new DatabaseHandler(context);
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
 		params.add(new BasicNameValuePair("tag", "getUsersList"));
-		params.add(new BasicNameValuePair("userID", "5"));
+		params.add(new BasicNameValuePair("userID", db.getUserDetails().get(
+				"uid")));
 
 		jsonParser = new JSONParser(params);
 
@@ -296,7 +297,6 @@ public class UserFunctions {
 				for (int i = 0; i <= listIDs.length() - 1; i++) {
 					JSONObject l = listIDs.getJSONObject(i);
 					CompleteList tempList = new CompleteList();
-					// TODO Change when routes are added
 					tempList.setListName(l.getString("list_name"));
 					tempList.setListPK(l.getInt("list_pk"));
 					tempList.setChanged(false);
@@ -396,7 +396,22 @@ public class UserFunctions {
 	}
 
 	public ArrayList<ListsItem> routeList(ArrayList<ListsItem> list) {
+		List<NameValuePair> params = new ArrayList<NameValuePair>();
+		params.add(new BasicNameValuePair("tag", "routeList"));
+		params.add(new BasicNameValuePair("userID", db.getUserDetails().get(
+				"uid")));
+		
+		jsonParser = new JSONParser(params);
 
+		JSONObject json = null;
+		try {
+			json = jsonParser.execute(loginURL).get();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			e.printStackTrace();
+		}
+	//	return json;
 		Collections.sort(list, new Comparator<ListsItem>() {
 
 			@Override

@@ -334,7 +334,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	        } while (c.moveToNext());
 		   }
 	    db.close();
-	    c.close();
+	    c.close(); 	
 	    return alllist;
 	}
 	

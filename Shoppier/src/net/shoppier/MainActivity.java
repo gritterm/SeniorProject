@@ -1,6 +1,7 @@
 package net.shoppier;
 
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -15,6 +16,8 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.text.Html;
+import android.text.util.Linkify;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -75,7 +78,9 @@ public class MainActivity extends Activity {
 		inputPassword = (EditText) findViewById(R.id.login_pass);
 		login.setOnClickListener(handler);
 		skip = (TextView) findViewById(R.id.textView1);
-		skip.setOnClickListener(handler);
+		Pattern pattern = Pattern.compile("Register");
+		Linkify.addLinks(skip, pattern, "http://shoppier.net/login/");
+		//skip.setOnClickListener(handler);
 		updateBarHandler = new Handler();
 		
 		//Makes enter key in password perform like login button

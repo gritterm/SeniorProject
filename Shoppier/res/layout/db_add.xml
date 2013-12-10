@@ -17,6 +17,7 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="17dp"
+            android:textSize = "15sp"
             android:text="@string/add_to_db" />
 
         <LinearLayout
@@ -34,15 +35,23 @@
                 android:layout_marginTop="19dp"
                 android:ems="10"
                 android:hint="@string/item_brand"
-                android:inputType="text" />
+                android:inputType="text" 
+           	    android:background="@drawable/blank"
+                android:singleLine="true" />
 
             <EditText
                 android:id="@+id/db_add_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@drawable/blank"
                 android:ems="10"
+                android:layout_marginTop="19dp"
                 android:hint="@string/item_name"
-                android:inputType="text" />
+                android:inputType="text"
+                android:singleLine="true" >
+
+                <requestFocus />
+            </EditText>
 
             <Spinner
                 android:id="@+id/db_add_store"
@@ -61,24 +70,6 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/label_brand"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/db_add_container"
-            android:layout_marginTop="30dp"
-            android:layout_toLeftOf="@+id/db_add_container"
-            android:text="@string/brandlabel" />
-
-        <TextView
-            android:id="@+id/label_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignRight="@+id/label_brand"
-            android:layout_below="@+id/label_brand"
-            android:layout_marginTop="19dp"
-            android:text="@string/namelabel" />
-
-        <TextView
             android:id="@+id/label_store"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -86,15 +77,6 @@
             android:layout_marginTop="19dp"
             android:layout_toLeftOf="@+id/db_add_container"
             android:text="@string/storelabel" />
-
-        <TextView
-            android:id="@+id/label_aisle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/label_store"
-            android:layout_marginTop="19dp"
-            android:layout_toLeftOf="@+id/db_add_container"
-            android:text="@string/aislelabel" />
 
         <TextView
             android:id="@+id/itemAmt"
@@ -113,6 +95,33 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="15dp"
             android:text="@string/add" />
+
+        <TextView
+            android:id="@+id/label_brand"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/db_add_container"
+            android:layout_marginTop="24dp"
+            android:layout_toLeftOf="@+id/db_add_container"
+            android:text="@string/brandlabel" />
+
+        <TextView
+            android:id="@+id/label_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/label_brand"
+            android:layout_marginTop="23dp"
+            android:layout_toLeftOf="@+id/db_add_container"
+            android:text="@string/namelabel" />
+
+        <TextView
+            android:id="@+id/label_aisle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/label_store"
+            android:layout_marginTop="14dp"
+            android:layout_toLeftOf="@+id/db_add_container"
+            android:text="@string/aislelabel" />
 
     </RelativeLayout>
 

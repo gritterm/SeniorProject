@@ -76,11 +76,8 @@ public class DrawerActivity extends Activity {
 		}
 
 		// Settings Section Header
-		Navlists.add(NavMenuSection.create(200, "Settings"));
+		Navlists.add(NavMenuSection.create(200, "Options"));
 
-		// Sync Button
-		Navlists.add(NavMenuItem.create(203, "Sync", "sync_icon", true,
-				getBaseContext()));
 
 		// Add List button
 		Navlists.add(NavMenuItem.create(201, "Create New List", "add_list_icon", true,

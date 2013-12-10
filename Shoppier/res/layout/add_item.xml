@@ -11,16 +11,6 @@
         android:background="@drawable/back" >
 
         <EditText
-            android:id="@+id/add_item_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_below="@+id/add_item_brand"
-            android:layout_marginRight="18dp"
-            android:ems="10"
-            android:hint="Ex: Ketchup" />
-
-        <EditText
             android:id="@+id/add_item_brand"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -28,7 +18,10 @@
             android:layout_alignParentTop="true"
             android:layout_marginTop="25dp"
             android:ems="10"
-            android:hint="Ex: Heinz" />
+            android:hint="Ex: Heinz" 
+            android:inputType="text" 
+           	android:background="@drawable/blank"
+            android:singleLine="true"/>
 
         <TextView
             android:id="@+id/label_name"
@@ -48,14 +41,15 @@
             android:layout_toLeftOf="@+id/add_item_name"
             android:text="@string/item_name" />
 
-        <ImageButton
+        <Button
             android:id="@+id/but_add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/add_item_name"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="24dp"
-            android:src="@android:drawable/ic_input_add" />
+            android:src="@android:drawable/ic_input_add" 
+            android:text="@string/add"/>
 
         <TextView
             android:id="@+id/textView2"
@@ -66,6 +60,23 @@
             android:layout_marginTop="18dp"
             android:text="Disclaimer: Items that are not added through the search functionality are not included in routing functionality and cannot be found on the map."
             android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <EditText
+            android:id="@+id/add_item_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/add_item_brand"
+            android:layout_marginRight="18dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/blank"
+            android:ems="10"
+            android:hint="Ex: Ketchup"
+            android:inputType="text"
+            android:singleLine="true" >
+
+            <requestFocus />
+        </EditText>
 
     </RelativeLayout> 
 
