@@ -13,9 +13,11 @@ import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 public class MapLocator extends Activity {
 	
@@ -43,7 +45,22 @@ public class MapLocator extends Activity {
 		Bitmap bitMap = BitmapFactory.decodeResource(getResources(), R.drawable.jenisonmeijermap);
 		Bitmap bitMapPoint = BitmapFactory.decodeResource(getResources(), R.drawable.red_dot);
 		map = (ImageView) findViewById(R.id.mapView);
-		
+		map.setOnTouchListener(new View.OnTouchListener() {
+	        @Override
+	        public boolean onTouch(View v, MotionEvent event) {
+
+	            	float x = event.getX();
+	            	float y = event.getY();
+	            	
+	            	if((x  < itemSelected.getxCord() + 100 && x > itemSelected.getxCord() - 100) && 
+	            	   (y  < (itemSelected.getyCord() / 10)+ 100 && y > (itemSelected.getyCord() / 10)- 100)	){
+	            		Toast.makeText(getApplicationContext(), "It worked! ",
+								Toast.LENGTH_SHORT).show();
+	            	}
+	            
+	            return true;
+	        }
+	    });
 		/*Set the new map in view */
 		map.setImageBitmap(placePin(bitMap, bitMapPoint, itemSelected.getxCord(), itemSelected.getyCord()));
 	}
@@ -64,11 +81,10 @@ public class MapLocator extends Activity {
         canvas.drawBitmap(map, new Matrix(), null);
         
         Matrix scaleMatrix = new Matrix();
-		scaleMatrix .postTranslate(x_cor, x_cor);
+		scaleMatrix .postTranslate(x_cor, y_cor / 10);
         canvas.drawBitmap(point, scaleMatrix, null);
         return bmOverlay;
     }
-	
-	
+    
 
 }

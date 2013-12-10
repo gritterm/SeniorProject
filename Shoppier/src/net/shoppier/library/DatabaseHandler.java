@@ -315,6 +315,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	            String tempListFk = c.getString(c.getColumnIndexOrThrow(KEY_LIST_ITEM_LISTFK));
 	            String tempSearchItemID = c.getString(c.getColumnIndexOrThrow(KEY_LIST_SEARCH_ITEM_FK));
 	            String tempListItemID = c.getString(c.getColumnIndexOrThrow(KEY_LIST_ID_PK));
+	            String xCord = c.getString(c.getColumnIndexOrThrow(KEY_LIST_ITEM_XCOR));
+	            String yCord = c.getString(c.getColumnIndexOrThrow(KEY_LIST_ITEM_YCOR));
+	            String catFK = c.getString(c.getColumnIndexOrThrow(KEY_LIST_CATFK));
 	            
 	            li.setListFK(Integer.parseInt(tempListFk));
 	            li.setListsItemName(c.getString(c.getColumnIndexOrThrow(KEY_LISTITEM_NAME)));
@@ -323,6 +326,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	            li.setListItemBrand(c.getString(c.getColumnIndexOrThrow(KEY_LIST_ITEM_BRAND)));
 	            li.setItemQTY(c.getString(c.getColumnIndexOrThrow(KEY_LIST_ITEM_qty)));
 	            li.setItemPrice(c.getDouble((c.getColumnIndexOrThrow(KEY_LIST_ITEM_Price))));
+	            li.setxCord(Integer.parseInt(xCord));
+	            li.setyCord(Integer.parseInt(yCord));
+	            li.setCatFK(Integer.parseInt(tempListFk));
 	            // adding to final list
 	            alllist.add(li);
 	        } while (c.moveToNext());
