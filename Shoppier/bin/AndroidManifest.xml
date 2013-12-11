@@ -76,6 +76,11 @@
             android:label="Find Item"
             android:screenOrientation="portrait" >
         </activity>
+        <activity
+            android:name="net.shoppier.AboutUsActivity"
+            android:label="About Us"
+            android:screenOrientation="portrait" >
+        </activity>
     </application>
 
 </manifest>
