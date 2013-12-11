@@ -659,10 +659,16 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	   c.moveToFirst();
 	   if(c.getCount() != 0){
 	        do {
-
-	        	int x = Integer.parseInt(c.getString(c.getColumnIndexOrThrow(KEYcat_x)));
-	        	int y = Integer.parseInt(c.getString(c.getColumnIndexOrThrow(KEYcat_y)));
-	        	
+	        	int x, y; 
+	        	String xs = c.getString(c.getColumnIndexOrThrow(KEYcat_x));
+	        	String ys = c.getString(c.getColumnIndexOrThrow(KEYcat_y));
+	        	if(xs.equals("null") || ys.equals("null")){
+	        		x = 0; 
+	        		y = 0; 
+	        	}else{	
+	        		 x = Integer.parseInt(c.getString(c.getColumnIndexOrThrow(KEYcat_x)));
+	        		 y = Integer.parseInt(c.getString(c.getColumnIndexOrThrow(KEYcat_y)));
+	        	}
 	            // adding to final list
 	        	corddinates.add(0, x);
 	        	corddinates.add(1, y);

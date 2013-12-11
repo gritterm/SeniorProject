@@ -395,11 +395,12 @@ public class UserFunctions {
 
 	}
 
-	public ArrayList<ListsItem> routeList(ArrayList<ListsItem> list) {
+	public ArrayList<ListsItem> routeList(ArrayList<ListsItem> list, Context context) {
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
 		params.add(new BasicNameValuePair("tag", "routeList"));
 		params.add(new BasicNameValuePair("userID", db.getUserDetails().get(
 				"uid")));
+		params.add(new BasicNameValuePair("list", listtoArray(list, context)));
 		
 		jsonParser = new JSONParser(params);
 
