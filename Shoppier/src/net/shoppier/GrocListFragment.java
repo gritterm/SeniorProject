@@ -230,7 +230,7 @@ public class GrocListFragment extends Fragment {
 		add_conf.setPositiveButton("Yes",
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int which) {
-						items = userfunction.routeList(items);
+						items = userfunction.routeList(items, getActivity());
 						adapter.notifyDataSetChanged();
 					}
 
