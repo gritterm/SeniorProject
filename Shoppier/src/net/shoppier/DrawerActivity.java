@@ -76,11 +76,8 @@ public class DrawerActivity extends Activity {
 		}
 
 		// Settings Section Header
-		Navlists.add(NavMenuSection.create(200, "Settings"));
+		Navlists.add(NavMenuSection.create(200, "Options"));
 
-		// Sync Button
-		Navlists.add(NavMenuItem.create(203, "Sync", "sync_icon", true,
-				getBaseContext()));
 
 		// Add List button
 		Navlists.add(NavMenuItem.create(201, "Create New List", "add_list_icon", true,
@@ -99,6 +96,14 @@ public class DrawerActivity extends Activity {
 			Navlists.add(NavMenuItem.create(204, "Login", "login_icon", true,
 					getBaseContext()));
 		}
+		// Help Page
+		Navlists.add(NavMenuItem.create(205, "FAQ", "ic_menu_help", true,
+			getBaseContext()));
+		
+		//About page
+		Navlists.add(NavMenuItem.create(206, "About Us", "ic_menu_info_details", true,
+				getBaseContext()));
+		
 		navAdapter = new NavDrawerAdapter(this, R.layout.navdrawer_item,
 				Navlists);
 
@@ -208,6 +213,9 @@ public class DrawerActivity extends Activity {
 			mDrawerList.setItemChecked(positionBefore, true);
 			setTitle("Add Item");
 			mDrawerLayout.closeDrawer(mDrawerList);
+		}else if(Navlists.get(positionBefore).getType() == NavMenuItem.ABOUT_PAGE){
+			Intent intent = new Intent(DrawerActivity.this, AboutUsActivity.class);
+			startActivity(intent);
 		}
 	}
 

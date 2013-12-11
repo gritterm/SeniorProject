@@ -6,13 +6,16 @@ import java.util.List;
 import net.shoppier.library.DatabaseHandler;
 import net.shoppier.library.UserFunctions;
 import android.app.Fragment;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
@@ -26,7 +29,7 @@ import android.widget.Spinner;
  * */
 public class addListFragment extends Fragment{
 	
-	private ImageButton addListBtn; //add list button
+	private Button addListBtn; //add list button
 	private EditText inputListName; //list name
 	private static final int ADD_REQUEST = 0x5; //add_request ID used by NavMenuItem
 	static final int RESULT_OK = -1; 
@@ -43,7 +46,7 @@ public class addListFragment extends Fragment{
 	        // Inflate the layout for this fragment
 			View rootView = inflater.inflate(R.layout.add_list, container, false);
 	        
-			addListBtn = (ImageButton) rootView.findViewById(R.id.but_add_list);
+			addListBtn = (Button) rootView.findViewById(R.id.but_add_list);
 			inputListName = (EditText) rootView.findViewById(R.id.list_name);
 			storespinner = (Spinner)rootView.findViewById(R.id.newlist_storespinner);
 			addListBtn.setOnClickListener(handler);

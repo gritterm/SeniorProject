@@ -23,7 +23,7 @@
     <string name="title_activity_single_searable_item_view">SingleSearableItemView</string>
     <string name="space"> : </string>
     <string name="add">Add</string>
-    <string name="add_to_db">Add an item to database</string>
+    <string name="add_to_db">Add an item to the database</string>
     <string name="item_brand">Item brand</string>
     <string name="drawer_close">Drawer Closed</string>
     <string name="drawer_open">Drawer Open</string>
@@ -34,5 +34,6 @@
     <string name="add_location">Location:</string>
     <string name="quanity">Qty:</string>
     <string name="title_EditItem">Edit Item</string>
+    <string name="create_list">Create</string>
 
 </resources>

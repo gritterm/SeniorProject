@@ -315,6 +315,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	            String tempListFk = c.getString(c.getColumnIndexOrThrow(KEY_LIST_ITEM_LISTFK));
 	            String tempSearchItemID = c.getString(c.getColumnIndexOrThrow(KEY_LIST_SEARCH_ITEM_FK));
 	            String tempListItemID = c.getString(c.getColumnIndexOrThrow(KEY_LIST_ID_PK));
+	            String xCord = c.getString(c.getColumnIndexOrThrow(KEY_LIST_ITEM_XCOR));
+	            String yCord = c.getString(c.getColumnIndexOrThrow(KEY_LIST_ITEM_YCOR));
+	            String catFK = c.getString(c.getColumnIndexOrThrow(KEY_LIST_CATFK));
 	            
 	            li.setListFK(Integer.parseInt(tempListFk));
 	            li.setListsItemName(c.getString(c.getColumnIndexOrThrow(KEY_LISTITEM_NAME)));
@@ -323,12 +326,15 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	            li.setListItemBrand(c.getString(c.getColumnIndexOrThrow(KEY_LIST_ITEM_BRAND)));
 	            li.setItemQTY(c.getString(c.getColumnIndexOrThrow(KEY_LIST_ITEM_qty)));
 	            li.setItemPrice(c.getDouble((c.getColumnIndexOrThrow(KEY_LIST_ITEM_Price))));
+	            li.setxCord(Integer.parseInt(xCord));
+	            li.setyCord(Integer.parseInt(yCord));
+	            li.setCatFK(Integer.parseInt(tempListFk));
 	            // adding to final list
 	            alllist.add(li);
 	        } while (c.moveToNext());
 		   }
 	    db.close();
-	    c.close();
+	    c.close(); 	
 	    return alllist;
 	}
 	
@@ -639,6 +645,34 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		result = (int) db.insert(TABLE_CAT, null, values);
 		db.close(); 
 		return result; 
+	}
+	
+	public ArrayList<Integer> getItemCorFromCatPK(int catPK){
+		SQLiteDatabase db = this.getReadableDatabase(); 
+		ArrayList<Integer> corddinates = new ArrayList<Integer>();
+		
+		String selectQuery = "SELECT * FROM " + TABLE_CAT + " WHERE " + KEYcat_pk + " = " + catPK; 
+		Log.e("getCorrdiantes", selectQuery);
+		
+	    Cursor c = db.rawQuery(selectQuery, null);
+	    
+	   c.moveToFirst();
+	   if(c.getCount() != 0){
+	        do {
+
+	        	int x = Integer.parseInt(c.getString(c.getColumnIndexOrThrow(KEYcat_x)));
+	        	int y = Integer.parseInt(c.getString(c.getColumnIndexOrThrow(KEYcat_y)));
+	        	
+	            // adding to final list
+	        	corddinates.add(0, x);
+	        	corddinates.add(1, y);
+	        	
+	        } while (c.moveToNext());
+	   }
+	    db.close();
+	    c.close();
+	    return corddinates;
+		
 	}
 	
 	public ArrayList<CategoryObject> getCatFromAisle(int aisleFK){

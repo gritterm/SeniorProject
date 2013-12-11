@@ -33,7 +33,9 @@ public class NavDrawerAdapter extends ArrayAdapter<NavDrawerItem>  {
 	        		menuItem.getType() == NavMenuItem.LOGOUT_TYPE ||
 	        		menuItem.getType() == NavMenuItem.SYNC_TYPE ||
 	        		menuItem.getType() == NavMenuItem.LOGIN_TYPE ||
-					menuItem.getType() == NavMenuItem.ADDTODB_TYPE) { 
+					menuItem.getType() == NavMenuItem.ADDTODB_TYPE ||
+					menuItem.getType() == NavMenuItem.HELP_PAGE ||
+					menuItem.getType() == NavMenuItem.ABOUT_PAGE) { 
 	        	view = getItemView(convertView, parent, menuItem);
 	        }else{
 	            view = getSectionView(convertView, parent, menuItem);

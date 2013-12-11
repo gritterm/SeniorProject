@@ -6,22 +6,20 @@ import net.shoppier.library.DatabaseHandler;
 import net.shoppier.library.UserFunctions;
 import android.app.AlertDialog;
 import android.app.Fragment;
-import android.content.ActivityNotFoundException;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.Toast;
 import android.widget.AdapterView.OnItemLongClickListener;
 
 public class GrocListFragment extends Fragment {
@@ -56,7 +54,7 @@ public class GrocListFragment extends Fragment {
 
 		this.userfunction = new UserFunctions();
 		lview = (ListView) rootView.findViewById(R.id.list);
-
+		
 		fillUserGrcoList();
 		search = (Button) rootView.findViewById(R.id.searchBtn);
 		routeButton = (Button) rootView.findViewById(R.id.routeButton);
@@ -111,10 +109,13 @@ public class GrocListFragment extends Fragment {
 			selected.setListsItemName(newname);
 			selected.setListItemBrand(newbrand);
 			selected.setSearchItemId(0);
-
+			selected.setItemQTY("1");
+			selected.setxCord(0);
+			selected.setyCord(0);
 			selected.setListFK(Integer.parseInt(currentlistID));
 			items.add(selected);
 			db.addItemToListDB(selected);
+			userfunction.Sync(getActivity(), currentlistID);
 			adapter.notifyDataSetChanged();
 
 		}
@@ -122,13 +123,21 @@ public class GrocListFragment extends Fragment {
 			String newname = new String(data.getStringExtra("NewName"));
 			String newbrand = new String(data.getStringExtra("NewBrand"));
 			String searchId = new String(data.getStringExtra("SearchId"));
+			String catFK = new String(data.getStringExtra("NewCatFK"));
 			ListsItem selected = new ListsItem();
 			selected.setListsItemName(newname);
 			selected.setListItemBrand(newbrand);
 			selected.setSearchItemId(Integer.parseInt(searchId));
 			selected.setListFK(Integer.parseInt(currentlistID));
+			selected.setCatFK(Integer.parseInt(catFK));
+			selected.setItemQTY("1");
+			ArrayList<Integer> cord = db.getItemCorFromCatPK(Integer.parseInt(catFK));
+			
+			selected.setxCord(cord.get(0));
+			selected.setyCord(cord.get(1));
 			items.add(selected);
 			db.addItemToListDB(selected);
+			userfunction.Sync(getActivity(), currentlistID);
 			adapter.notifyDataSetChanged();
 
 		}
@@ -170,11 +179,6 @@ public class GrocListFragment extends Fragment {
 		@Override
 		public void onClick(View v) {
 
-			//if (v == add) {
-//				Intent adder = new Intent(getActivity(), AddActivity.class);
-//				startActivityForResult(adder, ADD_REQUEST);
-//
-//			} else 
 				if (v == search) {
 				Intent search = new Intent(getActivity(), SearchActivity.class);
 				startActivityForResult(search, ADD_FROM_SEARCH);
@@ -314,9 +318,17 @@ public class GrocListFragment extends Fragment {
 			conf.setNegativeButton("Find Item in Store",
 					new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int which) {
-					Intent findItem = new Intent(getActivity(), MapLocator.class);
-					findItem.putExtra("selectedItem", String.valueOf(selectedItem.getListsItemID()));
-					startActivity(findItem);
+					if(selectedItem.getxCord() == 0 || selectedItem.getyCord() == 0){
+						Toast msg = Toast.makeText(getActivity(), "Item cannot be located at this time.",
+								Toast.LENGTH_SHORT);
+						msg.setGravity(Gravity.TOP, 0, 300);
+						msg.show();
+							
+					}else{
+						Intent findItem = new Intent(getActivity(), MapLocator.class);
+						findItem.putExtra("selectedItem", String.valueOf(selectedItem.getListsItemID()));
+						startActivity(findItem);
+					}
 				}
 
 			});

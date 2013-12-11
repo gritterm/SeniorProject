@@ -2,6 +2,7 @@ package net.shoppier;
 
 import net.shoppier.library.DatabaseHandler;
 import android.app.Activity;
+import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -13,9 +14,11 @@ import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 public class MapLocator extends Activity {
 	
@@ -38,12 +41,28 @@ public class MapLocator extends Activity {
 			 listID = extra.getExtras().getString("selectedItem");
 		}
 		itemSelected = db.getListItem(listID);
+					   
 		
 		
 		Bitmap bitMap = BitmapFactory.decodeResource(getResources(), R.drawable.jenisonmeijermap);
 		Bitmap bitMapPoint = BitmapFactory.decodeResource(getResources(), R.drawable.red_dot);
 		map = (ImageView) findViewById(R.id.mapView);
-		
+		map.setOnTouchListener(new View.OnTouchListener() {
+	        @Override
+	        public boolean onTouch(View v, MotionEvent event) {
+
+	            	float x = event.getX();
+	            	float y = event.getY();
+	            	
+	            	if((x  < itemSelected.getxCord() + 100 && x > itemSelected.getxCord() - 100) && 
+	            	   (y  < (itemSelected.getyCord() / 10)+ 100 && y > (itemSelected.getyCord() / 10)- 100)	){
+	            		Toast.makeText(getApplicationContext(),itemSelected.getListItemBrand() + " " + itemSelected.getListsItemName(),
+								Toast.LENGTH_SHORT).show();
+	            	}
+	            
+	            return true;
+	        }
+	    });
 		/*Set the new map in view */
 		map.setImageBitmap(placePin(bitMap, bitMapPoint, itemSelected.getxCord(), itemSelected.getyCord()));
 	}
@@ -64,11 +83,10 @@ public class MapLocator extends Activity {
         canvas.drawBitmap(map, new Matrix(), null);
         
         Matrix scaleMatrix = new Matrix();
-		scaleMatrix .postTranslate(x_cor, x_cor);
+		scaleMatrix .postTranslate(x_cor, y_cor / 10);
         canvas.drawBitmap(point, scaleMatrix, null);
         return bmOverlay;
     }
-	
-	
+    
 
 }
