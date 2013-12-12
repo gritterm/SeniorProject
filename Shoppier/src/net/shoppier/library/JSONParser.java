@@ -19,6 +19,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -29,14 +31,18 @@ public class JSONParser extends AsyncTask<String, Void, JSONObject> {
 	static JSONArray jObjArry = null;
 	static String json = "";
 	private List<NameValuePair> params;
+	ProgressDialog ringProgressDialog;
+	private Context context;
 
+	
+
+	
 
 	// constructor
 	public JSONParser(List<NameValuePair> paramsInput) {
-		
-			this.params = paramsInput;
-	}
-	
+		this.params = paramsInput;
+}
+
 	public JSONParser(){
 		
 	}

@@ -63,12 +63,12 @@ public class SearchActivity extends Activity implements OnItemClickListener {
 		add.setOnClickListener(listen);
 		barcode.setOnClickListener(listen);
 		 db = new DatabaseHandler(getApplicationContext());
-		try {
-			db.clearItemTable();
-			userfunction.getSearchableItems(getApplicationContext());
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			db.clearItemTable();
+//			userfunction.getSearchableItems(this);
+//		} catch (JSONException e) {
+//			e.printStackTrace();
+//		}
 
 		items = db.getAllSearchableItems();
 

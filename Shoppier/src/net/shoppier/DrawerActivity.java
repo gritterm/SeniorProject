@@ -302,7 +302,7 @@ public class DrawerActivity extends Activity {
 		list = db.getList();
 		
 		for(int i = 0; i <= list.size()-1; i++){
-			userFunctions.Sync(getApplicationContext(), String.valueOf(list.get(i).getListPK()));
+			userFunctions.Sync(this, String.valueOf(list.get(i).getListPK()));
 		}
 	}
 	

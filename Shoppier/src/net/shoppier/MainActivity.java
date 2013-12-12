@@ -55,7 +55,7 @@ public class MainActivity extends Activity {
 	DatabaseHandler db ;
 	Handler updateBarHandler;
 
-	UserFunctions userFuncation = new UserFunctions(); 
+	UserFunctions userFuncation; //= new UserFunctions(getApplicationContext()); 
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -68,11 +68,17 @@ public class MainActivity extends Activity {
 		//userFuncation.logoutUser(getApplicationContext());
 		String savedUserName = settings.getString("username", null);
 		String savedPW = settings.getString("password", null);
+		setContentView(R.layout.activity_main);
 		if (savedUserName != null && savedPW != null) {
 			fillUserGrcoList();
-						startActivity(new Intent(MainActivity.this, DrawerActivity.class));
+			try {
+				userFuncation.getSearchableItems(this);
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+				startActivity(new Intent(MainActivity.this, DrawerActivity.class));
 		}
-		setContentView(R.layout.activity_main);
+		
 		login = (Button) findViewById(R.id.btnLogout);
 		inputUserName = (EditText) findViewById(R.id.login_user);
 		inputPassword = (EditText) findViewById(R.id.login_pass);
@@ -134,7 +140,7 @@ public class MainActivity extends Activity {
 			
 
 							UserFunctions userFunction = new UserFunctions(
-									username, password);
+									username, password, getApplicationContext());
 							JSONObject json = userFunction.loginUser(username,
 									password);
 							// check for login response

@@ -146,7 +146,7 @@ public class addToDBFragment extends Fragment {
 				
 				//sending the new item to the database
 				JSONObject returnValue = uf.sendCrowdSourceItem(name, brand,
-						itemCatFK);
+						itemCatFK, getActivity());
 
 				Toast toast = Toast.makeText(getActivity(),
 						"Thank you for adding " + brand + " " + name

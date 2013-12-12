@@ -68,7 +68,7 @@ public class UserFunctions {
 	}
 
 	// constructor for login
-	public UserFunctions(String email, String password) {
+	public UserFunctions(String email, String password, Context context) {
 		// Building Parameters
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
 		params.add(new BasicNameValuePair("tag", login_tag));
@@ -374,7 +374,7 @@ public class UserFunctions {
 	}
 
 	public JSONObject sendCrowdSourceItem(String itemName, String itemBrand,
-			int itemCatFK) {
+			int itemCatFK, Context context) {
 
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
 		params.add(new BasicNameValuePair("tag", "sentCrowdSourcedItem"));
@@ -493,6 +493,4 @@ public class UserFunctions {
 		return true;
 	}
 	
-
-
 }
