@@ -54,8 +54,8 @@ public class MapLocator extends Activity {
 	            	float x = event.getX();
 	            	float y = event.getY();
 	            	
-	            	if((x  < itemSelected.getxCord() + 100 && x > itemSelected.getxCord() - 100) && 
-	            	   (y  < (itemSelected.getyCord() / 10)+ 100 && y > (itemSelected.getyCord() / 10)- 100)	){
+	            	if((x  < (itemSelected.getxCord()*18) + 100 && x > (itemSelected.getxCord() *18) - 100) && 
+	            	   (y  < ((itemSelected.getyCord()-8)*10+90)+ 100) && y > (((itemSelected.getyCord()-8)*10+90)- 100)){
 	            		Toast.makeText(getApplicationContext(),itemSelected.getListItemBrand() + " " + itemSelected.getListsItemName(),
 								Toast.LENGTH_SHORT).show();
 	            	}
@@ -83,7 +83,7 @@ public class MapLocator extends Activity {
         canvas.drawBitmap(map, new Matrix(), null);
         
         Matrix scaleMatrix = new Matrix();
-		scaleMatrix .postTranslate(x_cor, y_cor / 10);
+		scaleMatrix .postTranslate(x_cor * 18, (y_cor-8)*10+90);
         canvas.drawBitmap(point, scaleMatrix, null);
         return bmOverlay;
     }

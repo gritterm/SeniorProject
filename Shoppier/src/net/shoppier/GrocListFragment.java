@@ -125,6 +125,7 @@ public class GrocListFragment extends Fragment {
 			String newbrand = new String(data.getStringExtra("NewBrand"));
 			String searchId = new String(data.getStringExtra("SearchId"));
 			String catFK = new String(data.getStringExtra("NewCatFK"));
+
 			ListsItem selected = new ListsItem();
 			selected.setListsItemName(newname);
 			selected.setListItemBrand(newbrand);
@@ -133,10 +134,15 @@ public class GrocListFragment extends Fragment {
 			selected.setCatFK(Integer.parseInt(catFK));
 			selected.setItemQTY("1");
 			selected.setChecked("false");
-			ArrayList<Integer> cord = db.getItemCorFromCatPK(Integer.parseInt(catFK));
-			
-			selected.setxCord(cord.get(0));
-			selected.setyCord(cord.get(1));
+			if(!catFK.equals("0")){			
+				ArrayList<Integer> cord = db.getItemCorFromCatPK(Integer.parseInt(catFK));
+				
+				selected.setxCord(cord.get(0));
+				selected.setyCord(cord.get(1));
+			}else {
+				selected.setxCord(0);
+				selected.setyCord(0);
+			}
 			items.add(selected);
 			db.addItemToListDB(selected);
 			userfunction.Sync(getActivity(), currentlistID);

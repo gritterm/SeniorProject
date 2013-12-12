@@ -157,6 +157,7 @@ public class SearchActivity extends Activity implements OnItemClickListener {
 			result.putExtra("NewName", new_name);
 			result.putExtra("NewBrand", new_brand);
 			result.putExtra("SearchId", "0");
+			result.putExtra("NewCatFK", "0");
 			setResult(RESULT_OK, result);
 			
 			finish();
