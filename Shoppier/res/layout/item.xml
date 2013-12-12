@@ -53,6 +53,6 @@
         android:layout_marginLeft="14dp"
         android:layout_toRightOf="@+id/inputItemQty"
         android:text="Item Amt" />
- 
+
 
 </RelativeLayout>

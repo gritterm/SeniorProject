@@ -9,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 public class GrocAdapter extends ArrayAdapter<ListsItem>{
@@ -26,10 +28,11 @@ public class GrocAdapter extends ArrayAdapter<ListsItem>{
 	
 	class ViewHolder {
 		TextView name_holder, brand_holder, qty_holder, price_holder;
-
-	}@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
-		ViewHolder bin;
+	}
+	
+	@Override
+	public View getView(final int position, View convertView, ViewGroup parent) {
+		 final ViewHolder bin;
 		if (convertView == null) {
 			Log.d("=====", "Inflating from XML");
 			convertView = pump.inflate(itemLayout, parent, false);
@@ -44,6 +47,8 @@ public class GrocAdapter extends ArrayAdapter<ListsItem>{
 					.findViewById(R.id.inputItemQty);
 			bin.price_holder = (TextView) convertView
 					.findViewById(R.id.itemAmt);
+
+			
 
 			convertView.setTag(bin);
 

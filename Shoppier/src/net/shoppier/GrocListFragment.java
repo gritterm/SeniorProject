@@ -1,6 +1,10 @@
-package net.shoppier;
+	package net.shoppier;
 
 import java.util.ArrayList;
+
+import com.haarman.listviewanimations.itemmanipulation.OnDismissCallback;
+import com.haarman.listviewanimations.itemmanipulation.SwipeDismissAdapter;
+import com.haarman.listviewanimations.itemmanipulation.contextualundo.ContextualUndoAdapter.DeleteItemCallback;
 
 import net.shoppier.library.DatabaseHandler;
 import net.shoppier.library.UserFunctions;
@@ -10,11 +14,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.DragEvent;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnDragListener;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
@@ -23,7 +30,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemLongClickListener;
 
-public class GrocListFragment extends Fragment {
+public class GrocListFragment extends Fragment implements OnDismissCallback {
 	private ArrayList<ListsItem> items;
 	private GrocAdapter adapter;
 	private ListView lview;
@@ -54,15 +61,15 @@ public class GrocListFragment extends Fragment {
 		String currentlistName = getArguments().getString("ListName", "List");
 		getActivity().setTitle(currentlistName);
 
-		this.userfunction = new UserFunctions();
+		this.userfunction = new UserFunctions();	
 		lview = (ListView) rootView.findViewById(R.id.list);
 		
 		fillUserGrcoList();
 		search = (Button) rootView.findViewById(R.id.searchBtn);
 		totalCost = (TextView)rootView.findViewById(R.id.totalCost);
 		routeButton = (Button) rootView.findViewById(R.id.routeButton);
-		lview.setOnItemLongClickListener(lchandler);
 		lview.setOnItemClickListener(clickhandler);
+
 		search.setOnClickListener(handler);
 		routeButton.setOnClickListener(handler);
 		
@@ -95,8 +102,13 @@ public class GrocListFragment extends Fragment {
 		}
 
 		adapter = new GrocAdapter(this.getActivity(), R.layout.item, items);
-		lview.setAdapter(adapter);
-		adapter.notifyDataSetChanged();
+		//lview.setAdapter(adapter);
+		//adapter.notifyDataSetChanged();
+		
+		SwipeDismissAdapter adapter1 = new SwipeDismissAdapter(adapter, this);
+		adapter1.setAbsListView(lview);
+		lview.setAdapter(adapter1);
+		adapter1.notifyDataSetChanged();
 		updateTotalCost();
 		return rootView;
 	}
@@ -283,37 +295,39 @@ public class GrocListFragment extends Fragment {
 		add_conf.show();
 	}
 
-	private OnItemLongClickListener lchandler = new OnItemLongClickListener() {
-		@Override
-		public boolean onItemLongClick(AdapterView<?> list, View item,
-				int position, long id) {
-			final int pos = position;
-			final ListsItem itemToDel = (ListsItem) list
-					.getItemAtPosition(position);
+//	private OnItemLongClickListener lchandler = new OnItemLongClickListener() {
+//		@Override
+//		public boolean onItemLongClick(AdapterView<?> list, View item,
+//				int position, long id) {
+//			final int pos = position;
+//			final ListsItem itemToDel = (ListsItem) list
+//					.getItemAtPosition(position);
+//
+//			AlertDialog.Builder remv_conf = new AlertDialog.Builder(
+//					getActivity());
+//			remv_conf.setTitle("Confirmation Required");
+//			remv_conf.setMessage("Remove this item?");
+//			remv_conf.setPositiveButton("Yes",
+//					new DialogInterface.OnClickListener() {
+//						public void onClick(DialogInterface dialog, int which) {
+//							items.remove(pos);
+//							db.removeItemFromList(itemToDel.getListsItemID());
+//							updateTotalCost();
+//							adapter.notifyDataSetChanged();
+//
+//						}
+//
+//					});
+//
+//			remv_conf.setNegativeButton("No", null);
+//			remv_conf.create();
+//			remv_conf.show();
+//			return false;
+//
+//		}
+//	};
+	
 
-			AlertDialog.Builder remv_conf = new AlertDialog.Builder(
-					getActivity());
-			remv_conf.setTitle("Confirmation Required");
-			remv_conf.setMessage("Remove this item?");
-			remv_conf.setPositiveButton("Yes",
-					new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog, int which) {
-							items.remove(pos);
-							db.removeItemFromList(itemToDel.getListsItemID());
-							updateTotalCost();
-							adapter.notifyDataSetChanged();
-
-						}
-
-					});
-
-			remv_conf.setNegativeButton("No", null);
-			remv_conf.create();
-			remv_conf.show();
-			return false;
-
-		}
-	};
 	
 	private OnItemClickListener clickhandler = new OnItemClickListener() {
 		@Override
@@ -381,4 +395,19 @@ public class GrocListFragment extends Fragment {
 	public void updateTotalCost(){
 		totalCost.setText("$"+db.getTotalCost(Integer.parseInt(currentlistID)));
 	}
+
+
+
+	@Override
+	public void onDismiss(AbsListView listview, int[] postition) {
+		ListsItem item = (ListsItem) listview.getItemAtPosition(postition[0]);
+		items.remove(postition[0]);
+		db.removeItemFromList(item.getListsItemID());
+		userfunction.Sync(getActivity(), currentlistID);
+		updateTotalCost();
+		adapter.notifyDataSetChanged();
+		
+	}
+	
+	 
 }
