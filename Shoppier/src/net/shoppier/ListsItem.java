@@ -28,6 +28,9 @@ public class ListsItem {
 	
 	//price of item
 	double itemPrice;
+
+	//checked item True = checked   False = not checked
+	String checked; 
 	
 	int xCord; 
 	int yCord; 
@@ -35,6 +38,16 @@ public class ListsItem {
 	
 	
 	
+	
+	public String getChecked() {
+		return checked;
+	}
+
+
+	public void setChecked(String checked) {
+		this.checked = checked;
+	}
+
 
 	public int getCatFK() {
 		return catFK;

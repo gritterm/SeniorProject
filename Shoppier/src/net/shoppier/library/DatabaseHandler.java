@@ -61,6 +61,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	private static final String KEY_LIST_ITEM_XCOR = "list_item_x";
 	private static final String KEY_LIST_ITEM_YCOR = "list_item_y";
 	private static final String KEY_LIST_CATFK= "list_item_catfk";
+	private static final String KEY_LISTITEM_CHECKED = "list_checked";
 	
 	
 	//item Table Column names 
@@ -122,7 +123,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 			+ KEY_LIST_ID_PK + " INTEGER PRIMARY KEY, " + KEY_LISTITEM_NAME + " TEXT, " + KEY_LIST_SEARCH_ITEM_FK +
 			" TEXT, " + KEY_LIST_ITEM_LISTFK + " TEXT, " + KEY_LIST_ITEM_BRAND + " TEXT, " 
 			+ KEY_LIST_ITEM_qty + " TEXT, " + KEY_LIST_ITEM_YCOR + " NUMERIC, " +
-			KEY_LIST_ITEM_XCOR + " NUMERIC, " + KEY_LIST_CATFK + " NUMERIC, " + 
+			KEY_LIST_ITEM_XCOR + " NUMERIC, " + KEY_LIST_CATFK + " NUMERIC, " + KEY_LISTITEM_CHECKED + " TEXT, " +
 			KEY_LIST_ITEM_Price + " NUMERIC " + ")";
 	
 	//Query to create item table
@@ -242,6 +243,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		values.put(KEY_LIST_ITEM_XCOR, list.getxCord());
 		values.put(KEY_LIST_CATFK, list.getCatFK());
 		values.put(KEY_LIST_ITEM_YCOR, list.getyCord());
+		values.put(KEY_LISTITEM_CHECKED, list.getChecked());
 		//insert row 
 		result = (int) db.insert(TABLE_LIST_ITEMS, null, values);
 		list.setListsItemID(result);
@@ -276,6 +278,44 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	            li.setxCord(Integer.parseInt(tempXCor));
 	            li.setyCord(Integer.parseInt(tempYCor));
 	            li.setCatFK(Integer.parseInt(catFK));
+	            li.setChecked(c.getString(c.getColumnIndexOrThrow(KEY_LISTITEM_CHECKED)));
+	            // adding to final list
+	        } while (c.moveToNext());
+	    }
+	    db.close();
+	    c.close();
+	    
+	    return li;
+	}
+	
+	public ListsItem getSearchItem(String listItemSearckFK){
+		String selectQuery = "SELECT  * FROM " + TABLE_LIST_ITEMS + " WHERE " + KEY_LIST_SEARCH_ITEM_FK + " = " + listItemSearckFK;
+		//Log.e("getList", selectQuery);
+		
+		SQLiteDatabase db = this.getReadableDatabase();
+	    Cursor c = db.rawQuery(selectQuery, null);
+	    ListsItem li = new ListsItem();
+	    if (c.moveToFirst()) {
+	        do {
+	           
+	            String tempListFk = c.getString(c.getColumnIndexOrThrow(KEY_LIST_ITEM_LISTFK));
+	            String tempSearchItemID = c.getString(c.getColumnIndexOrThrow(KEY_LIST_SEARCH_ITEM_FK));
+	            String tempListItemID = c.getString(c.getColumnIndexOrThrow(KEY_LIST_ID_PK));
+	            String tempXCor = c.getString(c.getColumnIndexOrThrow(KEY_LIST_ITEM_XCOR));
+	            String tempYCor =c.getString(c.getColumnIndexOrThrow(KEY_LIST_ITEM_YCOR));
+	            String catFK =c.getString(c.getColumnIndexOrThrow(KEY_LIST_CATFK));
+	            
+	            li.setListFK(Integer.parseInt(tempListFk));
+	            li.setListsItemName(c.getString(c.getColumnIndexOrThrow(KEY_LISTITEM_NAME)));
+	            li.setListsItemID(Integer.parseInt(tempListItemID));
+	            li.setSearchItemId(Integer.parseInt(tempSearchItemID));
+	            li.setListItemBrand(c.getString(c.getColumnIndexOrThrow(KEY_LIST_ITEM_BRAND)));
+	            li.setItemQTY(c.getString(c.getColumnIndexOrThrow(KEY_LIST_ITEM_qty)));
+	            li.setItemPrice(c.getDouble(c.getColumnIndexOrThrow(KEY_LIST_ITEM_Price)));
+	            li.setxCord(Integer.parseInt(tempXCor));
+	            li.setyCord(Integer.parseInt(tempYCor));
+	            li.setCatFK(Integer.parseInt(catFK));
+	            li.setChecked(c.getString(c.getColumnIndexOrThrow(KEY_LISTITEM_CHECKED)));
 	            // adding to final list
 	        } while (c.moveToNext());
 	    }
@@ -328,7 +368,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	            li.setItemPrice(c.getDouble((c.getColumnIndexOrThrow(KEY_LIST_ITEM_Price))));
 	            li.setxCord(Integer.parseInt(xCord));
 	            li.setyCord(Integer.parseInt(yCord));
-	            li.setCatFK(Integer.parseInt(tempListFk));
+	            li.setCatFK(Integer.parseInt(catFK));
+	            li.setChecked(c.getString(c.getColumnIndexOrThrow(KEY_LISTITEM_CHECKED)));
 	            // adding to final list
 	            alllist.add(li);
 	        } while (c.moveToNext());

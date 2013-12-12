@@ -58,6 +58,7 @@ public class UserFunctions {
 	JSONArray storeList = null;
 	JSONArray aisleList = null;
 	JSONArray catList = null;
+	JSONArray routeList = null; 
 	private DatabaseHandler db;
 
 	// constructor
@@ -266,6 +267,7 @@ public class UserFunctions {
 					li.setxCord(l.getInt("item_x"));
 					li.setyCord(l.getInt("item_y"));
 					li.setCatFK(l.getInt("item_catVal"));
+					li.setChecked(l.getString("checked"));
 					userGrocList.add(li);
 				}
 
@@ -321,12 +323,12 @@ public class UserFunctions {
 		for (int i = 0; i <= list.size() - 1; i++) {
 			JSONArray aryItem = new JSONArray();
 			try {
-				aryItem.put(0)
+				aryItem.put(list.get(i).getChecked())
 						.put(list.get(i).getListsItemID())
 						.put(list.get(i).getListsItemName())
 						.put(list.get(i).getListItemBrand())
-						.put(list.get(i).getItemPrice())
 						.put(list.get(i).getItemQTY())
+						.put(list.get(i).getItemPrice())
 						.put(list.get(i).getCatFK())
 						.put(list.get(i).getxCord())
 						.put(list.get(i).getyCord());
@@ -395,33 +397,51 @@ public class UserFunctions {
 
 	}
 
-	public ArrayList<ListsItem> routeList(ArrayList<ListsItem> list, Context context) {
+	public ArrayList<ListsItem> routeList(ArrayList<ListsItem> list, Context context, int listID) {
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
 		params.add(new BasicNameValuePair("tag", "routeList"));
 		params.add(new BasicNameValuePair("userID", db.getUserDetails().get(
 				"uid")));
 		params.add(new BasicNameValuePair("list", listtoArray(list, context)));
-		
+		ArrayList<ListsItem> toreturnlist = new ArrayList<ListsItem>();
 		jsonParser = new JSONParser(params);
 
 		JSONObject json = null;
 		try {
 			json = jsonParser.execute(loginURL).get();
+			
+			try {
+			
+				routeList = json.getJSONArray("routelist");
+				for (int i = 0; i <= routeList.length() - 1; i++) {
+					ListsItem li = new ListsItem();
+					JSONArray l = (JSONArray) routeList.get(i);
+					li.setListFK(l.getInt(1));
+					li.setSearchItemId(l.getInt(1));
+					li.setListsItemName(l.getString(2));
+					li.setListItemBrand(l.getString(3));
+					li.setItemPrice(l.getDouble(5));
+					li.setItemQTY(l.getString(4));
+					li.setxCord(l.getInt(7));
+					li.setyCord(l.getInt(8));
+					li.setCatFK(l.getInt(6));
+					li.setChecked(l.getString(0));
+					li.setListFK(listID);
+					toreturnlist.add(li);
+				}
+
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+			
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		} catch (ExecutionException e) {
 			e.printStackTrace();
 		}
-	//	return json;
-		Collections.sort(list, new Comparator<ListsItem>() {
 
-			@Override
-			public int compare(ListsItem item1, ListsItem item2) {
-				return item1.getListsItemName().compareToIgnoreCase(
-						item2.getListsItemName());
-			}
-		});
-		return list;
+	//	return json;
+		return toreturnlist;
 
 	}
 

@@ -113,6 +113,7 @@ public class GrocListFragment extends Fragment {
 			selected.setxCord(0);
 			selected.setyCord(0);
 			selected.setListFK(Integer.parseInt(currentlistID));
+			selected.setChecked("False");
 			items.add(selected);
 			db.addItemToListDB(selected);
 			userfunction.Sync(getActivity(), currentlistID);
@@ -131,6 +132,7 @@ public class GrocListFragment extends Fragment {
 			selected.setListFK(Integer.parseInt(currentlistID));
 			selected.setCatFK(Integer.parseInt(catFK));
 			selected.setItemQTY("1");
+			selected.setChecked("false");
 			ArrayList<Integer> cord = db.getItemCorFromCatPK(Integer.parseInt(catFK));
 			
 			selected.setxCord(cord.get(0));
@@ -230,7 +232,15 @@ public class GrocListFragment extends Fragment {
 		add_conf.setPositiveButton("Yes",
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int which) {
-						items = userfunction.routeList(items, getActivity());
+						
+						ArrayList<ListsItem> tempList = userfunction.routeList(items, getActivity(), Integer.parseInt(currentlistID));
+						items.clear();
+						for (ListsItem l : tempList) {
+							if (!l.equals(null)) {
+								items.add(l);
+							}
+						}
+						//items.addAll(tempList);
 						adapter.notifyDataSetChanged();
 					}
 
@@ -326,7 +336,7 @@ public class GrocListFragment extends Fragment {
 							
 					}else{
 						Intent findItem = new Intent(getActivity(), MapLocator.class);
-						findItem.putExtra("selectedItem", String.valueOf(selectedItem.getListsItemID()));
+						findItem.putExtra("selectedItem", String.valueOf(selectedItem.getSearchItemId()));
 						startActivity(findItem);
 					}
 				}
