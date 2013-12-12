@@ -2,6 +2,7 @@ package net.shoppier;
 
 
 import net.shoppier.library.DatabaseHandler;
+import net.shoppier.library.UserFunctions;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -45,6 +46,9 @@ public class EditItemFragment extends Activity {
 		if(li.getSearchItemId() != 0){
 			itemName.setEnabled(false);
 			itemBrand.setEnabled(false);
+		}else{
+			itemName.setEnabled(true);
+			itemBrand.setEnabled(true);
 		}
 		itemName.setText(li.getListsItemName());
 		itemBrand.setText(li.getListItemBrand());
@@ -71,8 +75,12 @@ public class EditItemFragment extends Activity {
 			tempItem.setListsItemName(newItemName);
 			tempItem.setListsItemID(li.getListsItemID());
 			tempItem.setSearchItemId(li.getSearchItemId());
+			tempItem.setxCord(li.getxCord());
+			tempItem.setyCord(li.getyCord());
+			tempItem.setListFK(li.getListFK());
 			int result = db.editListItem(tempItem);
-			
+			UserFunctions uf = new UserFunctions();
+			uf.Sync(getApplicationContext(), String.valueOf(li.getListFK()));
 			Intent update = new Intent();
 			update.putExtra("NewBrand", result);
 			

@@ -719,7 +719,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	    db.close();
 	    c.close();
 	    return corddinates;
-		
 	}
 	
 	public ArrayList<CategoryObject> getCatFromAisle(int aisleFK){
@@ -751,6 +750,27 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	    db.close();
 	    c.close();
 	    return list;
+	}
+	
+	public double getTotalCost(int listID){
+		SQLiteDatabase db = this.getReadableDatabase(); 
+		Double sum = 0.00; 
+		String selectQuery = "SELECT * FROM " + TABLE_LIST_ITEMS + " WHERE " + KEY_LIST_ITEM_LISTFK + " = " + listID; 
+		Cursor c = db.rawQuery(selectQuery, null);
+		   c.moveToFirst();
+		   if(c.getCount() != 0){
+		        do {
+		        	
+		        	Double qty = Double.parseDouble(c.getString(c.getColumnIndexOrThrow(KEY_LIST_ITEM_qty)));
+		        	
+		        	sum = sum +	(qty *  c.getDouble((c.getColumnIndexOrThrow(KEY_LIST_ITEM_Price))));
+		       
+		        	
+		        } while (c.moveToNext());
+		   }
+		    db.close();
+		    c.close();
+		    return sum;
 	}
 	
 	/**

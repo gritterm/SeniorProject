@@ -48,52 +48,52 @@
             <requestFocus />
         </EditText>
 
-        <EditText
-            android:id="@+id/editItemPrice"
+        <NumberPicker
+            android:id="@+id/numberPicker"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/TextView01"
-            android:layout_below="@+id/edit_item_brand"
-            android:layout_marginTop="36dp"
-            android:ems="10"
-            android:inputType="numberDecimal" />
+            android:layout_alignRight="@+id/textView1"
+            android:layout_below="@+id/TextView02"
+            android:width="5dp" />
 
         <TextView
             android:id="@+id/TextView02"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/editItemPrice"
             android:layout_below="@+id/edit_item_brand"
-            android:layout_marginTop="22dp"
+            android:layout_marginLeft="49dp"
+            android:layout_marginTop="19dp"
+            android:layout_toRightOf="@+id/label_name"
             android:text="Price" />
 
         <TextView
             android:id="@+id/TextView01"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/TextView02"
             android:layout_alignLeft="@+id/edit_item_brand"
-            android:layout_alignTop="@+id/numberPicker"
-            android:layout_marginTop="42dp"
             android:text="Quanity:"
             android:textSize="15sp" />
 
-        <NumberPicker
-            android:id="@+id/numberPicker"
+        <EditText
+            android:id="@+id/editItemPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignRight="@+id/editItemPrice"
-            android:layout_below="@+id/editItemPrice"
-            android:layout_marginRight="29dp"
-            android:layout_marginTop="12dp"
-            android:width="5dp" />
+            android:layout_alignRight="@+id/edit_item_brand"
+            android:layout_alignTop="@+id/numberPicker"
+            android:layout_marginTop="14dp"
+            android:layout_toRightOf="@+id/label_name"
+            android:ems="10"
+            android:inputType="numberDecimal" />
 
         <Button
             android:id="@+id/editItemDoneBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/numberPicker"
-            android:layout_marginTop="26dp"
-            android:layout_toRightOf="@+id/TextView01"
+            android:layout_alignBottom="@+id/numberPicker"
+            android:layout_alignLeft="@+id/editItemPrice"
+            android:layout_marginBottom="14dp"
+            android:layout_marginLeft="36dp"
             android:text="Done" />
      
 </RelativeLayout>

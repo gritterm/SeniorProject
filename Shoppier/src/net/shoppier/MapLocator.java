@@ -14,6 +14,7 @@ import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -44,7 +45,8 @@ public class MapLocator extends Activity {
 					   
 		
 		
-		Bitmap bitMap = BitmapFactory.decodeResource(getResources(), R.drawable.jenisonmeijermap);
+		//Bitmap bitMap = BitmapFactory.decodeResource(getResources(), R.drawable.jenisonmeijermap);
+		Bitmap bitMap = BitmapFactory.decodeResource(getResources(), R.drawable.meijer_map_text);
 		Bitmap bitMapPoint = BitmapFactory.decodeResource(getResources(), R.drawable.red_dot);
 		map = (ImageView) findViewById(R.id.mapView);
 		map.setOnTouchListener(new View.OnTouchListener() {
@@ -56,8 +58,9 @@ public class MapLocator extends Activity {
 	            	
 	            	if((x  < (itemSelected.getxCord()*18) + 100 && x > (itemSelected.getxCord() *18) - 100) && 
 	            	   (y  < ((itemSelected.getyCord()-8)*10+90)+ 100) && y > (((itemSelected.getyCord()-8)*10+90)- 100)){
-	            		Toast.makeText(getApplicationContext(),itemSelected.getListItemBrand() + " " + itemSelected.getListsItemName(),
-								Toast.LENGTH_SHORT).show();
+	            		Toast msg = Toast.makeText(getApplicationContext(),itemSelected.getListItemBrand() + " " + itemSelected.getListsItemName(), 01);
+	            		//msg.setDuration(2);
+	            		msg.show();
 	            	}
 	            
 	            return true;

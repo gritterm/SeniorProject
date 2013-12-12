@@ -19,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemLongClickListener;
 
@@ -36,6 +37,7 @@ public class GrocListFragment extends Fragment {
 	private Button search;
 	//private ImageButton barcodeButton;
 	private Button routeButton;
+	private TextView totalCost; 
 	String currentlistID;
 	UserFunctions userfunction;
 
@@ -57,6 +59,7 @@ public class GrocListFragment extends Fragment {
 		
 		fillUserGrcoList();
 		search = (Button) rootView.findViewById(R.id.searchBtn);
+		totalCost = (TextView)rootView.findViewById(R.id.totalCost);
 		routeButton = (Button) rootView.findViewById(R.id.routeButton);
 		lview.setOnItemLongClickListener(lchandler);
 		lview.setOnItemClickListener(clickhandler);
@@ -94,7 +97,7 @@ public class GrocListFragment extends Fragment {
 		adapter = new GrocAdapter(this.getActivity(), R.layout.item, items);
 		lview.setAdapter(adapter);
 		adapter.notifyDataSetChanged();
-
+		updateTotalCost();
 		return rootView;
 	}
 
@@ -146,6 +149,7 @@ public class GrocListFragment extends Fragment {
 			items.add(selected);
 			db.addItemToListDB(selected);
 			userfunction.Sync(getActivity(), currentlistID);
+			updateTotalCost();
 			adapter.notifyDataSetChanged();
 
 		}
@@ -296,6 +300,7 @@ public class GrocListFragment extends Fragment {
 						public void onClick(DialogInterface dialog, int which) {
 							items.remove(pos);
 							db.removeItemFromList(itemToDel.getListsItemID());
+							updateTotalCost();
 							adapter.notifyDataSetChanged();
 
 						}
@@ -327,6 +332,7 @@ public class GrocListFragment extends Fragment {
 							Intent editItem = new Intent(getActivity(),EditItemFragment.class);
 							editItem.putExtra("selectedItem", String.valueOf(selectedItem.getListsItemID()));
 							startActivityForResult(editItem, EDIT_ITEM);
+							updateTotalCost();
 						}
 
 					});
@@ -371,5 +377,8 @@ public class GrocListFragment extends Fragment {
 				dbhandler.addItemToListDB(l);
 			}
 		}
+	}
+	public void updateTotalCost(){
+		totalCost.setText("$"+db.getTotalCost(Integer.parseInt(currentlistID)));
 	}
 }
