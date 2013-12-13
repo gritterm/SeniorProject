@@ -46,7 +46,7 @@ class Login_Model extends Model
                     return false;                    
                     
                 } else {
-                    
+
                     if (password_verify($_POST['user_password'], $result->user_password_hash)) {
 
                         if ($result->user_active == 1) {
@@ -448,13 +448,16 @@ class Login_Model extends Model
      */
     public function registerNewUser() {
         
+        /*
         $captcha = new Captcha();
         
         if (!$captcha->checkCaptcha()) {
         
             $this->errors[] = FEEDBACK_CAPTCHA_WRONG;
             
-        } elseif (empty($_POST['user_name'])) {
+        } else */
+        
+        if (empty($_POST['user_name'])) {
           
             $this->errors[] = FEEDBACK_USERNAME_FIELD_EMPTY;
 

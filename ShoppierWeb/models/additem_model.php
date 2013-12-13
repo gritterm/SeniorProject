@@ -34,8 +34,8 @@ class Additem_Model extends Model
     }
     public function getLocations($aisle)
     {
-         $sth = $this->db->prepare("SELECT loc_pk, loc_loc
-                                           FROM location where loc_aislefk = :aisle;");
+         $sth = $this->db->prepare("SELECT cat_pk, cat_name
+                                           FROM category where cat_locfk = :aisle;");
         $sth->execute(array(
             ':aisle' => $aisle));    
                 
@@ -47,13 +47,12 @@ class Additem_Model extends Model
         $split =  explode(",",$itemstr);
 
         $sth = $this->db->prepare("INSERT INTO item
-                                   (item_locfk, item_name, item_brand, item_cat)
-                                   VALUES (:loc, :name, :brand, :cat);");
+                                   (item_catfk, item_name, item_brand)
+                                   VALUES (:loc, :name, :brand);");
         $sth->execute(array(
             ':loc'   => $split[0],
             ':name'  => $split[1],
-            ':brand' => $split[2],
-            ':cat'   => $split[3]  ));   
+            ':brand' => $split[2]));   
         
         $count =  $sth->rowCount();
         if ($count == 1) {

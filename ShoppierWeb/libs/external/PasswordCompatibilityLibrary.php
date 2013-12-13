@@ -206,6 +206,7 @@ if (!defined('PASSWORD_DEFAULT')) {
         }
         $ret = crypt($password, $hash);
         if (!is_string($ret) || strlen($ret) != strlen($hash) || strlen($ret) <= 13) {
+        file_put_contents("/home1/jonnykle/public_html/shoppier/Android_DB_API/PWComb.txt", "IN Lib = False");
             return false;
         }
 
@@ -217,6 +218,5 @@ if (!defined('PASSWORD_DEFAULT')) {
         return $status === 0;
     }
 }
-
 
 

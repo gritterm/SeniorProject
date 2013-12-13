@@ -6,6 +6,8 @@ class Additem extends Controller {
             
 		parent::__construct();
 
+		Auth::handleLogin();
+
 	}
 	
 	function index() {

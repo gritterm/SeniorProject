@@ -1,0 +1,26 @@
+[11-Dec-2013 16:51:16 America/Denver] PHP Notice:  Undefined offset: -33 in /home1/jonnykle/public_html/shoppier/models/routing_functions.php on line 144
+[11-Dec-2013 16:51:16 America/Denver] PHP Fatal error:  Call to a member function getCat() on a non-object in /home1/jonnykle/public_html/shoppier/models/routing_functions.php on line 144
+[11-Dec-2013 16:59:01 America/Denver] PHP Notice:  Undefined offset: -33 in /home1/jonnykle/public_html/shoppier/models/routing_functions.php on line 144
+[11-Dec-2013 16:59:01 America/Denver] PHP Fatal error:  Call to a member function getCat() on a non-object in /home1/jonnykle/public_html/shoppier/models/routing_functions.php on line 144
+[11-Dec-2013 17:06:47 America/Denver] PHP Notice:  Undefined offset: -33 in /home1/jonnykle/public_html/shoppier/models/routing_functions.php on line 144
+[11-Dec-2013 17:06:47 America/Denver] PHP Fatal error:  Call to a member function getCat() on a non-object in /home1/jonnykle/public_html/shoppier/models/routing_functions.php on line 144
+[11-Dec-2013 17:07:34 America/Denver] PHP Notice:  Undefined offset: -33 in /home1/jonnykle/public_html/shoppier/models/routing_functions.php on line 144
+[11-Dec-2013 17:07:34 America/Denver] PHP Fatal error:  Call to a member function getCat() on a non-object in /home1/jonnykle/public_html/shoppier/models/routing_functions.php on line 144
+[11-Dec-2013 17:08:35 America/Denver] PHP Notice:  Undefined offset: -33 in /home1/jonnykle/public_html/shoppier/models/routing_functions.php on line 144
+[11-Dec-2013 17:08:35 America/Denver] PHP Fatal error:  Call to a member function getCat() on a non-object in /home1/jonnykle/public_html/shoppier/models/routing_functions.php on line 144
+[11-Dec-2013 17:14:41 America/Denver] PHP Notice:  Undefined offset: -33 in /home1/jonnykle/public_html/shoppier/models/routing_functions.php on line 144
+[11-Dec-2013 17:14:41 America/Denver] PHP Fatal error:  Call to a member function getCat() on a non-object in /home1/jonnykle/public_html/shoppier/models/routing_functions.php on line 144
+[11-Dec-2013 17:16:04 America/Denver] PHP Notice:  Undefined offset: -33 in /home1/jonnykle/public_html/shoppier/models/routing_functions.php on line 144
+[11-Dec-2013 17:16:04 America/Denver] PHP Fatal error:  Call to a member function getCat() on a non-object in /home1/jonnykle/public_html/shoppier/models/routing_functions.php on line 144
+[11-Dec-2013 17:23:55 America/Denver] PHP Notice:  Undefined offset: -33 in /home1/jonnykle/public_html/shoppier/models/routing_functions.php on line 144
+[11-Dec-2013 17:23:55 America/Denver] PHP Fatal error:  Call to a member function getCat() on a non-object in /home1/jonnykle/public_html/shoppier/models/routing_functions.php on line 144
+[11-Dec-2013 17:28:04 America/Denver] PHP Notice:  Undefined offset: -33 in /home1/jonnykle/public_html/shoppier/models/routing_functions.php on line 144
+[11-Dec-2013 17:28:04 America/Denver] PHP Fatal error:  Call to a member function getCat() on a non-object in /home1/jonnykle/public_html/shoppier/models/routing_functions.php on line 144
+[11-Dec-2013 17:28:53 America/Denver] PHP Notice:  Undefined offset: -33 in /home1/jonnykle/public_html/shoppier/models/routing_functions.php on line 144
+[11-Dec-2013 17:28:53 America/Denver] PHP Fatal error:  Call to a member function getCat() on a non-object in /home1/jonnykle/public_html/shoppier/models/routing_functions.php on line 144
+[11-Dec-2013 17:29:33 America/Denver] PHP Notice:  Undefined offset: -33 in /home1/jonnykle/public_html/shoppier/models/routing_functions.php on line 144
+[11-Dec-2013 17:29:33 America/Denver] PHP Fatal error:  Call to a member function getCat() on a non-object in /home1/jonnykle/public_html/shoppier/models/routing_functions.php on line 144
+[11-Dec-2013 17:31:57 America/Denver] PHP Notice:  Undefined offset: -33 in /home1/jonnykle/public_html/shoppier/models/routing_functions.php on line 144
+[11-Dec-2013 17:31:57 America/Denver] PHP Fatal error:  Call to a member function getCat() on a non-object in /home1/jonnykle/public_html/shoppier/models/routing_functions.php on line 144
+[12-Dec-2013 00:01:14 America/Denver] PHP Notice:  Undefined offset: -33 in /home1/jonnykle/public_html/shoppier/models/routing_functions.php on line 154
+[12-Dec-2013 00:01:14 America/Denver] PHP Fatal error:  Call to a member function getCat() on a non-object in /home1/jonnykle/public_html/shoppier/models/routing_functions.php on line 154

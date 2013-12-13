@@ -13,7 +13,7 @@
  * if you are using a (differen) port, then put this in here, like http://mydomain:8888/mvc/
  * TODO: when not using subfolder, is the trailing slash important ?
  */
-define('URL', 'http://shoppier.net');
+define('URL', 'http://shoppier.net/');
 
 
 /**
@@ -46,7 +46,7 @@ define('USE_GRAVATARS', true);
  * @see php.net/manual/en/function.setcookie.php
  */
 define('COOKIE_RUNTIME', 1209600); // 1209600 seconds = 2 weeks
-define('COOKIE_DOMAIN', '.jonnyklemmer.com/shoppier/'); // the domain where the cookie is valid for
+define('COOKIE_DOMAIN', '.shoppier.net/'); // the domain where the cookie is valid for
 
 /**
  * Configuration for: Database

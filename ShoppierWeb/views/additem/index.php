@@ -1,34 +1,60 @@
 <div class="content">
-	<h1>Add item</h1>
-    <h3>Select a store, an aisle, and then a location </h3>
+    <div class="well well-large">
+        <form id= "itemform" class="form-horizontal" method="post" onSubmit="addItem(); return false;">
+            <h1>Add item</h1>
+            <div class="control-group">
+                <label class="control-label" for="item_name">Item Name </label>
+                <div class="controls">
+                    <input id="item_name" type="text" placeholder="Example: Cookies"/>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="item_brand">Brand</label>
+                <div class="controls">
+                    <input id="item_brand" type="text" placeholder="Example: Oreos"/>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="store">Store</label>
+                <div class="controls">
+                    <select class="" style="width:250px;" id="store">
+                            <?php
+                                $this->stores = json_decode($this->stores);
+                                if ($this->stores)
+                                {
+                                    foreach($this->stores as $key => $value)
+                                    {
+                                        echo '<option value=' . $value->store_pk . '>'. $value->store_name . '</option>';
+                                    }
+                                }
+                            ?>
+                    </select>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="aisle">Aisle</label>
+                <div class="controls">
+                    <select class="" style="width:150px;" id="aisle">
+                    </select>
+                </div>
+            </div>
 
-    <form method="post" action="<?php echo URL;?>additem/create">
-        <label>Item Name </label><input type="text" name="note_text" />
-        <label>Brand</label><input type="text" name="note_text" />
-        <label>Category</label><input type="text" name="note_text" />
-        <select id="store">
-            <?php
-                $this->stores = json_decode($this->stores);
-                if ($this->stores)
-                {
-                    foreach($this->stores as $key => $value)
-                    {
-                        echo '<option value=' . $value->store_pk . '>'. $value->store_name . '</option>';
-                    }
-                }
-            ?>
-      
-        </select>
-        <select id="aisle">
-        </select>
-        <select id="location">
-        </select>
-        <input type="submit" value='Add Item' autocomplete="off" />
-    </form>
+            <div class="control-group">
+                <label class="control-label" for="location">Locations</label>
+                <div class="controls">
+                    <select class="" style="width:150px;"  id="location">
+                    </select>
+                </div>
+            </div>
+            <br />
+            <div class="form-actions">
+                <INPUT TYPE="SUBMIT" class="btn btn-primary" VALUE="Add Item"/>
+            </div>
+        </form>
 
-    <h1 style="margin-top: 50px;">List of your notes</h1>
+        <h1 id="success" style="margin-top: 50px;"></h1>
 
-
+    </div>
 </div>
 <script>
 
@@ -65,7 +91,7 @@ function loadLocations()
                 $("#location").html("");
                 for(key in arr)
                 {
-                    $("#location").append("<option value="+(arr[key]['loc_pk'])+">" + arr[key]['loc_loc']+ "</option");
+                    $("#location").append("<option value="+(arr[key]['cat_pk'])+">" + arr[key]['cat_name']+ "</option");
                     
                 }   
             }
@@ -93,4 +119,24 @@ function loadLocations()
     loadLocations();
          
  });
+ function addItem()
+{
+    console.log($('#item_name').val());
+    console.log($("#item_cat").val());
+    var itemstr = $("#location option:selected").attr("value") + "," + $('#item_name').val() + "," + 
+        $("#item_brand").val() + ","  + $("#item_cat").val() ;
+    $.post(
+            "<?php echo URL;?>additem/add", 
+            {item: itemstr}, 
+            function(){
+                //add error checking
+                $('#item_name').val("");
+                $('#item_brand').val("");
+                $("#item_cat").val("");
+                $("#success").html("Item Added");
+            }
+
+        );
+
+}
 </script>

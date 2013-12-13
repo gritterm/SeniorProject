@@ -16,8 +16,11 @@ if (isset($_POST['tag']) && $_POST['tag'] != '') {
  
     // include db handler
     require_once 'include/DB_Functions.php';
+    //require_once '/home1/jonnykle/public_html/shoppier/models/route_model.php;
+    require_once 'include/routing.php';
+    
     $db = new DB_Functions();
-  //  $obj = new JSONObject();
+    $route = new routing();
  
     // response Array
     $response = array("tag" => $tag, "success" => 0, "error" => 0);
@@ -32,7 +35,8 @@ if (isset($_POST['tag']) && $_POST['tag'] != '') {
         // check for user
         $user = $db->getUserByEmailAndPassword($username, $password);
        
-  
+  	//file_put_contents("/home1/jonnykle/public_html/shoppier/Android_DB_API/output.txt",$user );
+
         if ($user) {
             // user found
             // echo json with success = 1
@@ -84,8 +88,7 @@ if (isset($_POST['tag']) && $_POST['tag'] != '') {
  
     	 $uid= $_POST['userID'];
     	 $list = $db->getUsersGrocList($uid);  
-    	 	file_put_contents("/home1/jonnykle/public_html/shoppier/Android_DB_API/output.txt",print_r($list, true));
-
+//file_put_contents("/home1/jonnykle/public_html/shoppier/Android_DB_API/output.txt",print_r($list, true));
     	echo json_encode($list);
 
     } else if($tag == 'getSearchableItems'){
@@ -98,9 +101,39 @@ if (isset($_POST['tag']) && $_POST['tag'] != '') {
     	$listID = $_POST['listID'];
     	$list = $_POST['list'];
     	$UID = $_POST['userID'];
-    	
     	$return = $db->syncList($listID, $list, $UID);
     	echo json_encode($return);
+    }else if($tag == 'getListIDs'){
+    	$UID = $_POST['userID'];
+    	
+    	$return = $db->getListIDs($UID);
+    	echo json_encode($return);
+    }else if ($tag == 'sentCrowdSourcedItem'){
+    	$item_name = $_POST['item_name'];
+    	$item_brand = $_POST['item_brand'];
+    	$item_catFK = $_POST['item_catFK'];
+    	$return =  $db -> sentCrowdSourcedItem($item_name, $item_brand, $item_catFK);
+    	if($return == true){
+    	    echo json_encode('1');
+    	}else{
+    	    echo json_encode('0');
+    	}
+    }else if ($tag == 'getStores'){
+    	$return = $db -> getStores();
+    	echo json_encode($return);
+    }else if($tag == 'newList'){
+    	$UID = $_POST['UID'];
+    	$list_name= $_POST['list_name'];
+    	$store_fk= $_POST['store_fk'];
+    	$list_items= $_POST['list_items'];
+    	$return = $db->addList($list_items, $UID, $list_name, $store_fk);
+    	 echo json_encode($return);
+    }else if($tag == 'routeList'){
+    	$UID = $_POST['userID'];
+    	$list = $_POST['list'];
+    	$return = $route->routeList(json_decode($list));
+    	file_put_contents("/home1/jonnykle/public_html/shoppier/Android_DB_API/output.txt",print_r($list, true));
+    	echo json_encode($return );
     }else{
         echo "Invalid Request";
     }

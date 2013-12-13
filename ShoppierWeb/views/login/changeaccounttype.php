@@ -1,46 +1,39 @@
-<div class="content">
 
-    <h1>Change account type</h1>
-    
-    <p>
-        This page is a basic implementation of the upgrage-process.
-        User can click on that button to upgrade their accounts from
-        "basic account" to "premium account". This script simple offers
-        a clickable button that will upgrade/downgrade the account instantly.
-        In a real world application you would implement something like a
-        pay-process. 
-    </p>
-    
-    <p>
-        This view belong to the login-controller / changeaccounttype()-method.
-        The model used is login->changeAccountType().        
-    </p>
-
-    <?php 
-
-    if (isset($this->errors)) {
-
-        foreach ($this->errors as $error) {
-            echo '<div class="system_message">'.$error.'</div>';
+   
+    <script type="text/javascript"
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBtZjnQXhHLRoOW7edBjdy_i25MAb4W-cQ&sensor=true">
+    </script>
+    <script type="text/javascript">
+      var geocoder;
+        var map;
+        function initialize() {
+          geocoder = new google.maps.Geocoder();
+          var latlng = new google.maps.LatLng(42.9612, 85.6557);
+          var mapOptions = {
+            zoom: 15,
+            center: latlng
+          }
+          map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+          codeAddress();
         }
 
-    }
-
-    ?>
-
-    <h2>Currently your account type is: <?php echo Session::get('user_account_type'); ?></h2>
+        function codeAddress() {
+          var address = "550 Baldwin St, Jenison, MI ‎ ‎"
+          geocoder.geocode( { 'address': address}, function(results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+              map.setCenter(results[0].geometry.location);
+              var marker = new google.maps.Marker({
+                  map: map,
+                  position: results[0].geometry.location
+              });
+            } else {
+              alert('Geocode was not successful for the following reason: ' + status);
+            }
+          });
+        }
+        google.maps.event.addDomListener(window, 'load', initialize);
+    </script>
+<div id="map-canvas" style="width: 500px; height: 400px;"></div>
+   
     
-    <!-- basic implementation for two account type: type 1 and type 2 -->    
-    <?php if (Session::get('user_account_type') == 1) { ?>
-    <form action="<?php echo URL; ?>login/changeaccounttype_action" method="post">
-        <label></label>
-        <input type="submit" name="user_account_upgrade" value="Upgrade my account" />
-    </form>
-    <?php } elseif (Session::get('user_account_type') == 2) { ?>
-    <form action="<?php echo URL; ?>login/changeaccounttype_action" method="post">
-        <label></label>
-        <input type="submit" name="user_account_downgrade" value="Downgrade my account" />
-    </form>    
-    <?php } ?>
     
-</div>
